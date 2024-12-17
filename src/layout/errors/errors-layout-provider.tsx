@@ -6,7 +6,7 @@ import {
   useState,
 } from "react";
 import { ILayoutConfig, useLayout } from "@/providers";
-import { errorsLayoutConfig } from "./ErrorsLayoutConfig";
+import { errorsLayoutConfig } from "./errors-layout-config.ts";
 import { deepMerge } from "@/utils/deep-merge.ts";
 
 // Interface defining the properties for the AuthLayoutProvider

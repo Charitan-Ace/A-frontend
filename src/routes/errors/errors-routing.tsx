@@ -1,8 +1,7 @@
 import { Navigate, Route, Routes } from "react-router-dom";
 
-import { Error404Page } from "./Error404Page";
-import { Error500Page } from "./Error500Page";
 import { ErrorsLayout } from "@/layout/errors";
+import { Error404Page, Error500Page } from "@/routes/errors";
 
 const ErrorsRouting = () => (
   <Routes>

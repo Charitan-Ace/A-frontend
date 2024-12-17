@@ -1,3 +1,3 @@
-export * from './Error404Page';
-export * from './Error500Page';
-export * from './ErrorsRouting';
+export * from "./error-404-page";
+export * from "./error-500-page";
+export * from "./errors-routing";

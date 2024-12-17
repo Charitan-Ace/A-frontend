@@ -1,40 +1,66 @@
-import { Link } from "react-router-dom";
-import { useNavbar } from "./use-navbar";
-import { INavbarItem, NAVBAR_ITEMS } from "./navbar-config";
-
-const NavItem = ({ item }: { item: INavbarItem }) => {
-  return (
-    <li className={`nav-item ${item.active ? "bg-red-400" : ""}`}>
-      <Link
-        to={item.path}
-        className="flex items-center gap-2 p-2 hover:bg-gray-100 rounded"
-      >
-        <span>{item.name}</span>
-      </Link>
-      {item.children && (
-        <ul className="pl-4">
-          {item.children.map((child, index) => (
-            <NavItem key={index} item={child} />
-          ))}
-        </ul>
-      )}
-    </li>
-  );
-};
+import {
+  NavigationMenu,
+  NavigationMenuContent,
+  NavigationMenuItem,
+  NavigationMenuLink,
+  NavigationMenuList,
+  NavigationMenuTrigger,
+  navigationMenuTriggerStyle,
+} from "@/components/ui/navigation-menu.tsx";
+import { INavbarItem, NAVBAR_ITEMS, useNavbar } from "@/layout/navbar";
+import { useCallback } from "react";
 
 const Navbar = () => {
   const { navbarItems } = useNavbar({ items: NAVBAR_ITEMS });
 
+  const renderLinks = (navItem: INavbarItem) => {
+    return (
+      <NavigationMenuLink
+        key={navItem.path}
+        href={navItem.path}
+        active={navItem.active}
+        className={navigationMenuTriggerStyle()}
+      >
+        {navItem.name}
+      </NavigationMenuLink>
+    );
+  };
+
+  const renderNavLinks = useCallback(
+    (items: INavbarItem[]) => {
+      return (
+        <>
+          {items.map((item) => {
+            if (!item.children) {
+              return (
+                <NavigationMenuItem key={item.path}>
+                  {renderLinks(item)}
+                </NavigationMenuItem>
+              );
+            } else {
+              return (
+                <NavigationMenuItem key={item.path}>
+                  <NavigationMenuTrigger>
+                    <NavigationMenuLink href={item.path}>
+                      {item.name}
+                    </NavigationMenuLink>
+                  </NavigationMenuTrigger>
+                  <NavigationMenuContent>
+                    {item.children.map((i) => renderLinks(i))}
+                  </NavigationMenuContent>
+                </NavigationMenuItem>
+              );
+            }
+          })}
+        </>
+      );
+    },
+    [navbarItems],
+  );
   return (
-    <nav className="w-64 h-screen bg-white border-r">
-      <div className="p-4">
-        <ul className="space-y-2">
-          {navbarItems.map((item, index) => (
-            <NavItem key={index} item={item} />
-          ))}
-        </ul>
-      </div>
-    </nav>
+    <NavigationMenu>
+      <NavigationMenuList>{renderNavLinks(navbarItems)}</NavigationMenuList>
+    </NavigationMenu>
   );
 };
 

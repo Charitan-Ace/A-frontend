@@ -1,2 +1,2 @@
-export * from './AppRouting';
-export * from './AppRoutingSetup';
+export * from "./app-routing";
+export * from "./app-routing-setup";
