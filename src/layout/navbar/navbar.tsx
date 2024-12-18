@@ -9,7 +9,6 @@ import {
 } from "@/components/ui/navigation-menu.tsx";
 import { INavbarItem, NAVBAR_ITEMS, useNavbar } from "@/layout/navbar";
 import { useCallback } from "react";
-
 const Navbar = () => {
   const { navbarItems } = useNavbar({ items: NAVBAR_ITEMS });
 
