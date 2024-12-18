@@ -10,9 +10,9 @@ export interface INavbarItem {
 
 export const NAVBAR_ITEMS: INavbarItem[] = [
   {
-    name: "Dashboard",
-    path: "/dashboard",
-    icon: "LayoutDashboard",
+    name: "Home",
+    path: "/",
+    icon: "Users",
     active: false,
   },
   {
@@ -23,39 +23,28 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
     children: [
       {
         name: "Overview",
-        path: "/profile", // Matches the index route (default view)
+        path: "/profile",
         active: false,
       },
       {
-        name: "Transaction",
-        path: "/profile/transaction", // Matches the "transaction" route
+        name: "Profile Settings",
+        path: "/profile/setting",
         active: false,
       },
       {
-        name: "Settings",
-        path: "/profile/setting", // Matches the "setting" route
+        name: "Donation History",
+        path: "/profile/history",
         active: false,
       },
       {
-        name: "History",
-        path: "/profile/history", // Matches the "history" route
-        active: false,
-      },
-      {
-        name: "Projects",
-        path: "/profile/projects", // Matches the "projects" route
+        name: "Your Projects",
+        path: "/profile/projects",
         active: false,
       },
     ],
   },
   {
-    name: "Settings",
-    path: "/settings",
-    icon: "Settings",
-    active: false,
-  },
-  {
-    name: "Donations",
+    name: "Donation",
     path: "/donation",
     icon: "Heart",
     active: false,
@@ -67,8 +56,8 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
     active: false,
     children: [
       {
-        name: "All Projects",
-        path: "/project",
+        name: "Search Projects",
+        path: "/project/search",
         active: false,
       },
       {
