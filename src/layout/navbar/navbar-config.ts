@@ -16,19 +16,34 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
     active: false,
   },
   {
-    name: "Users",
+    name: "Profile",
     path: "/profile",
     icon: "Users",
     active: false,
     children: [
       {
-        name: "User List",
-        path: "/profile/list",
+        name: "Overview",
+        path: "/profile", // Matches the index route (default view)
         active: false,
       },
       {
-        name: "User Settings",
-        path: "/users/settings",
+        name: "Transaction",
+        path: "/profile/transaction", // Matches the "transaction" route
+        active: false,
+      },
+      {
+        name: "Settings",
+        path: "/profile/setting", // Matches the "setting" route
+        active: false,
+      },
+      {
+        name: "History",
+        path: "/profile/history", // Matches the "history" route
+        active: false,
+      },
+      {
+        name: "Projects",
+        path: "/profile/projects", // Matches the "projects" route
         active: false,
       },
     ],
@@ -38,5 +53,29 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
     path: "/settings",
     icon: "Settings",
     active: false,
+  },
+  {
+    name: "Donations",
+    path: "/donation",
+    icon: "Heart",
+    active: false,
+  },
+  {
+    name: "Projects",
+    path: "/project",
+    icon: "Folder",
+    active: false,
+    children: [
+      {
+        name: "All Projects",
+        path: "/project",
+        active: false,
+      },
+      {
+        name: "Project Details",
+        path: "/project/:id",
+        active: false,
+      },
+    ],
   },
 ];

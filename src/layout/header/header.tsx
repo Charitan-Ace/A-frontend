@@ -9,8 +9,10 @@ const Header = () => {
   const currentLocation = useLocation();
   const currentNavigation = useNavCurrentItem(
     currentLocation.pathname,
-    NAVBAR_ITEMS,
+    NAVBAR_ITEMS
   );
+
+  console.log("currentNavigation", currentNavigation, NAVBAR_ITEMS);
 
   return (
     <header
@@ -19,7 +21,7 @@ const Header = () => {
       }}
       className={clsx(
         "header fixed top-0 z-10 start-0 end-0 flex justify-center items-stretch shrink-0 h-64",
-        "shadow-sm",
+        "shadow-sm"
       )}
     >
       <div className="bg-black/50 w-full h-full">
