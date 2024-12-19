@@ -1,5 +1,6 @@
 import { PropsWithChildren } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { AuthProvider } from "@/auth/providers/cookies-provider.tsx";
 import { NuqsAdapter } from "nuqs/adapters/react";
 import { LayoutProvider, LoadersProvider, SettingsProvider } from "@/providers";
@@ -13,11 +14,12 @@ const ProvidersWrapper = ({ children }: PropsWithChildren) => {
         <NuqsAdapter>
           <SettingsProvider>
             <LayoutProvider>
-              <LoadersProvider> {children}</LoadersProvider>
+              <LoadersProvider>{children}</LoadersProvider>
             </LayoutProvider>
           </SettingsProvider>
         </NuqsAdapter>
       </AuthProvider>
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
     </QueryClientProvider>
   );
 };

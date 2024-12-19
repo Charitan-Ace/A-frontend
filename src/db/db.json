@@ -1,54 +1,304 @@
 {
     "projects": [
         {
-            "id": 1,
-            "name": "Project 1",
-            "description": "Description 1",
-            "tasks": [
-                {
-                    "id": 1,
-                    "name": "Task 1",
-                    "description": "Description 1",
-                    "status": "done"
-                },
-                {
-                    "id": 2,
-                    "name": "Task 2",
-                    "description": "Description 2",
-                    "status": "done"
-                },
-                {
-                    "id": 3,
-                    "name": "Task 3",
-                    "description": "Description 3",
-                    "status": "done"
-                }
-            ]
+            "id": "1",
+            "name": "Food Security Initiative",
+            "description": "Providing meals to underprivileged communities",
+            "category": "Food",
+            "goal": 25000,
+            "currentDonation": 18750,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg"
         },
         {
-            "id": 2,
-            "name": "Project 2",
-            "description": "Description 2",
-            "tasks": [
-                {
-                    "id": 1,
-                    "name": "Task 1",
-                    "description": "Description 1",
-                    "status": "done"
-                },
-                {
-                    "id": 2,
-                    "name": "Task 2",
-                    "description": "Description 2",
-                    "status": "done"
-                },
-                {
-                    "id": 3,
-                    "name": "Task 3",
-                    "description": "Description 3",
-                    "status": "done"
-                }
-            ]
+            "id": "2",
+            "name": "Medical Supply Distribution",
+            "description": "Delivering essential medical supplies to rural clinics",
+            "category": "Health",
+            "goal": 50000,
+            "currentDonation": 35000,
+            "status": "Approved",
+            "imageUrl": "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg"
+        },
+        {
+            "id": "3",
+            "name": "Education for All",
+            "description": "Supporting underprivileged students with school supplies",
+            "category": "Education",
+            "goal": 15000,
+            "currentDonation": 12000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg"
+        },
+        {
+            "id": "4",
+            "name": "Green Earth Project",
+            "description": "Tree planting initiative in urban areas",
+            "category": "Environment",
+            "goal": 30000,
+            "currentDonation": 20000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg"
+        },
+        {
+            "id": "5",
+            "name": "Temple Restoration",
+            "description": "Restoring ancient religious monuments",
+            "category": "Religion",
+            "goal": 75000,
+            "currentDonation": 45000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg"
+        },
+        {
+            "id": "6",
+            "name": "Disaster Relief Fund",
+            "description": "Emergency support for natural disaster victims",
+            "category": "Humanitarian",
+            "goal": 100000,
+            "currentDonation": 85000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg"
+        },
+        {
+            "id": "7",
+            "name": "Homeless Shelter Project",
+            "description": "Building temporary shelters for the homeless",
+            "category": "Housing",
+            "goal": 60000,
+            "currentDonation": 40000,
+            "status": "Approved",
+            "imageUrl": "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg"
+        },
+        {
+            "id": "8",
+            "name": "Community Garden",
+            "description": "Creating sustainable food sources",
+            "category": "Food",
+            "goal": 20000,
+            "currentDonation": 15000,
+            "status": "Completed",
+            "imageUrl": "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg"
+        },
+        {
+            "id": "9",
+            "name": "Mental Health Support",
+            "description": "Free counseling services for youth",
+            "category": "Health",
+            "goal": 45000,
+            "currentDonation": 30000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg"
+        },
+        {
+            "id": "10",
+            "name": "Digital Learning Initiative",
+            "description": "Providing tablets for remote learning",
+            "category": "Education",
+            "goal": 80000,
+            "currentDonation": 60000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg"
+        },
+        {
+            "id": "11",
+            "name": "Ocean Cleanup Drive",
+            "description": "Removing plastic waste from beaches",
+            "category": "Environment",
+            "goal": 35000,
+            "currentDonation": 28000,
+            "status": "Approved",
+            "imageUrl": "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg"
+        },
+        {
+            "id": "12",
+            "name": "Mosque Renovation",
+            "description": "Renovating community prayer spaces",
+            "category": "Religion",
+            "goal": 90000,
+            "currentDonation": 65000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg"
+        },
+        {
+            "id": "13",
+            "name": "Refugee Support Program",
+            "description": "Essential supplies for refugee camps",
+            "category": "Humanitarian",
+            "goal": 70000,
+            "currentDonation": 45000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg"
+        },
+        {
+            "id": "14",
+            "name": "Affordable Housing",
+            "description": "Building low-cost housing units",
+            "category": "Housing",
+            "goal": 120000,
+            "currentDonation": 80000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg"
+        },
+        {
+            "id": "15",
+            "name": "Food Bank Extension",
+            "description": "Expanding local food bank capacity",
+            "category": "Food",
+            "goal": 40000,
+            "currentDonation": 32000,
+            "status": "Approved",
+            "imageUrl": "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg"
+        },
+        {
+            "id": "16",
+            "name": "Mobile Medical Camp",
+            "description": "Healthcare services for remote areas",
+            "category": "Health",
+            "goal": 55000,
+            "currentDonation": 40000,
+            "status": "Pending",
+            "imageUrl": "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg"
+        },
+        {
+            "id": "17",
+            "name": "STEM Education Program",
+            "description": "Science education for rural schools",
+            "category": "Education",
+            "goal": 65000,
+            "currentDonation": 45000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg"
+        },
+        {
+            "id": "18",
+            "name": "Solar Power Initiative",
+            "description": "Installing solar panels in villages",
+            "category": "Environment",
+            "goal": 85000,
+            "currentDonation": 60000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg"
+        },
+        {
+            "id": "19",
+            "name": "Church Restoration",
+            "description": "Preserving historical church architecture",
+            "category": "Religion",
+            "goal": 95000,
+            "currentDonation": 70000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg"
+        },
+        {
+            "id": "20",
+            "name": "Emergency Response Team",
+            "description": "Training local emergency responders",
+            "category": "Humanitarian",
+            "goal": 50000,
+            "currentDonation": 35000,
+            "status": "Completed",
+            "imageUrl": "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg"
+        },
+        {
+            "id": "21",
+            "name": "Senior Housing Project",
+            "description": "Housing facility for elderly",
+            "category": "Housing",
+            "goal": 110000,
+            "currentDonation": 85000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg"
+        },
+        {
+            "id": "22",
+            "name": "Nutrition Program",
+            "description": "Healthy meals for school children",
+            "category": "Food",
+            "goal": 30000,
+            "currentDonation": 25000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg"
+        },
+        {
+            "id": "23",
+            "name": "Medical Equipment Drive",
+            "description": "Upgrading local clinic facilities",
+            "category": "Health",
+            "goal": 75000,
+            "currentDonation": 50000,
+            "status": "Approved",
+            "imageUrl": "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg"
+        },
+        {
+            "id": "24",
+            "name": "Library Project",
+            "description": "Building community libraries",
+            "category": "Education",
+            "goal": 45000,
+            "currentDonation": 30000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg"
+        },
+        {
+            "id": "25",
+            "name": "Wildlife Protection",
+            "description": "Preserving endangered species",
+            "category": "Environment",
+            "goal": 60000,
+            "currentDonation": 40000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg"
+        },
+        {
+            "id": "26",
+            "name": "Synagogue Support",
+            "description": "Community center development",
+            "category": "Religion",
+            "goal": 80000,
+            "currentDonation": 55000,
+            "status": "Approved",
+            "imageUrl": "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg"
+        },
+        {
+            "id": "27",
+            "name": "War Zone Aid",
+            "description": "Supporting conflict zone civilians",
+            "category": "Humanitarian",
+            "goal": 150000,
+            "currentDonation": 120000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg"
+        },
+        {
+            "id": "28",
+            "name": "Youth Shelter",
+            "description": "Safe housing for at-risk youth",
+            "category": "Housing",
+            "goal": 70000,
+            "currentDonation": 45000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg"
+        },
+        {
+            "id": "29",
+            "name": "Community Center",
+            "description": "Multi-purpose facility construction",
+            "category": "Other",
+            "goal": 200000,
+            "currentDonation": 150000,
+            "status": "Ongoing",
+            "imageUrl": "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg"
+        },
+        {
+            "id": "30",
+            "name": "Arts Program",
+            "description": "Creative activities for children",
+            "category": "Other",
+            "goal": 25000,
+            "currentDonation": 15000,
+            "status": "Approved",
+            "imageUrl": "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg"
         }
     ]
 }
