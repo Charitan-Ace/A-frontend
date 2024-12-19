@@ -2,7 +2,6 @@ import { clsx } from "clsx";
 import { Navbar, NAVBAR_ITEMS, useNavCurrentItem } from "@/layout/navbar";
 import { toAbsoluteUrl } from "@/utils/assets.ts";
 import { UserIndicator } from "@/layout/header/user-indicator.tsx";
-import { HeaderTitle } from "@/layout/header/header-title.tsx";
 import { useLocation } from "react-router-dom";
 
 const Header = () => {
@@ -16,15 +15,15 @@ const Header = () => {
 
   return (
     <header
-      style={{
-        backgroundImage: `url('${toAbsoluteUrl("/media/test/bg-test.jpg")}')`,
-      }}
+      // style={{
+      //   backgroundImage: `url('${toAbsoluteUrl("/media/home/homeBG.png")}')`,
+      // }}
       className={clsx(
-        "header fixed top-0 z-10 start-0 end-0 flex justify-center items-stretch shrink-0 h-64",
+        "header fixed top-0 z-50 start-0 end-0 flex justify-center items-stretch shrink-0 h-24",
         "shadow-sm"
       )}
     >
-      <div className="bg-black/50 w-full h-full">
+      <div className="w-full h-full">
         <div className="mt-3 flex justify-around items-center p-2">
           <div className="flex items-center gap-2 basis-1/4">
             <img
@@ -42,7 +41,7 @@ const Header = () => {
           </div>
         </div>
 
-        <HeaderTitle currentLocation={currentNavigation} />
+        {/* <HeaderTitle currentLocation={currentNavigation} /> */}
       </div>
     </header>
   );

@@ -7,7 +7,7 @@ const Main = () => {
     <Fragment>
       <div className="wrapper flex grow flex-col font-playfair">
         <Header />
-        <main className="grow content pt-5" role="content">
+        <main className="grow content" role="content">
           <Outlet />
         </main>
       </div>
