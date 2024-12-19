@@ -5,9 +5,9 @@ import { Header } from "@/layout/header";
 const Main = () => {
   return (
     <Fragment>
-      <div className="wrapper flex grow flex-col">
+      <div className="wrapper flex grow flex-col font-playfair">
         <Header />
-        <main className="grow content pt-5" role="content">
+        <main className="grow content" role="content">
           <Outlet />
         </main>
       </div>

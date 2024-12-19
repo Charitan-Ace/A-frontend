@@ -9,34 +9,62 @@ export interface INavbarItem {
 }
 
 export const NAVBAR_ITEMS: INavbarItem[] = [
+  // {
+  //   name: "Home",
+  //   path: "/",
+  //   icon: "House",
+  //   active: false,
+  // },
   {
-    name: "Dashboard",
-    path: "/dashboard",
-    icon: "LayoutDashboard",
-    active: false,
-  },
-  {
-    name: "Users",
+    name: "Profile",
     path: "/profile",
     icon: "Users",
     active: false,
     children: [
       {
-        name: "User List",
-        path: "/profile/list",
+        name: "Overview",
+        path: "/profile",
         active: false,
       },
       {
-        name: "User Settings",
-        path: "/users/settings",
+        name: "Profile Settings",
+        path: "/profile/setting",
+        active: false,
+      },
+      {
+        name: "Donation History",
+        path: "/profile/history",
+        active: false,
+      },
+      {
+        name: "Your Projects",
+        path: "/profile/projects",
         active: false,
       },
     ],
   },
   {
-    name: "Settings",
-    path: "/settings",
-    icon: "Settings",
+    name: "Donation",
+    path: "/donation",
+    icon: "Heart",
     active: false,
+  },
+  {
+    name: "Projects",
+    path: "/project",
+    icon: "Folder",
+    active: false,
+    children: [
+      {
+        name: "Search Projects",
+        path: "/project/search",
+        active: false,
+      },
+      {
+        name: "Project Details",
+        path: "/project/:id",
+        active: false,
+      },
+    ],
   },
 ];

@@ -15,9 +15,10 @@ interface BreadcrumbsProps {
 
 const Breadcrumbs = ({ currentPage }: BreadcrumbsProps) => {
   const navigationDes = currentPage?.path.split("/");
+  console.log(432, navigationDes);
   if (navigationDes) navigationDes.shift();
   return (
-    <Breadcrumb>
+    <Breadcrumb className="font-montserrat">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink className="text-primary-foreground " href="/">

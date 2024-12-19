@@ -1,4 +1,4 @@
-const ProfileContent = () => {
+const ProfilePage = () => {
   return (
     <>
       <div>Profile Page</div>
@@ -6,4 +6,4 @@ const ProfileContent = () => {
   );
 };
 
-export { ProfileContent };
+export { ProfilePage };

@@ -1,39 +1,37 @@
 import { ReactElement } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { AuthRoutes } from "@/auth";
-import { HeheContent } from "@/pages/hehe";
-import { DashboardContent } from "@/pages/dashboard";
 import { MainLayout } from "@/layout";
+import { ProjectPage } from "@/pages/project";
+import { SearchPage } from "@/pages/search";
+import { HomePage } from "@/pages/home";
+import { DonationPage } from "@/pages/donation";
+import { ProfilePage } from "@/pages/profile";
 
 const AppRoutingSetup = (): ReactElement => {
   return (
     <Routes>
-      {/*<Route element={<RequireAuth />}>*/}
+      {/* <Route element={<RequireAuth />}> */}
       <Route element={<MainLayout />}>
-        <Route path="/" element={<HeheContent />} />
-        <Route path="/dashboard" element={<DashboardContent />} />
-        <Route path="/project" element={<HeheContent />} />
-        <Route path="/profile" element={<HeheContent />}>
-          <Route path="/profile/list" element={<HeheContent />} />
+        <Route path="/" element={<HomePage />} />
+        <Route path="/profile" element={<ProfilePage />}>
+          <Route index element={<ProfilePage />} />
+          <Route path="setting" element={<ProfilePage />} />
+          <Route path="history" element={<ProfilePage />} />
+          <Route path="projects" element={<ProfilePage />} />
         </Route>
+        <Route path="/donation" element={<DonationPage />} />
+        {/* <Route path="/project" element={<ProjectPage />} /> */}
+        <Route path="/project/search" element={<SearchPage />} />
+        <Route path="/project/:id" element={<ProjectPage />} />
       </Route>
 
-      {/*<Route*/}
-      {/*    path="/public-profile/profiles/default"*/}
-      {/*    element={<ProfileDefaultPage />}*/}
-      {/*  />*/}
-      {/*  <Route*/}
-      {/*    path="/account/home/get-started"*/}
-      {/*    element={<AccountGetStartedPage />}*/}
-      {/*  />*/}
-      {/*  <Route*/}
-      {/*    path="/network/get-started"*/}
-      {/*    element={<NetworkGetStartedPage />}*/}
-      {/*  />*/}
-      {/*</Route>*/}
-      {/*</Route>*/}
       {/*<Route path="error/*" element={<ErrorsRouting />} />*/}
+
+      {/* Auth routes */}
       <Route path="auth/*" element={<AuthRoutes />} />
+
+      {/* Fallback route */}
       <Route path="*" element={<Navigate to="/error/404" />} />
     </Routes>
   );
