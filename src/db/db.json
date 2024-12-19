@@ -1,0 +1,54 @@
+{
+    "projects": [
+        {
+            "id": 1,
+            "name": "Project 1",
+            "description": "Description 1",
+            "tasks": [
+                {
+                    "id": 1,
+                    "name": "Task 1",
+                    "description": "Description 1",
+                    "status": "done"
+                },
+                {
+                    "id": 2,
+                    "name": "Task 2",
+                    "description": "Description 2",
+                    "status": "done"
+                },
+                {
+                    "id": 3,
+                    "name": "Task 3",
+                    "description": "Description 3",
+                    "status": "done"
+                }
+            ]
+        },
+        {
+            "id": 2,
+            "name": "Project 2",
+            "description": "Description 2",
+            "tasks": [
+                {
+                    "id": 1,
+                    "name": "Task 1",
+                    "description": "Description 1",
+                    "status": "done"
+                },
+                {
+                    "id": 2,
+                    "name": "Task 2",
+                    "description": "Description 2",
+                    "status": "done"
+                },
+                {
+                    "id": 3,
+                    "name": "Task 3",
+                    "description": "Description 3",
+                    "status": "done"
+                }
+            ]
+        }
+    ]
+}
