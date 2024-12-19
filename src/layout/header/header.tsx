@@ -15,12 +15,9 @@ const Header = () => {
 
   return (
     <header
-      // style={{
-      //   backgroundImage: `url('${toAbsoluteUrl("/media/home/homeBG.png")}')`,
-      // }}
       className={clsx(
         "header fixed top-0 z-50 start-0 end-0 flex justify-center items-stretch shrink-0 h-24",
-        "shadow-sm"
+        "shadow-sm bg-black bg-opacity-20"
       )}
     >
       <div className="w-full h-full">
