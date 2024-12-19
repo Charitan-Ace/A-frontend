@@ -18,7 +18,7 @@ const Breadcrumbs = ({ currentPage }: BreadcrumbsProps) => {
   console.log(432, navigationDes);
   if (navigationDes) navigationDes.shift();
   return (
-    <Breadcrumb>
+    <Breadcrumb className="font-montserrat">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink className="text-primary-foreground " href="/">

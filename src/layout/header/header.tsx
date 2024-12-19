@@ -34,7 +34,7 @@ const Header = () => {
             />
             <p className="text-primary-foreground font-semibold">Charitan</p>
           </div>
-          <div className="flex justify-between gap-2 items-center">
+          <div className="flex justify-between gap-2 items-center font-montserrat">
             <Navbar />
           </div>
           <div className="basis-1/4">
