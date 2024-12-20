@@ -1,4 +1,6 @@
+import { LucideIcon } from "@/components/lucide-icons";
 import { Badge } from "@/components/ui/badge";
+import { Input } from "@/components/ui/input";
 import {
   Select,
   SelectContent,
@@ -14,6 +16,8 @@ import {
 } from "@/type/enum";
 
 interface FilterControllerProps {
+  q: string;
+  setQ: (value: string) => void;
   defaultStatus: ProjectStatusEnum;
   defaultCategory: ProjectCategoryEnum;
   onStatusChange: (status: ProjectStatusEnum) => void;
@@ -25,17 +29,34 @@ const FilterController = ({
   defaultStatus,
   onCategoryChange,
   onStatusChange,
+  q,
+  setQ
 }: FilterControllerProps) => {
   return (
-    <div className="flex items-center justify-center gap-4">
+    <div className="flex items-center justify-center gap-4 container">
+      <div className="relative w-full">
+        <Input
+          type="search"
+          placeholder="Search the history..."
+          className="pl-8"
+          value={q}
+          onChange={(e) => setQ(e.target.value)}
+        />
+
+        <LucideIcon
+          name="Search"
+          className="pointer-events-none absolute left-2 top-1/2 size-4 -translate-y-1/2 select-none opacity-50"
+        />
+      </div>
+
       <Select
         onValueChange={(value) => {
           onStatusChange(value as ProjectStatusEnum);
         }}
         defaultValue={defaultStatus}
       >
-        <SelectTrigger>
-          <SelectValue placeholder="Filter by status"/>
+        <SelectTrigger className="w-fit">
+          <SelectValue placeholder="Filter by status" />
         </SelectTrigger>
         <SelectContent>
           {projectStatuses.map((status) => (
@@ -58,7 +79,7 @@ const FilterController = ({
         }}
         defaultValue={defaultCategory}
       >
-        <SelectTrigger>
+        <SelectTrigger className="w-fit">
           <SelectValue placeholder="Filter by category" />
         </SelectTrigger>
         <SelectContent>
