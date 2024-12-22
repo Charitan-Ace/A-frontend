@@ -9,12 +9,18 @@ export interface INavbarItem {
 }
 
 export const NAVBAR_ITEMS: INavbarItem[] = [
-  // {
-  //   name: "Home",
-  //   path: "/",
-  //   icon: "House",
-  //   active: false,
-  // },
+  {
+    name: "Login",
+    path: "/login",
+    icon: "LogIn",
+    active: false,
+  },
+  {
+    name: "SignUp",
+    path: "/sign-up",
+    icon: "UserPlus",
+    active: false,
+  },
   {
     name: "Profile",
     path: "/profile",
