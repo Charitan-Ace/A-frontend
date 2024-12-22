@@ -7,7 +7,7 @@ import { SearchPage } from "@/pages/search";
 import { HomePage } from "@/pages/home";
 import { DonationPage } from "@/pages/donation";
 import { ProfilePage } from "@/pages/profile";
-import { Login, SignUp } from "@/auth/pages";
+import { LoginForm, SignUp } from "@/auth/pages";
 
 const AppRoutingSetup = (): ReactElement => {
   return (
@@ -21,7 +21,7 @@ const AppRoutingSetup = (): ReactElement => {
           <Route path="history" element={<ProfilePage />} />
           <Route path="projects" element={<ProfilePage />} />
         </Route>
-        <Route path="/login" element={<Login />} />
+        <Route path="/login" element={<LoginForm />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/donation" element={<DonationPage />} />
         {/* <Route path="/project" element={<ProjectPage />} /> */}

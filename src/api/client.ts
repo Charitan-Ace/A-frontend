@@ -1,78 +1,55 @@
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
-import AuthService from "./auth/service/auth-service";
 
 export default class APIClient {
   private axiosInstance: AxiosInstance;
-  readonly auth: AuthService;
 
   constructor(baseURL = "/") {
+    // Initialize the axios instance
     this.axiosInstance = axios.create({
       baseURL,
-      headers: {
-        "Content-Type": "application/json",
-      },
+      timeout: 10000, // Optional: Set a timeout for requests
+      withCredentials: true, // Optional: Include credentials by default
     });
 
-    // Setup interceptors
-    this.setupInterceptors();
-
-    // Initialize auth service
-    this.auth = new AuthService(this);
-  }
-
-  private setupInterceptors(): void {
-    // Request interceptor
-    this.axiosInstance.interceptors.request.use(
-      (config) => {
-        // You can add auth token here
-        const token = localStorage.getItem("token");
-        if (token) {
-          config.headers.Authorization = `Bearer ${token}`;
-        }
-        return config;
-      },
-      (error) => Promise.reject(error)
-    );
-
-    // Response interceptor
+    // Add interceptors if needed
     this.axiosInstance.interceptors.response.use(
-      (response) => response,
-      (error) => {
-        if (error.response) {
-          switch (error.response.status) {
-            case 401:
-              // Handle unauthorized
-              // this.auth.logout();
-              break;
-            case 403:
-              // Handle forbidden
-              break;
-            // Add more cases as needed
-          }
-        }
-        return Promise.reject(error);
-      }
+      this.handleResponse,
+      this.handleError
     );
   }
 
-  async get<T>(path: string, config?: AxiosRequestConfig): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.get(
-      path,
-      config
-    );
+  // Handle success response
+  private handleResponse(response: AxiosResponse) {
     return response.data;
   }
 
+  // Handle errors
+  private handleError(error: any) {
+    // Standardize error handling logic
+    if (error.response) {
+      throw new Error(
+        `Error: ${error.response.status} - ${error.response.data.message || "Unknown Error"}`
+      );
+    } else if (error.request) {
+      throw new Error("No response received from server.");
+    } else {
+      throw new Error(`Request failed: ${error.message}`);
+    }
+  }
+
+  // GET request
+  async get<T>(path: string, config?: AxiosRequestConfig): Promise<T> {
+    const response = await this.axiosInstance.get<T>(path, config);
+    return response.data;
+  }
+
+  // POST request
   async post<T>(
     path: string,
-    data?: any,
+    data?: unknown,
     config?: AxiosRequestConfig
   ): Promise<T> {
-    const response: AxiosResponse<T> = await this.axiosInstance.post(
-      path,
-      data,
-      config
-    );
+    const response = await this.axiosInstance.post<T>(path, data, config);
     return response.data;
   }
 }

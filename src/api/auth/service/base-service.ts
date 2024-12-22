@@ -1,7 +1,7 @@
-import APIClient from "@/api/Client";
+import APIClient from "@/api/client";
 
 export abstract class BaseService {
-  readonly client: APIClient;
+  protected readonly client: APIClient;
 
   constructor(client: APIClient) {
     this.client = client;
