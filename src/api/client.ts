@@ -4,14 +4,12 @@ export default class APIClient {
   private axiosInstance: AxiosInstance;
 
   constructor(baseURL = "/") {
-    // Initialize the axios instance
     this.axiosInstance = axios.create({
       baseURL,
-      timeout: 10000, // Optional: Set a timeout for requests
-      withCredentials: true, // Optional: Include credentials by default
+      timeout: 10000,
+      withCredentials: true,
     });
 
-    // Add interceptors if needed
     this.axiosInstance.interceptors.response.use(
       this.handleResponse,
       this.handleError
@@ -25,7 +23,6 @@ export default class APIClient {
 
   // Handle errors
   private handleError(error: any) {
-    // Standardize error handling logic
     if (error.response) {
       throw new Error(
         `Error: ${error.response.status} - ${error.response.data.message || "Unknown Error"}`
@@ -50,6 +47,22 @@ export default class APIClient {
     config?: AxiosRequestConfig
   ): Promise<T> {
     const response = await this.axiosInstance.post<T>(path, data, config);
+    return response.data;
+  }
+
+  // PUT request
+  async put<T>(
+    path: string,
+    data?: unknown,
+    config?: AxiosRequestConfig
+  ): Promise<T> {
+    const response = await this.axiosInstance.put<T>(path, data, config);
+    return response.data;
+  }
+
+  // DELETE request
+  async delete<T>(path: string, config?: AxiosRequestConfig): Promise<T> {
+    const response = await this.axiosInstance.delete<T>(path, config);
     return response.data;
   }
 }

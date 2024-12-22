@@ -7,9 +7,6 @@ export default class AuthService extends BaseService {
     super(client);
   }
 
-  /**
-   * Authenticate an account with email and password
-   */
   async login(email: string, password: string) {
     const key = await this.encryptionKey();
 
@@ -26,9 +23,6 @@ export default class AuthService extends BaseService {
     });
   }
 
-  /**
-   * Registers an account optionally with profile data
-   */
   async register(
     email: string,
     password: string,
@@ -52,9 +46,7 @@ export default class AuthService extends BaseService {
     });
   }
 
-  /**
-   * Gets encryption public key and its algorithm
-   */
+  //Gets encryption public key and its algorithm
   async encryptionKey() {
     return this.client.get<jose.JWK>("/.well-known/jwk");
   }
