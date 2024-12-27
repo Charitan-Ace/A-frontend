@@ -22,3 +22,14 @@ export interface UserModel {
     // language?: TLanguageCode;
     auth?: AuthModel;
 }
+
+export interface UserDto {
+    id: number;
+    username: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone?: string;
+    profilePictureUrl?: string;
+  }
+  
