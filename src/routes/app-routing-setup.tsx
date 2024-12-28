@@ -7,7 +7,6 @@ import { SearchPage } from "@/pages/search";
 import { HomePage } from "@/pages/home";
 import { DonationPage } from "@/pages/donation";
 import { ProfilePage } from "@/pages/profile";
-import { Login, SignUp } from "@/auth/pages";
 
 const AppRoutingSetup = (): ReactElement => {
   return (
@@ -21,8 +20,10 @@ const AppRoutingSetup = (): ReactElement => {
           <Route path="history" element={<ProfilePage />} />
           <Route path="projects" element={<ProfilePage />} />
         </Route>
-        <Route path="/login" element={<Login />} />
-        <Route path="/sign-up" element={<SignUp />} />
+
+        {/* Authentication routes */}
+        <Route path="/auth/*" element={<AuthRoutes />} />
+
         <Route path="/donation" element={<DonationPage />} />
         {/* <Route path="/project" element={<ProjectPage />} /> */}
         <Route path="/project/search" element={<SearchPage />} />
@@ -30,9 +31,6 @@ const AppRoutingSetup = (): ReactElement => {
       </Route>
 
       {/*<Route path="error/*" element={<ErrorsRouting />} />*/}
-
-      {/* Auth routes */}
-      <Route path="auth/*" element={<AuthRoutes />} />
 
       {/* Fallback route */}
       <Route path="*" element={<Navigate to="/error/404" />} />

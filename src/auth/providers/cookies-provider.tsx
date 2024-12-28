@@ -10,9 +10,9 @@ import {
 import * as authHelper from "../_helper.ts";
 import { type AuthModel, type UserModel } from "@/type/auth/model.ts";
 import { getMe, login, register } from "@/api/auth";
-import { RegisterInput } from "@/api/auth/schema/register.ts";
+import { RegisterInput } from "@/api/auth/schema/register-schema.ts";
 import { APIResponse } from "@/api/axios.ts";
-import { LoginInput } from "@/api/auth/schema/login.ts";
+import { LoginInput } from "@/api/auth/schema/login-schema.ts";
 
 interface AuthContextProps {
   isLoading: boolean;
@@ -34,7 +34,7 @@ const AuthContext = createContext<AuthContextProps | null>(null);
 const AuthProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(true);
   const [auth, setAuth] = useState<AuthModel | undefined>(
-    authHelper.getCookieAuth(),
+    authHelper.getCookieAuth()
   );
   const [currentUser, setCurrentUser] = useState<UserModel | undefined>();
 

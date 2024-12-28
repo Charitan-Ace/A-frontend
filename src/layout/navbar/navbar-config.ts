@@ -11,13 +11,13 @@ export interface INavbarItem {
 export const NAVBAR_ITEMS: INavbarItem[] = [
   {
     name: "Login",
-    path: "/login",
+    path: "/auth/login",
     icon: "LogIn",
     active: false,
   },
   {
     name: "SignUp",
-    path: "/sign-up",
+    path: "/auth/signup",
     icon: "UserPlus",
     active: false,
   },

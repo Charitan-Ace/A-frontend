@@ -11,7 +11,7 @@ const Header = () => {
     NAVBAR_ITEMS
   );
 
-  console.log("currentNavigation", currentNavigation, NAVBAR_ITEMS);
+  // console.log("currentNavigation", currentNavigation, NAVBAR_ITEMS);
 
   return (
     <header
@@ -24,11 +24,11 @@ const Header = () => {
         <div className="mt-3 flex justify-around items-center p-2">
           <div className="flex items-center gap-2 basis-1/4">
             <img
-              src={toAbsoluteUrl("/media/test/logo-test.jpg")}
+              src={toAbsoluteUrl("/media/logo/Charitan_Logo.png")}
               className="max-h-[25px] shrink-0 grow-0"
               alt="logo-test"
             />
-            <p className="text-primary-foreground font-semibold">Charitan</p>
+            {/* <p className="text-primary-foreground font-semibold">Charitan</p> */}
           </div>
           <div className="flex justify-between gap-2 items-center font-montserrat">
             <Navbar />
