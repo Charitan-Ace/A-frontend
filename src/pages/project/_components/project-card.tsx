@@ -60,7 +60,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             <span className="font-medium">Donation</span>
             <span className="font-medium">{currentDonateProgress}%</span>
           </div>
-          <Progress value={currentDonateProgress} className="h-2" />
+          <Progress value={currentDonateProgress} className="h-2 bg-teal-600/20" />
           <div className="flex justify-between items-center pt-2">
             <span className="text-lg font-medium">
               Raised: ${project.currentDonation.toLocaleString("en-Us")}
