@@ -5,6 +5,7 @@ import { RegisterInput } from "@/api/auth/schema/register-schema";
 import { AuthModel } from "@/type/auth/model.ts";
 import * as jose from "jose";
 
+//DEPRECATED
 export const encryptionKey = async () => {
   const response = await axios.get<jose.JWK>("/.well-known/jwk");
   return response.data;

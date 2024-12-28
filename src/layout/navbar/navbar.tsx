@@ -54,7 +54,7 @@ const Navbar = () => {
         </>
       );
     },
-    [navbarItems],
+    [navbarItems]
   );
   return (
     <NavigationMenu>

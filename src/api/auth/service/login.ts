@@ -6,6 +6,7 @@ import { LoginInput } from "../schema/login-schema";
 import { encryptionKey } from "./register";
 import * as jose from "jose";
 
+//DEPRECATED
 const login = async (input: LoginInput) => {
   try {
     const key = await encryptionKey();

@@ -11,7 +11,13 @@ import {
   BreadcrumbPage,
 } from "./ui/breadcrumb";
 
-const BreadcrumbHeader = () => {
+const BreadcrumbHeader = ({
+  isPageTile = true,
+  isBreadcrumb = false,
+}: {
+  isPageTile?: boolean;
+  isBreadcrumb?: boolean;
+}) => {
   const currentLocation = useLocation();
   const currentNavigation = useNavCurrentItem(
     currentLocation.pathname,
@@ -21,62 +27,65 @@ const BreadcrumbHeader = () => {
   console.log("currentNavigation", currentNavigation, NAVBAR_ITEMS);
 
   const navigationDes = currentNavigation?.path.split("/");
-  console.log(432, navigationDes);
   if (navigationDes) navigationDes.shift();
 
   return (
     <div className="w-screen">
       <div
-        className="relative h-96 overflow-hidden bg-cover bg-center"
+        className="relative h-72 overflow-hidden bg-cover bg-center"
         style={{
           backgroundImage: `url('${toAbsoluteUrl("/media/home/homeBG.png")}')`,
         }}
       >
-        <div className="flex flex-col justify-center items-center w-full h-full text-center gap-5 mt-5">
-          <div className="text-3xl font-playfair font-bold text-primary-foreground">
-            {currentNavigation?.name}
-          </div>
+        <div className="flex flex-col justify-center items-center w-full h-full text-center gap-5 mt-12">
+          {isPageTile && (
+            <div className="text-3xl font-playfair font-bold text-primary-foreground">
+              {currentNavigation?.name}
+            </div>
+          )}
 
-          <Breadcrumb className="font-montserrat">
-            <BreadcrumbList>
-              <BreadcrumbItem>
-                <BreadcrumbLink className="text-primary-foreground " href="/">
-                  Home
-                </BreadcrumbLink>
-              </BreadcrumbItem>
-              {navigationDes && (
-                <>
-                  {navigationDes.map((des, index) => {
-                    if (index === navigationDes.length - 1) {
+          {isBreadcrumb && (
+            <Breadcrumb className="font-montserrat">
+              <BreadcrumbList>
+                <BreadcrumbItem>
+                  <BreadcrumbLink className="text-primary-foreground " href="/">
+                    Home
+                  </BreadcrumbLink>
+                </BreadcrumbItem>
+                {navigationDes && (
+                  <>
+                    {navigationDes.map((des, index) => {
+                      if (index === navigationDes.length - 1) {
+                        return (
+                          <Fragment key={des}>
+                            <BreadcrumbSeparator className="text-primary-foreground" />
+                            <BreadcrumbItem>
+                              <BreadcrumbPage className="text-primary-foreground font-semibold">
+                                {currentNavigation?.name}
+                              </BreadcrumbPage>
+                            </BreadcrumbItem>
+                          </Fragment>
+                        );
+                      }
                       return (
                         <Fragment key={des}>
                           <BreadcrumbSeparator className="text-primary-foreground" />
                           <BreadcrumbItem>
-                            <BreadcrumbPage className="text-primary-foreground font-semibold">
-                              {currentNavigation?.name}
-                            </BreadcrumbPage>
+                            <BreadcrumbLink
+                              className="text-primary-foreground capitalize"
+                              href={`/${des}`}
+                            >
+                              {des}
+                            </BreadcrumbLink>
                           </BreadcrumbItem>
                         </Fragment>
                       );
-                    }
-                    return (
-                      <Fragment key={des}>
-                        <BreadcrumbSeparator className="text-primary-foreground" />
-                        <BreadcrumbItem>
-                          <BreadcrumbLink
-                            className="text-primary-foreground capitalize"
-                            href={`/${des}`}
-                          >
-                            {des}
-                          </BreadcrumbLink>
-                        </BreadcrumbItem>
-                      </Fragment>
-                    );
-                  })}
-                </>
-              )}
-            </BreadcrumbList>
-          </Breadcrumb>
+                    })}
+                  </>
+                )}
+              </BreadcrumbList>
+            </Breadcrumb>
+          )}
         </div>
 
         <img

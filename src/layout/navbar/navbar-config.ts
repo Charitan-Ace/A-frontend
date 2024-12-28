@@ -17,7 +17,7 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
   },
   {
     name: "SignUp",
-    path: "/auth/sign-up",
+    path: "/auth/signup",
     icon: "UserPlus",
     active: false,
   },

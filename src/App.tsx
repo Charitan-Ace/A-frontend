@@ -2,6 +2,8 @@ import { useEffect } from "react";
 import { BrowserRouter } from "react-router-dom";
 import { AppRouting } from "@/routes";
 import { useSettings, PathnameProvider } from "@/providers";
+import { CookiesProvider } from "react-cookie";
+import ThemeProvider from "./providers/theme-provider";
 
 const { BASE_URL } = import.meta.env;
 
@@ -16,9 +18,13 @@ const App = () => {
 
   return (
     <BrowserRouter basename={BASE_URL}>
-      <PathnameProvider>
-        <AppRouting />
-      </PathnameProvider>
+      <CookiesProvider>
+        <PathnameProvider>
+          <ThemeProvider>
+            <AppRouting />
+          </ThemeProvider>
+        </PathnameProvider>
+      </CookiesProvider>
     </BrowserRouter>
   );
 };

@@ -20,6 +20,7 @@ export default class AuthService extends BaseService {
       headers: {
         "Content-Type": "application/jose",
       },
+      withCredentials: true,
     });
   }
 
@@ -43,11 +44,21 @@ export default class AuthService extends BaseService {
       headers: {
         "Content-Type": "application/jose",
       },
+      withCredentials: true,
     });
   }
 
   //Gets encryption public key and its algorithm
   async encryptionKey() {
-    return this.client.get<jose.JWK>("/.well-known/jwk");
+    const response = await this.client.get<{ data: jose.JWK }>(
+      "/.well-known/jwk",
+      {
+        withCredentials: true,
+      }
+    );
+    return response.data;
   }
+  // async encryptionKey() {
+  //   return this.client.get<jose.JWK>("/.well-known/jwk");
+  // }
 }
