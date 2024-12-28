@@ -60,3 +60,14 @@ export interface Admin {
   lastName: string;
   avatar: string;
 }
+
+export interface UserDto {
+    id: number;
+    username: string;
+    email: string;
+    firstName: string;
+    lastName: string;
+    phone?: string;
+    profilePictureUrl?: string;
+  }
+  
