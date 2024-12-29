@@ -1,10 +1,13 @@
 import { toAbsoluteUrl } from "@/utils/assets";
 import { UserDto } from "@/type/auth/model";
 import ProfileDetails from "./_components/profile-details-card";
-import { DonationHistory } from "./_components/donation-history-table";
+import {
+  DonationHistory,
+  DonationHistoryTable,
+} from "./_components/donation-history-table";
 
 const ProfilePage = () => {
-  // mock 
+  // mock
   const user: UserDto = {
     id: 1,
     username: "johndoe",
@@ -15,15 +18,9 @@ const ProfilePage = () => {
     profilePictureUrl: "/media/test/logo-test.jpg",
   };
 
-  const donations = [
-    { id: 1, project: "Water for All", date: "2024-01-15", amount: "$100" },
-    { id: 2, project: "Education Fund", date: "2024-02-10", amount: "$50" },
-    { id: 3, project: "Health Support", date: "2024-03-05", amount: "$75" },
-  ];
-
   return (
     <>
-      <div className="w-screen">
+      <div className="w-full">
         <div
           className="relative h-[18rem] overflow-hidden bg-cover bg-center"
           style={{
@@ -45,7 +42,7 @@ const ProfilePage = () => {
       </div>
       <div className="container mx-auto p-6">
         <ProfileDetails user={user} />
-        <DonationHistory donations={donations} />
+        <DonationHistoryTable />
       </div>
     </>
   );

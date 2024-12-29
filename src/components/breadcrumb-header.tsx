@@ -30,7 +30,7 @@ const BreadcrumbHeader = ({
   if (navigationDes) navigationDes.shift();
 
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <div
         className="relative h-72 overflow-hidden bg-cover bg-center"
         style={{
