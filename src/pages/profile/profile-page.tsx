@@ -20,7 +20,7 @@ const ProfilePage = () => {
 
   return (
     <>
-      <div className="w-screen">
+      <div className="w-full">
         <div
           className="relative h-[18rem] overflow-hidden bg-cover bg-center"
           style={{

@@ -29,7 +29,7 @@ const HomePage = () => {
   const projects = res?.data?.data;
 
   return (
-    <div className="w-screen">
+    <div className="w-full">
       <div
         className="relative h-[35rem] overflow-hidden bg-cover bg-center"
         style={{
@@ -53,7 +53,7 @@ const HomePage = () => {
             </button>
             <button className="relative h-[50px] w-40 overflow-hidden border border-primary bg-transparent px-3 text-white shadow-lg transition-all before:absolute before:bottom-0 before:left-0 before:top-0 before:z-0 before:h-full before:w-0 before:bg-white before:transition-all before:duration-300 hover:text-primary hover:before:left-0 hover:before:w-full font-montserrat">
               <span className="relative z-10">Know about us</span>
-            </button>{" "}
+            </button>
           </div>
         </div>
 
