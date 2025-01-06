@@ -1,7 +1,9 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Playfair+Display:ital,wght@0,400..900;1,400..900&display=swap");
+@import "react-datepicker/dist/react-datepicker.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
 @layer base {
   :root {
     --background: 0 0% 100%;
@@ -122,4 +124,20 @@
   font-optical-sizing: auto;
   font-weight: 700; /* Bold */
   font-style: normal;
+}
+
+.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #eff1f5;
+}
+
+.table-dark.table-striped tbody tr:nth-of-type(odd) {
+  background-color: #ffffff0d;
+}
+
+.table-striped tbody tr:hover {
+  background-color: #e3e7ec;
+}
+
+.table-dark.table-striped tbody tr:hover {
+  background-color: #ffffff19;
 }
