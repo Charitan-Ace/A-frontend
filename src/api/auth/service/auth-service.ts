@@ -1,6 +1,8 @@
 import * as jose from "jose";
 import { BaseService } from "./base-service";
 import APIClient from "@/api/client";
+import axios from "axios";
+import { postRequest } from "@/utils/http-request";
 
 export default class AuthService extends BaseService {
   constructor(client: APIClient) {
@@ -9,56 +11,48 @@ export default class AuthService extends BaseService {
 
   async login(email: string, password: string) {
     const key = await this.encryptionKey();
+    console.log(111111, email, password);
+    console.log(312313, key);
 
     const jwe = await new jose.CompactEncrypt(
+      // stringify JSON to create JWE claims
       new TextEncoder().encode(JSON.stringify({ email, password }))
     )
       .setProtectedHeader({ alg: "RSA-OAEP-256", enc: "A256GCM" })
       .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
 
-    return this.client.post("/api/auth/login", jwe, {
-      headers: {
-        "Content-Type": "application/jose",
-      },
-      withCredentials: true,
-    });
+    return await postRequest("http://localhost:8080/api/auth/login", jwe);
   }
 
   async register(
     email: string,
     password: string,
     role: string,
-    profile: Record<string, unknown>
+    profile: { [key: string]: unknown }
   ) {
     const key = await this.encryptionKey();
+    console.log(312313, key);
 
     const jwe = await new jose.CompactEncrypt(
       new TextEncoder().encode(
-        JSON.stringify({ email, password, role, profile })
+        JSON.stringify({
+          email,
+          password,
+          role,
+          profile,
+        })
       )
     )
       .setProtectedHeader({ alg: "RSA-OAEP-256", enc: "A256GCM" })
       .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
 
-    return this.client.post("/api/auth/register", jwe, {
-      headers: {
-        "Content-Type": "application/jose",
-      },
-      withCredentials: true,
-    });
+    return await postRequest("http://localhost:8080/api/auth/register", jwe);
   }
 
-  //Gets encryption public key and its algorithm
   async encryptionKey() {
-    const response = await this.client.get<{ data: jose.JWK }>(
-      "/.well-known/jwk",
-      {
-        withCredentials: true,
-      }
-    );
-    return response.data;
+    const response = await fetch("http://localhost:8080/.well-known/jwk");
+    const result = await response.json();
+
+    return result;
   }
-  // async encryptionKey() {
-  //   return this.client.get<jose.JWK>("/.well-known/jwk");
-  // }
 }
