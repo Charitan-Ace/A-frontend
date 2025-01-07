@@ -5,27 +5,46 @@ import {
   Typography,
   Switch,
   FormControlLabel,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
+  Button,
 } from "@mui/material";
 import BreadcrumbHeader from "@/components/breadcrumb-header";
-import { Button } from "@/components/ui/button";
+import AuthService from "@/api/auth/service/auth-service";
+import APIClient from "@/api/client";
+import { toast } from "sonner";
 
 const SignUp = () => {
   const [isDonor, setIsDonor] = useState(true);
 
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-  } = useForm();
+  const { register, handleSubmit, reset } = useForm();
 
-  const onSubmit = (data) => {
-    // Handle form submission
-    console.log("Registration Data:", data);
-    // You can integrate API calls here
+  const apiClient = new APIClient("http://localhost:8080");
+  const authService = new AuthService(apiClient);
+
+  const onSubmit = async (data) => {
+    try {
+      console.log("Submitting data:", data);
+      await authService.register({
+        // "donor5@email.com",
+        // "testpassword",
+        // "DONOR",
+        email: "charity4d@gmail.com",
+        password: "testpassword",
+        role: "CHARITY",
+        profile: {
+          companyName: "Halo",
+          taxCode: "123",
+          address: "RMIT UNI_12",
+          organizationType: "INDIVIDUAL",
+          // firstName: "first5",
+          // lastName: "last5"
+        },
+      });
+      toast.success("Registration successful!");
+      reset();
+    } catch (error) {
+      console.error("Registration failed:", error);
+      toast.error("Registration failed. Please try again.");
+    }
   };
 
   const handleRoleToggle = () => {
@@ -54,26 +73,15 @@ const SignUp = () => {
             />
           }
           label={isDonor ? "Register as Donor" : "Register as Charity"}
-          sx={{ display: "flex", justifyContent: "center", mb: 3 }}
         />
 
-        <form onSubmit={handleSubmit(onSubmit)} noValidate>
-          {/* Common Fields */}
+        <form onSubmit={handleSubmit(onSubmit)}>
           <TextField
             label="Email"
             variant="outlined"
             fullWidth
             margin="normal"
-            {...register("email", {
-              required: "Email is required",
-              pattern: {
-                value: /^\S+@\S+$/i,
-                message: "Invalid email address",
-              },
-            })}
-            error={!!errors.email}
-            helperText={errors.email?.message?.toString()}
-            color="primary"
+            {...register("email")}
           />
 
           <TextField
@@ -82,16 +90,7 @@ const SignUp = () => {
             variant="outlined"
             fullWidth
             margin="normal"
-            {...register("password", {
-              required: "Password is required",
-              minLength: {
-                value: 6,
-                message: "Password must be at least 6 characters",
-              },
-            })}
-            error={!!errors.password}
-            helperText={errors.password?.message?.toString()}
-            color="primary"
+            {...register("password")}
           />
 
           {isDonor ? (
@@ -101,12 +100,7 @@ const SignUp = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                {...register("firstName", {
-                  required: "First name is required",
-                })}
-                error={!!errors.firstName}
-                helperText={errors.firstName?.message?.toString()}
-                color="primary"
+                {...register("profile.firstName")}
               />
 
               <TextField
@@ -114,23 +108,25 @@ const SignUp = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                {...register("lastName", { required: "Last name is required" })}
-                error={!!errors.lastName}
-                helperText={errors.lastName?.message?.toString()}
-                color="primary"
+                {...register("profile.lastName")}
+              />
+
+              <TextField
+                label="Phone Number"
+                variant="outlined"
+                fullWidth
+                margin="normal"
+                {...register("profile.phoneNumber")}
               />
             </>
           ) : (
             <>
               <TextField
-                label="Name"
+                label="Company Name"
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                {...register("name", { required: "Name is required" })}
-                error={!!errors.name}
-                helperText={errors.name?.message?.toString()}
-                color="primary"
+                {...register("profile.companyName")}
               />
 
               <TextField
@@ -138,71 +134,17 @@ const SignUp = () => {
                 variant="outlined"
                 fullWidth
                 margin="normal"
-                {...register("taxCode", {
-                  required: "Tax Code is required",
-                  pattern: {
-                    value: /^[A-Z0-9]+$/i,
-                    message: "Invalid Tax Code format",
-                  },
-                })}
-                error={!!errors.taxCode}
-                helperText={errors.taxCode?.message?.toString()}
-                color="primary"
+                {...register("profile.taxCode")}
               />
 
-              {/* New organizationType Select Field */}
-              <FormControl
+              <TextField
+                label="Address"
+                variant="outlined"
                 fullWidth
                 margin="normal"
-                variant="outlined"
-                error={!!errors.organizationType}
-                color="primary"
-              >
-                <InputLabel id="organization-type-label">
-                  Organization Type
-                </InputLabel>
-                <Select
-                  labelId="organization-type-label"
-                  label="Organization Type"
-                  defaultValue=""
-                  {...register("organizationType", {
-                    required: "Organization Type is required",
-                  })}
-                >
-                  <MenuItem value="COMPANY">COMPANY</MenuItem>
-                  <MenuItem value="INDIVIDUAL">INDIVIDUAL</MenuItem>
-                  <MenuItem value="NON-PROFIT">NON-PROFIT</MenuItem>
-                </Select>
-                {errors.organizationType && (
-                  <Typography variant="caption" color="error">
-                    {errors.organizationType?.message?.toString()}
-                  </Typography>
-                )}
-              </FormControl>
+                {...register("profile.address")}
+              />
             </>
-          )}
-
-          {/* Optional Fields */}
-          <TextField
-            label="Address (Optional)"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            {...register("address")}
-            color="primary"
-          />
-
-          {!isDonor && (
-            <TextField
-              label="Description (Optional)"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              multiline
-              rows={4}
-              {...register("description")}
-              color="primary"
-            />
           )}
 
           <Button

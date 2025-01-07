@@ -1,10 +1,7 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import * as z from "zod";
 import APIClient from "@/api/client";
 import AuthService from "@/api/auth/service/auth-service";
-import { loginSchema } from "@/api/auth/schema/login-schema";
 import BreadcrumbHeader from "@/components/breadcrumb-header";
 import {
   TextField,
@@ -13,20 +10,11 @@ import {
   InputAdornment,
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
-import { toast, Toaster } from "sonner";
+import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
 
-type FormData = z.infer<typeof loginSchema>;
-
 const LoginPage = () => {
-  const {
-    register,
-    handleSubmit,
-    formState: { errors, isSubmitting },
-    reset,
-  } = useForm<FormData>({
-    resolver: zodResolver(loginSchema),
-  });
+  const { register, handleSubmit, reset } = useForm();
 
   const apiClient = new APIClient("http://localhost:8080");
   const authService = new AuthService(apiClient);
@@ -37,27 +25,22 @@ const LoginPage = () => {
     setShowPassword(!showPassword);
   };
 
-  // ------------------- submit ---------------------
-
-  const onSubmit = async (data: FormData) => {
-    await loginUser(data.email, data.password);
-  };
-
-  const loginUser = async (email: string, password: string) => {
+  const onSubmit = async (data) => {
     try {
-      const response = await authService.login(email, password);
+      console.log("Submitting login data:", data);
+      const response = await authService.login(data.email, data.password);
+      if (response.status === 401) {
+        toast.error("Invalid email or password. Please try again.");
+        return;
+      }
 
       console.log("Login successful:", response);
-
       toast.success("Logged in successfully!");
       reset();
-
       // navigate("/dashboard");
-    } catch (error: any) {
+    } catch (error) {
       console.error("Login failed:", error);
-      toast.error(
-        error.response?.data?.message || "Login failed. Please try again."
-      );
+      toast.error("Login failed. Please try again.");
     }
   };
 
@@ -72,9 +55,6 @@ const LoginPage = () => {
             fullWidth
             margin="normal"
             {...register("email")}
-            error={!!errors.email}
-            helperText={errors.email?.message?.toString()}
-            color="primary"
           />
 
           <TextField
@@ -84,9 +64,6 @@ const LoginPage = () => {
             fullWidth
             margin="normal"
             {...register("password")}
-            error={!!errors.password}
-            helperText={errors.password?.message?.toString()}
-            color="primary"
             InputProps={{
               endAdornment: (
                 <InputAdornment position="end">
@@ -106,9 +83,8 @@ const LoginPage = () => {
             type="submit"
             color="primary"
             className="bg-primary hover:bg-primary hover:opacity-80 transition-all duration-100 ease-in-out w-full my-4 py-5 font-montserrat"
-            disabled={isSubmitting}
           >
-            {isSubmitting ? "Logging in..." : "Login"}
+            Login
           </Button>
 
           <Typography variant="body2" align="center" className="mt-2">
@@ -119,13 +95,12 @@ const LoginPage = () => {
 
           <Typography variant="body2" align="center" className="mt-1">
             Don't have an account?{" "}
-            <a href="/signup" className="text-primary hover:underline">
+            <a href="/auth/signup" className="text-primary hover:underline">
               Sign Up
             </a>
           </Typography>
         </form>
       </div>
-      <Toaster />
     </div>
   );
 };

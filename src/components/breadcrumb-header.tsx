@@ -24,7 +24,7 @@ const BreadcrumbHeader = ({
     NAVBAR_ITEMS
   );
 
-  console.log("currentNavigation", currentNavigation, NAVBAR_ITEMS);
+  // console.log("currentNavigation", currentNavigation, NAVBAR_ITEMS);
 
   const navigationDes = currentNavigation?.path.split("/");
   if (navigationDes) navigationDes.shift();
