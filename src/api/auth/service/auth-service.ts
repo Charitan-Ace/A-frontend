@@ -11,8 +11,6 @@ export default class AuthService extends BaseService {
 
   async login(email: string, password: string) {
     const key = await this.encryptionKey();
-    console.log(111111, email, password);
-    console.log(312313, key);
 
     const jwe = await new jose.CompactEncrypt(
       // stringify JSON to create JWE claims
