@@ -10,7 +10,7 @@ import {
 import * as authHelper from "../_helper.ts";
 import { type AuthModel, type UserModel } from "@/type/auth/model.ts";
 import { getMe, login, register } from "@/api/auth";
-import { RegisterInput } from "@/api/auth/schema/register-schema.ts";
+import { RegisterInput } from "@/api/auth/schema/signup-schema.ts";
 import { APIResponse } from "@/api/axios.ts";
 import { LoginInput } from "@/api/auth/schema/login-schema.ts";
 
@@ -41,6 +41,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const verify = async () => {
     if (!auth) return;
     try {
+      console.log(888, auth);
       const { data: user } = await getUser();
       setCurrentUser(user);
     } catch {
@@ -68,6 +69,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     try {
       const { data: auth } = await login(loginInfo);
       saveAuth(auth);
+      console.log(999);
       const { data: user } = await getUser();
       setCurrentUser(user);
     } catch (error) {
@@ -89,7 +91,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     }
 
     saveAuth(auth);
-
+    console.log(9898);
     const { data: userData } = await getUser();
 
     setCurrentUser(userData);

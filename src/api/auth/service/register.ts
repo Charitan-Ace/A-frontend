@@ -1,7 +1,7 @@
 import axios from "axios";
 import { APIResponse, ValidationError } from "@/api/axios.ts";
 import { REGISTER_URL } from "@/api/auth/constant.ts";
-import { RegisterInput } from "@/api/auth/schema/register-schema";
+import { RegisterInput } from "@/api/auth/schema/signup-schema";
 import { AuthModel } from "@/type/auth/model.ts";
 import * as jose from "jose";
 
