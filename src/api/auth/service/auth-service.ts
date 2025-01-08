@@ -1,8 +1,8 @@
 import * as jose from "jose";
 import { BaseService } from "./base-service";
 import APIClient from "@/api/client";
-import axios from "axios";
 import { postRequest } from "@/utils/http-request";
+import { API_URL, GET_KEY_URL } from "../constant";
 
 export default class AuthService extends BaseService {
   constructor(client: APIClient) {
@@ -13,13 +13,13 @@ export default class AuthService extends BaseService {
     const key = await this.encryptionKey();
 
     const jwe = await new jose.CompactEncrypt(
-      // stringify JSON to create JWE claims
       new TextEncoder().encode(JSON.stringify({ email, password }))
     )
       .setProtectedHeader({ alg: "RSA-OAEP-256", enc: "A256GCM" })
       .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
 
-    return await postRequest("http://localhost:8080/api/auth/login", jwe);
+    const url = `${API_URL}/api/auth/login`;
+    return await postRequest(url, jwe);
   }
 
   async register(
@@ -29,7 +29,6 @@ export default class AuthService extends BaseService {
     profile: { [key: string]: unknown }
   ) {
     const key = await this.encryptionKey();
-    console.log(312313, key);
 
     const jwe = await new jose.CompactEncrypt(
       new TextEncoder().encode(
@@ -44,11 +43,13 @@ export default class AuthService extends BaseService {
       .setProtectedHeader({ alg: "RSA-OAEP-256", enc: "A256GCM" })
       .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
 
-    return await postRequest("http://localhost:8080/api/auth/register", jwe);
+    const url = `${API_URL}/api/auth/register`;
+    return await postRequest(url, jwe);
   }
 
   async encryptionKey() {
-    const response = await fetch("http://localhost:8080/.well-known/jwk");
+    const url = GET_KEY_URL;
+    const response = await fetch(url);
     const result = await response.json();
 
     return result;

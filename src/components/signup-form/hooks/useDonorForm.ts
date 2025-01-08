@@ -1,11 +1,11 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import APIClient from "@/api/client";
-import AuthService from "@/api/auth/service/auth-service";
 import { toast } from "sonner";
 import { DonorFormValues, donorSchema } from "../validation/donorSchema";
+import SignupService from "../api/signupService";
 
 const useDonorForm = () => {
+  const { handleSignup } = SignupService();
   const {
     register,
     handleSubmit,
@@ -15,18 +15,15 @@ const useDonorForm = () => {
     resolver: zodResolver(donorSchema),
   });
 
-  const apiClient = new APIClient("http://localhost:8080");
-  const authService = new AuthService(apiClient);
-
   const onSubmit = async (data: DonorFormValues) => {
     try {
       console.log("Submitting Donor data:", data);
-      await authService.register(
-        data.email,
-        data.password,
-        "DONOR",
-        data.profile
-      );
+      await handleSignup({
+        email: data.email,
+        password: data.password,
+        role: "DONOR",
+        profile: { ...data.profile },
+      });
       toast.success("Donor registration successful!");
       reset();
     } catch (error) {

@@ -62,7 +62,7 @@ const DataGridInner = <TData extends object>() => {
             <DataGridTableBody>
               <DataGridFilter />
               {!isInitialized ? (
-                <div></div>
+                <tr></tr>
               ) : table.getRowModel().rows.length > 0 ? (
                 renderRows(table.getRowModel().rows)
               ) : (
