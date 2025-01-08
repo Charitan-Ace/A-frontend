@@ -40,7 +40,7 @@ export default async function sendHttpRequest<T>(
 export async function getRequest<T>(
   url: string,
   credentials: RequestCredentials = "include",
-  headers: HeadersInit = { "Content-Type": "application/json" }
+  headers: HeadersInit = { "Content-Type": "text/plain" }
 ): Promise<HttpResponse<T>> {
   return sendHttpRequest<T>(url, "GET", null, credentials, headers);
 }

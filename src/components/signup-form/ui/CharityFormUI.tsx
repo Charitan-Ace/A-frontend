@@ -1,5 +1,4 @@
-import React from "react";
-import { Select, TextField } from "@mui/material";
+import { FormHelperText, Select, TextField } from "@mui/material";
 import { Button } from "@/components/ui/button";
 
 const CharityFormUI = ({
@@ -64,21 +63,19 @@ const CharityFormUI = ({
         helperText={errors.profile?.taxCode?.message}
       /> */}
       <Select
-        native
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        {...register("profile.taxCode")}
-        error={!!errors.profile?.taxCode}
-        helperText={errors.profile?.taxCode?.message}
         className="mt-3"
+        fullWidth
+        native
+        {...register("profile.taxCode")}
+        defaultValue=""
       >
         <option value="" disabled>
           Tax Code
         </option>
-        <option value="COMPANY">Company</option>
+        <option value="ORGANIZATION">Organization</option>
         <option value="INDIVIDUAL">Individual</option>
       </Select>
+      <FormHelperText>{errors.profile?.taxCode?.message}</FormHelperText>
 
       <Button
         type="submit"

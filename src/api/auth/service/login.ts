@@ -1,45 +1,31 @@
-import axios from "axios";
-import { APIResponse, ValidationError } from "@/api/axios.ts";
 import { LOGIN_URL } from "@/api/auth/constant.ts";
-import { AuthModel } from "@/type/auth/model.ts";
 import { LoginInput } from "../schema/login-schema";
-import { encryptionKey } from "./register";
 import * as jose from "jose";
+import { postRequest } from "@/utils/http-request";
 
-//DEPRECATED
-const login = async (input: LoginInput) => {
+const login = async (input: LoginInput, key: jose.JWK) => {
   try {
-    const key = await encryptionKey();
+    const { email, password } = input;
 
     const jwe = await new jose.CompactEncrypt(
-      new TextEncoder().encode(JSON.stringify(input))
+      // stringify JSON to create JWE claims
+      new TextEncoder().encode(JSON.stringify({ email, password }))
     )
       .setProtectedHeader({ alg: "RSA-OAEP-256", enc: "A256GCM" })
       .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
 
-    const { data, status } = await axios.post<string>(LOGIN_URL, jwe, {
-      headers: {
-        "Content-Type": "application/jose",
-      },
-    });
-
+    const response = await postRequest(LOGIN_URL, jwe);
+    console.log(111, response);
     return {
-      data: data,
-      status: status,
-    } as unknown as APIResponse<AuthModel>;
-  } catch (error) {
-    if (!axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
-      return {
-        data: null,
-        error: JSON.stringify(error),
-        status: 400,
-      } as unknown as APIResponse<AuthModel>;
-    }
+      data: response, //TODO: check if response is correct
+      status: response.status,
+    };
+  } catch (error: any) {
     return {
       data: null,
       error: error.message,
       status: error.status,
-    } as unknown as APIResponse<AuthModel>;
+    };
   }
 };
 

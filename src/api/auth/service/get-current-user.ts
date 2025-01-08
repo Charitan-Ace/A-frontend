@@ -1,14 +1,18 @@
 import { UserModel } from "@/type/auth/model.ts";
 import axios from "axios";
-import { GET_ME_URL } from "@/api/auth/constant.ts";
 import { APIResponse, ValidationError } from "@/api/axios.ts";
 
 const getMe = async () => {
   try {
-    const { data, status } = await axios.get<UserModel>(GET_ME_URL);
+    const data = await fetch("http://localhost:8080/notification", {
+      method: "POST",
+      credentials: "include",
+    });
+    const id = await data.text();
+
     return {
-      data: data,
-      status: status,
+      data: id,
+      status: data.status,
     } as unknown as APIResponse<UserModel>;
   } catch (error) {
     if (!axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {

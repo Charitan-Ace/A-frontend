@@ -4,33 +4,23 @@ import { REGISTER_URL } from "@/api/auth/constant.ts";
 import { RegisterInput } from "@/api/auth/schema/signup-schema";
 import { AuthModel } from "@/type/auth/model.ts";
 import * as jose from "jose";
+import { postRequest } from "@/utils/http-request";
 
-//DEPRECATED
-export const encryptionKey = async () => {
-  const response = await axios.get<jose.JWK>("/.well-known/jwk");
-  return response.data;
-};
-
-const register = async (input: RegisterInput) => {
+const register = async (input: RegisterInput, key: jose.JWK) => {
   try {
-    const key = await encryptionKey();
-
+    console.log("Registering user with data:", input);
     const jwe = await new jose.CompactEncrypt(
       new TextEncoder().encode(JSON.stringify(input))
     )
       .setProtectedHeader({ alg: "RSA-OAEP-256", enc: "A256GCM" })
       .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
 
-    const { data, status } = await axios.post<string>(REGISTER_URL, jwe, {
-      headers: {
-        "Content-Type": "application/jose",
-      },
-    });
-
+    const url = REGISTER_URL;
+    const response = await postRequest(url, jwe);
     return {
-      data: data,
-      status: status,
-    } as unknown as APIResponse<AuthModel>;
+      data: response,
+      status: response.status,
+    };
   } catch (error) {
     if (!axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return {

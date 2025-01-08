@@ -3,16 +3,13 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { useNavigate } from "react-router-dom";
-import APIClient from "@/api/client";
-import AuthService from "@/api/auth/service/auth-service";
 import { LoginFormValues, loginSchema } from "../validation/loginSchema";
+import LoginService from "../api/loginService";
 const useLoginForm = (linkRedirect: string) => {
+  const { handleLogin } = LoginService();
   const navigate = useNavigate();
 
   const [showPassword, setShowPassword] = useState(false);
-
-  const apiClient = new APIClient("http://localhost:8080");
-  const authService = new AuthService(apiClient);
 
   const {
     register,
@@ -27,12 +24,10 @@ const useLoginForm = (linkRedirect: string) => {
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      const response = await authService.login(data.email, data.password);
-
-      if (response.status === 401) {
-        toast.error("Invalid email or password. Please try again.");
-        return;
-      }
+      await handleLogin({
+        email: data.email,
+        password: data.password,
+      });
 
       toast.success("Logged in successfully!");
       reset();

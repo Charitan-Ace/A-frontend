@@ -7,7 +7,6 @@ import { type AuthModel } from "../type/auth/model.ts";
 const AUTH_COOKIE_STORAGE_KEY = "x-token";
 
 const getCookieAuth = (): AuthModel | undefined => {
-  console.log(1, AUTH_COOKIE_STORAGE_KEY);
   if (!Cookies) {
     console.error("COOKIE IS NOT READY");
     return undefined;
@@ -17,10 +16,8 @@ const getCookieAuth = (): AuthModel | undefined => {
   if (!authToken) {
     return undefined;
   }
-  console.log(111, authToken);
   try {
     const authInfo = JSON.parse(authToken) as AuthModel;
-    console.log(222, authInfo);
     if (!authInfo) {
       return undefined;
     }
@@ -36,9 +33,6 @@ const setCookieAuth = async (authModel: AuthModel) => {
     console.error("COOKIE IS NOT READY");
     return;
   }
-
-  console.log(444, authModel);
-  console.log(555, JSON.stringify(authModel));
 
   const authToken = await JSON.stringify(authModel);
 
