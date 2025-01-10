@@ -1,13 +1,13 @@
-import { LucideIcon } from "@/components/lucide-icons";
-import { Badge } from "@/components/ui/badge";
-import { Input } from "@/components/ui/input";
+import { LucideIcon } from "@/components/lucide-icons.tsx";
+import { Badge } from "@/components/ui/badge.tsx";
+import { Input } from "@/components/ui/input.tsx";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "@/components/ui/select";
+} from "@/components/ui/select.tsx";
 import {
   projectCategories,
   ProjectCategoryEnum,
@@ -30,7 +30,7 @@ const FilterController = ({
   onCategoryChange,
   onStatusChange,
   q,
-  setQ
+  setQ,
 }: FilterControllerProps) => {
   return (
     <div className="flex items-center justify-center gap-4 container">

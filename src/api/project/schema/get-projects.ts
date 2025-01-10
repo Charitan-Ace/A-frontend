@@ -6,6 +6,7 @@ export const getProjectsSchema = z.object({
     ...generalQuerySchema.shape,
     category: z.nativeEnum(ProjectCategoryEnum).default(ProjectCategoryEnum.HEALTH).optional(),
     status: z.nativeEnum(ProjectStatusEnum).default(ProjectStatusEnum.ONGOING).optional(),
+    countryIsoCode: z.string().optional(),
     
 })
 

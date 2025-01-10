@@ -1,9 +1,10 @@
-import { Badge } from "@/components/ui/badge";
-import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
-import { Progress } from "@/components/ui/progress";
+import { Badge } from "@/components/ui/badge.tsx";
+import { Button } from "@/components/ui/button.tsx";
+import { Card, CardContent } from "@/components/ui/card.tsx";
+import { Progress } from "@/components/ui/progress.tsx";
 import { projectStatuses } from "@/type/enum";
-import { ProjectDto } from "@/type/project/project.dto";
+import { ProjectDto } from "@/type/project/project.dto.ts";
+import { Link } from "react-router-dom";
 
 interface ProjectCardProps {
   project: ProjectDto;
@@ -11,18 +12,18 @@ interface ProjectCardProps {
 
 const ProjectCard = ({ project }: ProjectCardProps) => {
   const currentDonateProgress = Math.round(
-    (project.currentDonation / project.goal) * 100
+    (project.currentDonation / project.goal) * 100,
   );
 
   const projectStatus = projectStatuses.find(
-    (status) => status.value === project.status
+    (status) => status.value === project.statusType,
   );
   return (
     <Card className="max-w-md overflow-hidden">
       <div className="group relative h-[400px] bg-muted">
         <img
           src={project.imageUrl}
-          alt={project.name}
+          alt={project.title}
           className="w-full h-full object-cover"
         />
         <div className="absolute inset-0 flex items-center justify-center bg-gray-600/0 opacity-0 transition-all group-hover:bg-gray-600/80 group-hover:opacity-100">
@@ -30,7 +31,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             size="lg"
             className="bg-emerald-600 hover:bg-emerald-700 text-xl"
           >
-            Donate Now
+            <Link to={`/project/${project.id}`} />
           </Button>
         </div>
       </div>
@@ -38,7 +39,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         <div className="space-y-4">
           <div className="flex items-center justify-between">
             <span className="text-emerald-600 font-medium">
-              {project.category}
+              {project.categoryType}
             </span>
 
             {projectStatus && (
@@ -51,7 +52,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
               </Badge>
             )}
           </div>
-          <h2 className="text-4xl font-serif">{project.name}</h2>
+          <h2 className="text-4xl font-serif">{project.title}</h2>
           <p className="text-muted-foreground">{project.description}</p>
         </div>
 
@@ -63,7 +64,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           <Progress value={currentDonateProgress} className="h-2 bg-teal-600/20" />
           <div className="flex justify-between items-center pt-2">
             <span className="text-lg font-medium">
-              Raised: ${project.currentDonation.toLocaleString("en-Us")}
+              {/* Raised: ${project.currentDonation.toLocaleString("en-Us")} */}
             </span>
             <span className="text-lg font-medium">
               Goal: ${project.goal.toLocaleString("en-Us")}

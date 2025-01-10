@@ -1,11 +1,10 @@
-import { LucideIcon } from "@/components/lucide-icons";
 import { Progress } from "@/components/ui/progress";
 import { toAbsoluteUrl } from "@/utils/assets";
 import { Handshake, Users, Hospital, Earth } from "lucide-react";
-import { ProjectCard, ProjectLoading } from "../project/_components";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/api/project/service/get-projects";
 import { ProjectCategoryEnum, ProjectStatusEnum } from "@/type/enum";
+import { ProjectCard, ProjectLoading } from "../search/_components";
 
 const HomePage = () => {
   const funFacts = [

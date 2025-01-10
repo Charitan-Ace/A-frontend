@@ -1,12 +1,15 @@
-import {ProjectCategoryEnum, ProjectStatusEnum} from "@/type/enum";
+import { ProjectCategoryEnum, ProjectStatusEnum } from "@/type/enum";
 
 export interface ProjectDto {
   id: string;
-  name: string;
+  title: string;
   imageUrl: string;
   description: string;
-  category: ProjectCategoryEnum;
+  categoryType: ProjectCategoryEnum;
   goal: number;
-  currentDonation: number;
-  status: ProjectStatusEnum;
+  statusType: ProjectStatusEnum;
+  startTime: Date;
+  endTime: Date;
+  charityId: string;
+  countryIsoCode: string;
 }

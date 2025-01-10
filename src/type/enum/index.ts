@@ -41,8 +41,6 @@ export enum ProjectStatusEnum {
   DELETED = "Deleted",
 }
 
-
-
 export const projectStatuses = [
   {
     value: "Ongoing",
