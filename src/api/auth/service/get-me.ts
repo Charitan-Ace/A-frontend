@@ -1,22 +1,16 @@
 import { BaseModel } from "@/type/auth/model.ts";
 import * as jose from "jose";
 import { APIResponse } from "@/api/axios.ts";
-import { LOGIN_URL } from "../constant";
+import { GET_ME_URL } from "../constant";
 import { LoginInput } from "@/api/login/schema/login-schema";
-import { postRequest } from "@/utils/http-request";
+import { getRequest } from "@/utils/http-request";
 
 const getMe = async (input: LoginInput, key: jose.JWK) => {
   try {
-    const { email, password } = input;
-
-    const jwe = await new jose.CompactEncrypt(
-      new TextEncoder().encode(JSON.stringify({ email, password }))
-    )
-      .setProtectedHeader({ alg: "RSA-OAEP-256", enc: "A256GCM" })
-      .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
-
-    const response = await postRequest(LOGIN_URL, jwe);
+    const response = await getRequest(GET_ME_URL);
     const responseData = await response.json;
+
+    console.log(12312, response);
 
     return {
       data: responseData,

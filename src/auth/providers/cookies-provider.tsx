@@ -32,7 +32,7 @@ interface AuthContextProps {
   loginWithFacebook?: () => Promise<void>;
   signUp: (signupInfo: RegisterInput) => Promise<BaseModel | undefined>;
   getUser: () => Promise<APIResponse<UserModel>>;
-  logout: () => void;
+  logout: () => Promise<BaseModel | undefined>;
   verify: () => Promise<void>;
   jwkKey: JWK | undefined;
 }
@@ -123,13 +123,17 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
       jwkKey
     );
 
-    console.log(33355, response);
     return response;
   };
 
-  const logout = () => {
-    saveAuth(undefined);
-    setCurrentUser(undefined);
+  const logout = async (): Promise<BaseModel | undefined> => {
+    if (!jwkKey) {
+      throw new Error("JWK key is not defined");
+    }
+
+    const response = await logout();
+
+    return response;
   };
 
   return (
