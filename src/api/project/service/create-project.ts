@@ -21,7 +21,7 @@ const createProject = async (input: CreateProjectInput) => {
       return {
         data: null,
         status: error.response.status,
-        error: error.response.data as {message: string},
+        error: (error.response.data as {message: string}).message,
       } as unknown as APIResponse<ProjectDto>;
     } else {
       return {

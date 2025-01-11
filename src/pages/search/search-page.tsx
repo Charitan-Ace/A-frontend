@@ -1,10 +1,16 @@
 import {
+  parseAsArrayOf,
   parseAsInteger,
   parseAsString,
   parseAsStringEnum,
   useQueryStates,
 } from "nuqs";
-import { ProjectCategoryEnum, ProjectStatusEnum } from "@/type/enum";
+import {
+  projectCategories,
+  ProjectCategoryEnum,
+  ProjectStatusEnum,
+  projectStatuses,
+} from "@/type/enum";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/api/project/service/get-projects.ts";
 import {
@@ -19,14 +25,16 @@ const SearchPage = () => {
     {
       page: parseAsInteger.withDefault(1),
       pageSize: parseAsInteger.withDefault(10),
-      category: parseAsStringEnum<ProjectCategoryEnum>(
-        Object.values(ProjectCategoryEnum)
-      ).withDefault(ProjectCategoryEnum.ALL),
-      status: parseAsStringEnum<ProjectStatusEnum>(
-        Object.values(ProjectStatusEnum)
-      ).withDefault(ProjectStatusEnum.ONGOING),
+      category: parseAsArrayOf<ProjectCategoryEnum>(
+        parseAsStringEnum<ProjectCategoryEnum>(
+          Object.values(ProjectCategoryEnum)
+        )
+      ),
+      status: parseAsArrayOf(
+        parseAsStringEnum<ProjectStatusEnum>(Object.values(ProjectStatusEnum))
+      ),
       q: parseAsString.withDefault(""),
-      countryIsoCode: parseAsString.withDefault("CN"),
+      countryIsoCode: parseAsArrayOf(parseAsString),
     },
     { history: "push" }
   );
@@ -47,10 +55,18 @@ const SearchPage = () => {
       getProjects({
         page,
         pageSize,
-        category,
-        status,
+        categoryTypes: category
+          ? category.length === 0
+            ? null
+            : category
+          : null,
+        statuses: status ? (status.length === 0 ? null : status) : null,
         q,
-        countryIsoCode: countryIsoCode ? countryIsoCode.toUpperCase() : "",
+        countryIsoCodes: countryIsoCode
+          ? countryIsoCode.map((code) => code.toUpperCase()).length === 0
+            ? null
+            : countryIsoCode.map((code) => code.toUpperCase())
+          : null,
       }),
   });
 
@@ -62,9 +78,19 @@ const SearchPage = () => {
       <h1 className="text-2xl font-bold">Projects!</h1>
       <FilterController
         q={q}
+        defaultCategory={projectCategories
+          .filter((cat) => category?.includes(cat.value as ProjectCategoryEnum))
+          .map((cate) => ({
+            name: cate.label,
+            value: cate.value as ProjectCategoryEnum,
+          }))}
+        defaultStatus={projectStatuses
+          .filter((tus) => status?.includes(tus.value as ProjectStatusEnum))
+          .map((tuses) => ({
+            name: tuses.label,
+            value: tuses.value as ProjectStatusEnum,
+          }))}
         setQ={(value) => setQueryParams({ q: value })}
-        defaultCategory={category}
-        defaultStatus={status}
         onCategoryChange={(value) => setQueryParams({ category: value })}
         onStatusChange={(value) => setQueryParams({ status: value })}
       />
@@ -74,7 +100,7 @@ const SearchPage = () => {
           totalPages={totalPage ?? 0}
           currentPageSize={pageSize}
           setPageSize={(value) => {
-            setQueryParams({ pageSize: value });  
+            setQueryParams({ pageSize: value });
           }}
           handleNextPage={() => setQueryParams({ page: page + 1 })}
           handlePrevPage={() => setQueryParams({ page: page - 1 })}

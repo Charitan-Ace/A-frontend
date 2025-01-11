@@ -5,7 +5,7 @@ import { ProjectDto } from "@/type/project/project.dto";
 import { APIResponse, ValidationError } from "../../axios";
 
 const getProjects = async (input: GetProjectsInput) => {
-  const { page, pageSize, category, status, q, countryIsoCode } = input;
+  const { page, pageSize, categoryTypes, statuses, q, countryIsoCodes } = input;
 
   const queryUrl = `${PROJECT_SEARCH_URL}?page=${page}&size=${pageSize}`;
 
@@ -16,7 +16,10 @@ const getProjects = async (input: GetProjectsInput) => {
   try {
     let totalPage = 0;
     const { data, status, headers } = await axios.post<ProjectDto[]>(queryUrl, {
-      countryIsoCode,
+      name: q,
+      categoryTypes,
+      statuses,
+      countryIsoCodes,
     });
 
     if (headers["Total-Pages"]) {

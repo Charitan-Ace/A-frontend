@@ -1,34 +1,28 @@
 import { LucideIcon } from "@/components/lucide-icons.tsx";
-import { Badge } from "@/components/ui/badge.tsx";
 import { Input } from "@/components/ui/input.tsx";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@/components/ui/select.tsx";
+
 import {
   projectCategories,
   ProjectCategoryEnum,
   ProjectStatusEnum,
   projectStatuses,
 } from "@/type/enum";
+import { MultiSelect } from "./multi-select";
 
 interface FilterControllerProps {
   q: string;
   setQ: (value: string) => void;
-  defaultStatus: ProjectStatusEnum;
-  defaultCategory: ProjectCategoryEnum;
-  onStatusChange: (status: ProjectStatusEnum) => void;
-  onCategoryChange: (category: ProjectCategoryEnum) => void;
+  defaultCategory: { name: string; value: ProjectCategoryEnum }[];
+  defaultStatus: { name: string; value: ProjectStatusEnum }[];
+  onStatusChange: (statuses: ProjectStatusEnum[]) => void;
+  onCategoryChange: (category: ProjectCategoryEnum[]) => void;
 }
 
 const FilterController = ({
-  defaultCategory,
-  defaultStatus,
   onCategoryChange,
   onStatusChange,
+  defaultCategory,
+  defaultStatus,
   q,
   setQ,
 }: FilterControllerProps) => {
@@ -49,53 +43,35 @@ const FilterController = ({
         />
       </div>
 
-      <Select
-        onValueChange={(value) => {
-          onStatusChange(value as ProjectStatusEnum);
-        }}
-        defaultValue={defaultStatus}
-      >
-        <SelectTrigger className="w-fit">
-          <SelectValue placeholder="Filter by status" />
-        </SelectTrigger>
-        <SelectContent>
-          {projectStatuses.map((status) => (
-            <SelectItem key={status.value} value={status.value}>
-              <Badge
-                variant="outline"
-                className={`flex items-center gap-2 ${status.classes}`}
-              >
-                <status.LucideIcon />
-                {status.label}
-              </Badge>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <MultiSelect<ProjectStatusEnum>
+        filterBy={"Status"}
+        defaultItems={defaultStatus}
+        options={projectStatuses.map((status) => ({
+          name: status.label,
+          value: status.value as ProjectStatusEnum,
+        }))}
+        onValueChange={(selectedStatuses) =>
+          onStatusChange(
+            selectedStatuses.map((status) => status.value as ProjectStatusEnum)
+          )
+        }
+      />
 
-      <Select
-        onValueChange={(value) => {
-          onCategoryChange(value as ProjectCategoryEnum);
-        }}
-        defaultValue={defaultCategory}
-      >
-        <SelectTrigger className="w-fit">
-          <SelectValue placeholder="Filter by category" />
-        </SelectTrigger>
-        <SelectContent>
-          {projectCategories.map((category) => (
-            <SelectItem key={category.value} value={category.value}>
-              <Badge
-                variant="outline"
-                className={`flex items-center gap-2 ${category.classes}`}
-              >
-                <category.LucideIcon />
-                {category.label}
-              </Badge>
-            </SelectItem>
-          ))}
-        </SelectContent>
-      </Select>
+      <MultiSelect<ProjectCategoryEnum>
+        filterBy={"Category"}
+        defaultItems={defaultCategory}
+        options={projectCategories.map((category) => ({
+          name: category.label,
+          value: category.value as ProjectCategoryEnum,
+        }))}
+        onValueChange={(selectedCategories) =>
+          onCategoryChange(
+            selectedCategories.map(
+              (category) => category.value as ProjectCategoryEnum
+            )
+          )
+        }
+      />
     </div>
   );
 };
