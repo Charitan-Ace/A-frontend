@@ -8,11 +8,16 @@ import {
 } from "react";
 
 import * as authHelper from "../_helper.ts";
-import { CharityModel, DonorModel, UserModel } from "@/type/auth/model.ts";
+import {
+  BaseModel,
+  CharityModel,
+  DonorModel,
+  UserModel,
+} from "@/type/auth/model.ts";
 import { getMe, login, register } from "@/api/auth";
-import { RegisterInput } from "@/api/auth/schema/signup-schema.ts";
+import { RegisterInput } from "@/api/signup/schema/signup-schema.ts";
 import { APIResponse } from "@/api/axios.ts";
-import { LoginInput } from "@/api/auth/schema/login-schema.ts";
+import { LoginInput } from "@/api/login/schema/login-schema.ts";
 import { encryptionKey } from "@/api/auth/service/get-key.ts";
 import { JWK } from "jose";
 
@@ -22,10 +27,10 @@ interface AuthContextProps {
   saveAuth: (auth: CharityModel | DonorModel | undefined) => void;
   currentUser: UserModel | undefined;
   setCurrentUser: Dispatch<SetStateAction<UserModel | undefined>>;
-  signIn: (loginInfo: LoginInput) => Promise<void>;
+  signIn: (loginInfo: LoginInput) => Promise<BaseModel | undefined>;
   loginWithGoogle?: () => Promise<void>;
   loginWithFacebook?: () => Promise<void>;
-  signUp: (something: RegisterInput) => Promise<void>;
+  signUp: (signupInfo: RegisterInput) => Promise<BaseModel | undefined>;
   getUser: () => Promise<APIResponse<UserModel>>;
   logout: () => void;
   verify: () => Promise<void>;
@@ -58,6 +63,11 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     getKey();
   }, []);
 
+  // TODO: change to correct getMe
+  useEffect(() => {
+    getUser();
+  }, [jwkKey]);
+
   const getKey = async () => {
     const key = await encryptionKey();
     setJwkKey(key);
@@ -75,12 +85,16 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const signIn = async (loginInfo: LoginInput) => {
     try {
       if (!jwkKey) {
+        console.log("JWK key is not defined");
         throw new Error("JWK key is not defined");
       }
-      const { data } = await login(loginInfo, jwkKey);
-      saveAuth(data);
-      const { data: user } = await getUser();
-      setCurrentUser(user);
+      const response: APIResponse<BaseModel> = await login(loginInfo, jwkKey);
+      if (response.error) {
+        throw new Error(`Error ${response.error}`);
+      }
+
+      await getUser();
+      return response;
     } catch (error) {
       saveAuth(undefined);
       throw new Error(`Error ${error}`);
@@ -91,25 +105,26 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     if (!jwkKey) {
       throw new Error("JWK key is not defined");
     }
-    const { data } = await register(registerInfo, jwkKey);
-    // if (error) {
-    //   saveAuth(undefined);
-    //   throw new Error(`Error ${error}`);
-    // }
+    const response: APIResponse<BaseModel> = await register(
+      registerInfo,
+      jwkKey
+    );
 
-    if (!data) {
-      saveAuth(undefined);
-      throw new Error(`Something went wrong while signing up!`);
-    }
-
-    saveAuth(auth);
-    const { data: userData } = await getUser();
-
-    setCurrentUser(userData);
+    return response;
   };
 
+  // TODO later change to correct getme (currently is for testing)
   const getUser = async () => {
-    return await getMe();
+    if (!jwkKey) {
+      throw new Error("JWK key is not defined");
+    }
+    const response = await getMe(
+      { email: "hello@charitan.com", password: "password" },
+      jwkKey
+    );
+
+    console.log(33355, response);
+    return response;
   };
 
   const logout = () => {

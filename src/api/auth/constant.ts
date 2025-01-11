@@ -6,4 +6,6 @@ export const REGISTER_URL = `${API_URL}/api/auth/register`;
 export const FORGOT_PASSWORD_URL = `${API_URL}/forgot-password`;
 export const RESET_PASSWORD_URL = `${API_URL}/reset-password`;
 
-export const GET_ME_URL = `${API_URL}/api/profile/donor/info`;
+export const GET_ME_URL = `${API_URL}/api/profile/me`;
+export const GET_ME_DONOR_URL = `${API_URL}/api/profile/donor/info`;
+export const GET_ME_CHARITY_URL = `${API_URL}/api/profile/charity/info`;

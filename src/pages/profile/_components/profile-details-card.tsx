@@ -10,12 +10,13 @@ interface ProfileDetailsProps {
   user: UserDto;
 }
 
-const ProfileDetails = ({ user } : ProfileDetailsProps) => {
+const ProfileDetails = ({ user }: any) => {
   const [isModalOpen, setModalOpen] = useState(false);
 
   return (
     <>
-      <div className="mt-6">
+      {user && user.email}
+      {/* <div className="mt-6">
         <div className="flex justify-between items-center">
           <div className="flex items-center gap-2">
             <h2 className="text-xl font-semibold">Profile Details</h2>
@@ -29,15 +30,12 @@ const ProfileDetails = ({ user } : ProfileDetailsProps) => {
           </Button>
         </div>
 
-
         <div className="flex flex-col md:flex-row items-center gap-12 mt-4">
-  
           <Avatar className="w-48 h-48 border-2 border-gray-300">
             <AvatarImage src={user.profilePictureUrl} alt={user.username} />
             <AvatarFallback>{user.firstName[0]}</AvatarFallback>
           </Avatar>
 
-  
           <div className="flex-grow grid grid-cols-1 md:grid-cols-2 gap-6">
             <div>
               <Label className="text-gray-700">First Name</Label>
@@ -76,7 +74,7 @@ const ProfileDetails = ({ user } : ProfileDetailsProps) => {
             setModalOpen(false);
           }}
         />
-      )}
+      )} */}
     </>
   );
 };

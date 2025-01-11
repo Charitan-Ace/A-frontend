@@ -2,6 +2,7 @@ import React, { useMemo } from "react";
 import { ColumnDef } from "@tanstack/react-table";
 import { DonationDto } from "@/type/donation/donation.dto";
 import { DataGrid } from "@/components/table";
+import handleFetchDonationHistory from "./api/handleFetchDonationHistory";
 
 interface DonationHistoryProps {
   donations: DonationDto[];
@@ -50,21 +51,65 @@ const DonationHistoryTable = () => {
     []
   );
 
-  const loadData = async (params: any): Promise<any> => {
-    return new Promise((resolve) => {
-      setTimeout(() => {
-        resolve({
-          data: donations,
-          total: donations.length,
-          pagination: {
-            limit: 10,
-            offset: 0,
-            page: 1,
-            total: donations.length,
-          },
-        });
-      }, 500);
-    });
+  // const loadData = async (params: {
+  //   pageIndex: number;
+  //   pageSize: number;
+  // }): Promise<any> => {
+  //   const { pageIndex, pageSize } = params;
+
+  //   // For convenience, calculate the start and end of the slice
+  //   const start = pageIndex * pageSize;
+  //   const end = start + pageSize;
+
+  //   return new Promise((resolve) => {
+  //     setTimeout(() => {
+  //       // Slice the donations array according to the requested page
+  //       const paginatedData = donations.slice(start, end);
+
+  //       resolve({
+  //         data: paginatedData,
+  //         total: donations.length,
+  //         pagination: {
+  //           limit: pageSize,
+  //           offset: start,
+  //           page: pageIndex + 1,
+  //           total: donations.length,
+  //         },
+  //       });
+  //     }, 500);
+  //   });
+  // };
+
+  const loadData = async (params: {
+    pageIndex: number;
+    pageSize: number;
+  }): Promise<any> => {
+    const { pageIndex, pageSize } = params;
+
+    // For convenience, calculate the start and end of the slice
+    const start = pageIndex * pageSize;
+    const end = start + pageSize;
+
+    const data = handleFetchDonationHistory();
+
+    // return new Promise((resolve) => {
+    //   setTimeout(() => {
+    //     // Slice the donations array according to the requested page
+    //     const paginatedData = donations.slice(start, end);
+
+    //     resolve({
+    //       data: paginatedData,
+    //       total: donations.length,
+    //       pagination: {
+    //         limit: pageSize,
+    //         offset: start,
+    //         page: pageIndex + 1,
+    //         total: donations.length,
+    //       },
+    //     });
+    //   }, 500);
+    // });
+    return data;
   };
 
   return (
