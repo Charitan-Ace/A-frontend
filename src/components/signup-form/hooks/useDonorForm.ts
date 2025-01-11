@@ -2,10 +2,9 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { DonorFormValues, donorSchema } from "../validation/donorSchema";
-import SignupService from "../api/signupService";
+import { RegisterInput } from "@/api/signup/schema/signup-schema";
 
-const useDonorForm = () => {
-  const { handleSignup } = SignupService();
+const useDonorForm = (handleSignup: (data: RegisterInput) => Promise<void>) => {
   const {
     register,
     handleSubmit,

@@ -1,8 +1,8 @@
 /* eslint-disable no-unused-vars */
-import { ReactNode } from 'react';
-import { DataGridInner, DataGridProvider } from '.';
+import { ReactNode } from "react";
+import { DataGridInner, DataGridProvider } from ".";
 
-export type TDataGridTableSpacing = 'xs' | 'sm' | 'lg';
+export type TDataGridTableSpacing = "xs" | "sm" | "lg";
 
 export type TDataGridSelectedRowIds = Set<string>;
 
@@ -16,7 +16,7 @@ export type TDataGridRequestParams = {
 export type FilterColumn = {
   id: string;
   label: string;
-  type: 'text' | 'select' | 'date' | 'number' | 'id';
+  type: "text" | "select" | "date" | "number" | "id";
   options?: { label: string; value: any }[];
   data?: any;
 };

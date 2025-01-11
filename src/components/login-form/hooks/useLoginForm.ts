@@ -1,14 +1,24 @@
-import { useState } from "react";
+// useLoginForm.ts
+
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
-import { useNavigate } from "react-router-dom";
 import { LoginFormValues, loginSchema } from "../validation/loginSchema";
-import LoginService from "../api/loginService";
-const useLoginForm = (linkRedirect: string) => {
-  const { handleLogin } = LoginService();
-  const navigate = useNavigate();
+import { LoginInput } from "@/api/login/schema/login-schema";
+import { useState } from "react";
 
+interface UseLoginFormProps {
+  onLogin: (data: LoginInput) => Promise<void>;
+  onSuccess?: () => void; // optional success callback
+  onError?: (error: unknown) => void; // optional error callback
+  defaultValues?: Partial<LoginFormValues>;
+}
+
+export const useLoginForm = ({
+  onLogin,
+  onSuccess,
+  onError,
+  defaultValues,
+}: UseLoginFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
 
   const {
@@ -17,28 +27,26 @@ const useLoginForm = (linkRedirect: string) => {
     reset,
     formState: { errors },
   } = useForm<LoginFormValues>({
+    defaultValues,
     resolver: zodResolver(loginSchema),
   });
-
   const togglePasswordVisibility = () => setShowPassword(!showPassword);
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      await handleLogin({
+      await onLogin({
         email: data.email,
         password: data.password,
       });
-
-      toast.success("Logged in successfully!");
+      onSuccess?.(); // only call onSuccess if provided
       reset();
-      navigate(linkRedirect);
     } catch (error) {
-      console.error("Login failed:", error);
-      toast.error("Login failed. Please try again.");
+      onError?.(error); // only call onError if provided
     }
   };
 
   return {
+    // Return pieces needed for UI rendering
     register,
     handleSubmit,
     onSubmit,
@@ -47,5 +55,3 @@ const useLoginForm = (linkRedirect: string) => {
     togglePasswordVisibility,
   };
 };
-
-export default useLoginForm;

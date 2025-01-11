@@ -5,11 +5,17 @@ import useDonorForm from "./hooks/useDonorForm";
 import useCharityForm from "./hooks/useCharityForm";
 import DonorFormUI from "./ui/DonorFormUI";
 import CharityFormUI from "./ui/CharityFormUI";
+import { RegisterInput } from "@/api/signup/schema/signup-schema";
 
-const SignUpFormUI = () => {
+const SignUpFormUI = ({
+  handleSignup,
+}: {
+  handleSignup: (data: RegisterInput) => Promise<void>;
+}) => {
   const { isDonor, setIsDonor } = useSignUpForm();
-  const donorForm = useDonorForm();
-  const charityForm = useCharityForm();
+
+  const donorForm = useDonorForm(handleSignup);
+  const charityForm = useCharityForm(handleSignup);
 
   const toggleRole = () => setIsDonor(!isDonor);
 

@@ -1,11 +1,11 @@
-import { LOGIN_URL } from "@/api/auth/constant.ts";
-import { LoginInput } from "../../login/schema/login-schema";
+import { BaseModel } from "@/type/auth/model.ts";
 import * as jose from "jose";
+import { APIResponse } from "@/api/axios.ts";
+import { LOGIN_URL } from "../constant";
+import { LoginInput } from "@/api/login/schema/login-schema";
 import { postRequest } from "@/utils/http-request";
-import { BaseModel } from "@/type/auth/model";
-import { APIResponse } from "@/api/axios";
 
-const login = async (input: LoginInput, key: jose.JWK) => {
+const getMe = async (input: LoginInput, key: jose.JWK) => {
   try {
     const { email, password } = input;
 
@@ -16,10 +16,10 @@ const login = async (input: LoginInput, key: jose.JWK) => {
       .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
 
     const response = await postRequest(LOGIN_URL, jwe);
-    // const responseData = await response.json;
+    const responseData = await response.json;
 
     return {
-      data: undefined,
+      data: responseData,
       status: response.status,
       error: undefined,
     } as unknown as APIResponse<BaseModel>;
@@ -32,4 +32,4 @@ const login = async (input: LoginInput, key: jose.JWK) => {
   }
 };
 
-export { login };
+export { getMe };

@@ -1,26 +1,22 @@
-import { UserDto } from "@/type/auth/model";
 import ProfileDetails from "./_components/profile-details-card";
-import { DonationHistoryTable } from "./_components/donation-history-table";
+import { DonationHistoryTable } from "../../components/donation-history-table/donation-history-table";
 import ShortBanner from "@/components/banner/short-banner/ShortBanner";
 import HeadlessTable from "@/components/tanstack-table/HeadlessTable";
+import { useEffect } from "react";
+import useAuth from "@/hooks/use-auth";
 
 const ProfilePage = () => {
-  // mock
-  const user: UserDto = {
-    id: 1,
-    username: "johndoe",
-    email: "johndoe@example.com",
-    firstName: "John",
-    lastName: "Doe",
-    phone: "+880123456789",
-    profilePictureUrl: "/media/test/logo-test.jpg",
-  };
+  const { auth } = useAuth();
+
+  useEffect(() => {
+    console.log(333, auth);
+  }, [auth]);
 
   return (
     <>
       <ShortBanner title="Profile" />
       <div className="container mx-auto p-6">
-        <ProfileDetails user={user} />
+        <ProfileDetails user={auth} />
         <DonationHistoryTable />
         <HeadlessTable />
       </div>

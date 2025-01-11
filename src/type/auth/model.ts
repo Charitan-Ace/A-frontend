@@ -17,9 +17,9 @@ export interface JWEKey {
 }
 
 export interface BaseModel {
-  id?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
+  email: string;
+  roleId: string;
+  active: boolean;
 }
 
 export interface UserModel {

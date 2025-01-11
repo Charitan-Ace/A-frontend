@@ -1,4 +1,3 @@
-import { LucideIcon } from "@/components/lucide-icons";
 import { Progress } from "@/components/ui/progress";
 import { toAbsoluteUrl } from "@/utils/assets";
 import { Handshake, Users, Hospital, Earth } from "lucide-react";
