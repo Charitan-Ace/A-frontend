@@ -18,7 +18,7 @@ const ProfilePage = () => {
       <div className="container mx-auto p-6">
         <ProfileDetails user={auth} />
         <DonationHistoryTable />
-        <HeadlessTable />
+        {/* <HeadlessTable /> */}
       </div>
     </>
   );

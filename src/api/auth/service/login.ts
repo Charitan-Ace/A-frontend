@@ -8,6 +8,7 @@ import { APIResponse } from "@/api/axios";
 const login = async (input: LoginInput, key: jose.JWK) => {
   try {
     const { email, password } = input;
+    console.log("login", email, password);
 
     const jwe = await new jose.CompactEncrypt(
       new TextEncoder().encode(JSON.stringify({ email, password }))

@@ -1,5 +1,5 @@
 import { clsx } from "clsx";
-import { Navbar, NAVBAR_ITEMS, useNavCurrentItem } from "@/layout/navbar";
+import { Navbar } from "@/layout/navbar";
 import { toAbsoluteUrl } from "@/utils/assets.ts";
 import { UserIndicator } from "@/layout/header/user-indicator.tsx";
 import { useLocation } from "react-router-dom";
