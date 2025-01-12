@@ -4,7 +4,7 @@ import { toast } from "sonner";
 import { DonationInput, donationSchema } from "@/api/donation/schema/donation-schema";
 import { createDonation } from "@/api/donation/service/donation-service";
 
-const useDonateForm = (projectId: string) => {
+const useDonateForm = (projectId: string, onClose: () => void) => {
   const {
     register,
     handleSubmit,
@@ -25,6 +25,7 @@ const useDonateForm = (projectId: string) => {
       };
 
       await createDonation(payload);
+      onClose();
       toast.success("Thank you for your donation!");
       reset();
     } catch (error) {

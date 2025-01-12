@@ -12,7 +12,10 @@ const DonateFormUI = ({
   projectId: string;
   onClose: () => void;
 }) => {
-  const { register, handleSubmit, onSubmit, errors } = useDonateForm(projectId);
+  const { register, handleSubmit, onSubmit, errors } = useDonateForm(
+    projectId,
+    onClose
+  );
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
