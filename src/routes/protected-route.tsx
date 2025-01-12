@@ -11,11 +11,7 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   allowedRoles,
   redirectTo = "/auth/login",
 }) => {
-  const { auth, isLoading, getUser } = useAuthContext();
-
-  useEffect(() => {
-    getUser();
-  }, [getUser]);
+  const { auth, isLoading } = useAuthContext();
 
   if (isLoading) {
     return <div>Loading...</div>;
