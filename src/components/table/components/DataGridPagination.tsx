@@ -89,7 +89,7 @@ const DataGridPagination = () => {
           onClick={() => table.previousPage()}
           disabled={!table.getCanPreviousPage()}
         >
-          <ArrowBack className="rtl:transform rtl:rotate-180" />
+          <ArrowBack className="rtl:transform rtl:rotate-180 hover:text-primary" />
         </button>
 
         {renderEllipsisPrevButton()}
@@ -103,7 +103,7 @@ const DataGridPagination = () => {
           onClick={() => table.nextPage()}
           disabled={!table.getCanNextPage()}
         >
-          <ArrowForward className="rtl:transform rtl:rotate-180" />
+          <ArrowForward className="rtl:transform rtl:rotate-180 hover:text-primary" />
         </button>
       </div>
     </div>

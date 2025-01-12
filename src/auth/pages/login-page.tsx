@@ -11,9 +11,15 @@ const LoginPage = () => {
 
   const handleLoginWithRedirect = async (data: LoginInput) => {
     try {
-      await signIn(data);
+      const response = await signIn(data);
       toast.success("Login successful!");
-      navigate("/profile");
+      console.log(214, "Login response:", response);
+
+      if (response && response.status === 200) {
+        console.log(217, "Login successful!");
+        navigate("/profile");
+      }
+      return response;
     } catch (error) {
       console.error("Login error:", error);
       toast.error("Error logging in. Please try again.");

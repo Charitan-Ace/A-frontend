@@ -10,7 +10,7 @@ import { RegisterInput } from "@/api/signup/schema/signup-schema";
 const SignUpFormUI = ({
   handleSignup,
 }: {
-  handleSignup: (data: RegisterInput) => Promise<void>;
+  handleSignup: (data: RegisterInput) => Promise<any>;
 }) => {
   const { isDonor, setIsDonor } = useSignUpForm();
 

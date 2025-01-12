@@ -5,7 +5,7 @@ import { GET_ME_URL } from "../constant";
 import { LoginInput } from "@/api/login/schema/login-schema";
 import { getRequest } from "@/utils/http-request";
 
-const getMe = async (input: LoginInput, key: jose.JWK) => {
+const getMe = async () => {
   try {
     const response = await getRequest(GET_ME_URL);
     const responseData = await response.json;

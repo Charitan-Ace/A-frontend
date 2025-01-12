@@ -56,15 +56,14 @@ export const DataGridProvider = <TData extends object>({
 }: TDataGridProps<TData> & { children: React.ReactNode }) => {
   const defaultValues: Partial<TDataGridProps<TData>> = {
     messages: {
-      empty: "Không có dữ liệu",
-      loading: "Đang tải",
+      empty: "No Data Found",
+      loading: "Loading...",
     },
     pagination: {
-      info: "{from} -> {to}",
-      // info: '{from} - {to} of {count}',
+      info: "{from} - {to} of {count}",
       sizes: [5, 10, 25, 50, 100],
       sizesLabel: "⚙️",
-      sizesDescription: "dòng / trang",
+      sizesDescription: "rows / page",
       size: 5,
       page: 0,
       moreLimit: 5,

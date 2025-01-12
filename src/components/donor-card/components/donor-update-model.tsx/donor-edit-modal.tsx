@@ -1,22 +1,22 @@
 import React, { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { UserDto } from "@/type/auth/model";
+import { DonorModel } from "@/type/auth/model";
 
-interface ProfileEditModalProps {
-  user: UserDto;
+interface DonorProfileEditModalProps {
+  donor: DonorModel;
   onClose: () => void;
-  onSave: (user: UserDto) => void;
+  onSave: (donor: DonorModel) => void;
 }
 
-const ProfileEditModal = ({
-  user,
+const DonorProfileEditModal = ({
+  donor,
   onClose,
   onSave,
-}: ProfileEditModalProps) => {
-  const [formData, setFormData] = useState<UserDto>({ ...user });
+}: DonorProfileEditModalProps) => {
+  const [formData, setFormData] = useState<DonorModel>({ ...donor });
 
-  const handleInputChange = (field: keyof UserDto, value: string) => {
+  const handleInputChange = (field: keyof DonorModel, value: string) => {
     setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
@@ -32,9 +32,9 @@ const ProfileEditModal = ({
             <input
               id="firstName"
               type="text"
-              value={formData.firstName}
+              value={formData.firstName || ""}
               onChange={(e) => handleInputChange("firstName", e.target.value)}
-              className="border border-gray-300 rounded-md p-2 w-full"
+              className="border border-gray-300 font-sans rounded-md p-2 w-full"
             />
           </div>
           <div>
@@ -44,9 +44,9 @@ const ProfileEditModal = ({
             <input
               id="lastName"
               type="text"
-              value={formData.lastName}
+              value={formData.lastName || ""}
               onChange={(e) => handleInputChange("lastName", e.target.value)}
-              className="border border-gray-300 rounded-md p-2 w-full"
+              className="border border-gray-300 font-sans rounded-md p-2 w-full"
             />
           </div>
           <div>
@@ -56,21 +56,21 @@ const ProfileEditModal = ({
             <input
               id="email"
               type="email"
-              value={formData.email}
+              value={formData.email || ""}
               onChange={(e) => handleInputChange("email", e.target.value)}
-              className="border border-gray-300 rounded-md p-2 w-full"
+              className="border border-gray-300 font-sans rounded-md p-2 w-full"
             />
           </div>
           <div>
-            <Label htmlFor="phone" className="text-gray-700">
-              Phone
+            <Label htmlFor="address" className="text-gray-700">
+              Address
             </Label>
             <input
-              id="phone"
-              type="tel"
-              value={formData.phone || ""}
-              onChange={(e) => handleInputChange("phone", e.target.value)}
-              className="border border-gray-300 rounded-md p-2 w-full"
+              id="address"
+              type="text"
+              value={formData.address || ""}
+              onChange={(e) => handleInputChange("address", e.target.value)}
+              className="border border-gray-300 font-sans rounded-md p-2 w-full"
             />
           </div>
         </form>
@@ -93,4 +93,4 @@ const ProfileEditModal = ({
   );
 };
 
-export { ProfileEditModal };
+export { DonorProfileEditModal };

@@ -16,7 +16,7 @@ interface LoginFormProps {
   linkForgotPassword: string;
   linkSignUp: string;
 
-  onLogin: (data: LoginInput) => Promise<void>;
+  onLogin: (data: LoginInput) => Promise<any>;
 
   onSuccess?: () => void;
   onError?: (error: unknown) => void;
@@ -34,6 +34,7 @@ export const LoginFormUI: React.FC<LoginFormProps> = ({
     handleSubmit,
     onSubmit,
     errors,
+    isError,
     showPassword,
     togglePasswordVisibility,
   } = useLoginForm({ onLogin, onSuccess, onError });
@@ -73,6 +74,12 @@ export const LoginFormUI: React.FC<LoginFormProps> = ({
           ),
         }}
       />
+
+      {isError && (
+        <Typography variant="body2" color="error" align="center">
+          Error occur, please try again
+        </Typography>
+      )}
 
       <Button
         type="submit"

@@ -3,7 +3,7 @@ import { postRequest } from "@/utils/http-request";
 import { APIResponse } from "@/api/axios";
 import { BaseModel } from "@/type/auth/model";
 
-const logout = async () => {
+const logoutMe = async () => {
   try {
     const response = await postRequest(LOGOUT_URL, {});
 
@@ -21,4 +21,4 @@ const logout = async () => {
   }
 };
 
-export { logout };
+export { logoutMe };

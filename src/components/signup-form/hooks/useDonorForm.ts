@@ -3,8 +3,9 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { toast } from "sonner";
 import { DonorFormValues, donorSchema } from "../validation/donorSchema";
 import { RegisterInput } from "@/api/signup/schema/signup-schema";
+import { useState } from "react";
 
-const useDonorForm = (handleSignup: (data: RegisterInput) => Promise<void>) => {
+const useDonorForm = (handleSignup: (data: RegisterInput) => Promise<any>) => {
   const {
     register,
     handleSubmit,
@@ -14,15 +15,22 @@ const useDonorForm = (handleSignup: (data: RegisterInput) => Promise<void>) => {
     resolver: zodResolver(donorSchema),
   });
 
+  const [isError, setIsError] = useState(false);
+
   const onSubmit = async (data: DonorFormValues) => {
     try {
       console.log("Submitting Donor data:", data);
-      await handleSignup({
+      const response = await handleSignup({
         email: data.email,
         password: data.password,
         role: "DONOR",
         profile: { ...data.profile },
       });
+
+      if (response.status !== 200) {
+        setIsError(true);
+        return;
+      }
       toast.success("Donor registration successful!");
       reset();
     } catch (error) {
@@ -36,6 +44,7 @@ const useDonorForm = (handleSignup: (data: RegisterInput) => Promise<void>) => {
     handleSubmit,
     onSubmit,
     errors,
+    isError,
   };
 };
 
