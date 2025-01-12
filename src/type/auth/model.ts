@@ -27,6 +27,8 @@ export interface UserModel {
   email?: string;
   isVerified?: boolean;
   auth?: AuthModel;
+  role?: string;
+  active?: boolean;
 }
 
 export interface DonorModel extends UserModel {
@@ -38,7 +40,7 @@ export interface DonorModel extends UserModel {
 }
 
 export interface CharityModel extends UserModel {
-  name?: string;
+  companyName?: string;
   organizationType?: OrganizationType;
   address?: string;
   taxCode?: string;
@@ -50,7 +52,7 @@ export interface CharityModel extends UserModel {
 }
 
 export enum OrganizationType {
-  COMPANY = "COMPANY",
+  ORGANIZATION = "ORGANIZATION",
   INDIVIDUAL = "INDIVIDUAL",
   NON_PROFIT = "NON_PROFIT",
 }

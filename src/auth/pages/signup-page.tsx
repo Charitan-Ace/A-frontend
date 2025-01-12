@@ -1,4 +1,3 @@
-import React from "react";
 import BreadcrumbHeader from "@/components/breadcrumb-header";
 import SignUpFormUI from "@/components/signup-form/signup-form";
 import { RegisterInput } from "@/api/signup/schema/signup-schema";
@@ -12,12 +11,13 @@ const SignUp = () => {
 
   const handleSignUp = async (data: RegisterInput) => {
     try {
-      await signUp(data);
-      console.log("Signup successful!");
-      console.log("Signing up with data:", data);
-
+      const response = await signUp(data);
       toast.success("Registration successful!");
-      navigate("/auth/login");
+
+      if (response && response?.status === 200) {
+        navigate("/auth/login");
+      }
+      return response;
     } catch (error) {
       console.error("Sign up failed:", error);
       toast.error("Sign up failed. Please try again.");

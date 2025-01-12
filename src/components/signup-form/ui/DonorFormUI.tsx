@@ -7,11 +7,13 @@ const DonorFormUI = ({
   handleSubmit,
   onSubmit,
   errors,
+  isError,
 }: {
   register: any;
   handleSubmit: any;
   onSubmit: any;
   errors: any;
+  isError: boolean;
 }) => {
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -52,13 +54,13 @@ const DonorFormUI = ({
         error={!!errors.profile?.lastName}
         helperText={errors.profile?.lastName?.message}
       />
-      {/* <TextField
-        label="Phone Number"
-        variant="outlined"
-        fullWidth
-        margin="normal"
-        {...register("profile.phoneNumber")}
-      /> */}
+
+      {isError && (
+        <div className="w-full flex justify-center text-red-500 text-sm font-montserrat">
+          Registration failed. Please try again.
+        </div>
+      )}
+
       <Button
         type="submit"
         color="primary"

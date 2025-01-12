@@ -7,7 +7,7 @@ import { LoginInput } from "@/api/login/schema/login-schema";
 import { useState } from "react";
 
 interface UseLoginFormProps {
-  onLogin: (data: LoginInput) => Promise<void>;
+  onLogin: (data: LoginInput) => Promise<any>;
   onSuccess?: () => void; // optional success callback
   onError?: (error: unknown) => void; // optional error callback
   defaultValues?: Partial<LoginFormValues>;
@@ -20,6 +20,7 @@ export const useLoginForm = ({
   defaultValues,
 }: UseLoginFormProps) => {
   const [showPassword, setShowPassword] = useState(false);
+  const [isError, setIsError] = useState(false);
 
   const {
     register,
@@ -34,24 +35,28 @@ export const useLoginForm = ({
 
   const onSubmit = async (data: LoginFormValues) => {
     try {
-      await onLogin({
+      const response = await onLogin({
         email: data.email,
         password: data.password,
       });
-      onSuccess?.(); // only call onSuccess if provided
+      if (response.status !== 200) {
+        setIsError(true);
+      }
+      onSuccess?.();
       reset();
     } catch (error) {
-      onError?.(error); // only call onError if provided
+      console.log("Login error:", error);
+      onError?.(error);
     }
   };
 
   return {
-    // Return pieces needed for UI rendering
     register,
     handleSubmit,
     onSubmit,
     errors,
     showPassword,
     togglePasswordVisibility,
+    isError,
   };
 };
