@@ -1,3 +1,6 @@
+// LoginFormUI.tsx
+
+import React from "react";
 import {
   TextField,
   Typography,
@@ -6,25 +9,35 @@ import {
 } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
 import { Button } from "@/components/ui/button";
-import useLoginForm from "./hooks/useLoginForm";
+import { LoginInput } from "@/api/login/schema/login-schema";
+import { useLoginForm } from "./hooks/useLoginForm";
 
-const LoginFormUI = ({
-  linkRedirect,
-  linkForgotPassword,
-  linkSignUp,
-}: {
-  linkRedirect: string;
+interface LoginFormProps {
   linkForgotPassword: string;
   linkSignUp: string;
+
+  onLogin: (data: LoginInput) => Promise<any>;
+
+  onSuccess?: () => void;
+  onError?: (error: unknown) => void;
+}
+
+export const LoginFormUI: React.FC<LoginFormProps> = ({
+  linkForgotPassword,
+  linkSignUp,
+  onLogin,
+  onSuccess,
+  onError,
 }) => {
   const {
     register,
     handleSubmit,
     onSubmit,
     errors,
+    isError,
     showPassword,
     togglePasswordVisibility,
-  } = useLoginForm(linkRedirect);
+  } = useLoginForm({ onLogin, onSuccess, onError });
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} noValidate>
@@ -62,6 +75,12 @@ const LoginFormUI = ({
         }}
       />
 
+      {isError && (
+        <Typography variant="body2" color="error" align="center">
+          Error occur, please try again
+        </Typography>
+      )}
+
       <Button
         type="submit"
         color="primary"
@@ -77,7 +96,7 @@ const LoginFormUI = ({
       </Typography>
 
       <Typography variant="body2" align="center" className="mt-1">
-        Don't have an account?{" "}
+        Don&apos;t have an account?{" "}
         <a href={linkSignUp} className="text-primary hover:underline">
           Sign Up
         </a>
@@ -85,5 +104,3 @@ const LoginFormUI = ({
     </form>
   );
 };
-
-export default LoginFormUI;

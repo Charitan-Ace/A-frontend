@@ -10,8 +10,7 @@ import {
   useReactTable,
   ColumnFiltersState,
 } from "@tanstack/react-table";
-import { createContext, useContext, useEffect, useRef, useState } from "react";
-import { DataGridInner } from "./DataGridInner";
+import { createContext, useContext, useEffect, useState } from "react";
 import {
   FilterColumn,
   TDataGridProps,
@@ -51,20 +50,20 @@ export const useDataGrid = () => {
   return context;
 };
 
-export const DataGridProvider = <TData extends object>(
-  props: TDataGridProps<TData>
-) => {
+export const DataGridProvider = <TData extends object>({
+  children,
+  ...props
+}: TDataGridProps<TData> & { children: React.ReactNode }) => {
   const defaultValues: Partial<TDataGridProps<TData>> = {
     messages: {
-      empty: "Không có dữ liệu",
-      loading: "Đang tải",
+      empty: "No Data Found",
+      loading: "Loading...",
     },
     pagination: {
-      info: "{from} -> {to}",
-      // info: '{from} - {to} of {count}',
-      sizes: [5, 10, 25, 50, 100],
+      info: "{from} - {to} of total {count}",
+      sizes: [1, 10, 25, 50, 100],
       sizesLabel: "⚙️",
-      sizesDescription: "dòng / trang",
+      sizesDescription: "rows / page",
       size: 5,
       page: 0,
       moreLimit: 5,
@@ -118,12 +117,12 @@ export const DataGridProvider = <TData extends object>(
       };
 
       const { data, total } = await mergedProps.onFetchData(requestParams);
-      console.log(0, "data exists", total, data);
+
+      console.log("Data fetched:", data, total);
       if (data) {
-        console.log(1, "data exists", total, data);
         setData(data);
         setTotalRows(total);
-        setIsInitialized(true); // Mark initialization as complete
+        setIsInitialized(true);
       } else {
         console.log(2, "data does not exist", total, data);
         setData([]);
@@ -135,12 +134,12 @@ export const DataGridProvider = <TData extends object>(
       console.error("Failed to fetch data:", error);
 
       setLoading(false);
-      setIsInitialized(true); // Mark initialization as complete
+      setIsInitialized(true);
     }
   };
 
   const table = useReactTable({
-    columns: mergedProps.columns, // Access columns from mergedProps
+    columns: mergedProps.columns,
     data: data,
     debugTable: false,
     pageCount: mergedProps.serverSide
@@ -254,7 +253,7 @@ export const DataGridProvider = <TData extends object>(
         isInitialized,
       }}
     >
-      <DataGridInner />
+      {children}
     </DataGridContext.Provider>
   );
 };

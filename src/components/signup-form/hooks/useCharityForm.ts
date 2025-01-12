@@ -1,11 +1,13 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import APIClient from "@/api/client";
-import AuthService from "@/api/auth/service/auth-service";
 import { toast } from "sonner";
 import { CharityFormValues, charitySchema } from "../validation/charitySchema";
+import { RegisterInput } from "@/api/signup/schema/signup-schema";
+import { useState } from "react";
 
-const useCharityForm = () => {
+const useCharityForm = (
+  handleSignup: (data: RegisterInput) => Promise<any>
+) => {
   const {
     register,
     handleSubmit,
@@ -15,18 +17,21 @@ const useCharityForm = () => {
     resolver: zodResolver(charitySchema),
   });
 
-  const apiClient = new APIClient("http://localhost:8080");
-  const authService = new AuthService(apiClient);
+  const [isError, setIsError] = useState(false);
 
   const onSubmit = async (data: CharityFormValues) => {
     try {
       console.log("Submitting Charity data:", data);
-      await authService.register(
-        data.email,
-        data.password,
-        "CHARITY",
-        data.profile
-      );
+      const response = await handleSignup({
+        email: data.email,
+        password: data.password,
+        role: "CHARITY",
+        profile: { ...data.profile, organizationType: "ORGANIZATION" },
+      });
+      if (response.status !== 200) {
+        setIsError(true);
+        return;
+      }
       toast.success("Charity registration successful!");
       reset();
     } catch (error) {
@@ -40,6 +45,7 @@ const useCharityForm = () => {
     handleSubmit,
     onSubmit,
     errors,
+    isError,
   };
 };
 

@@ -8,24 +8,33 @@ import {
 } from "react";
 
 import * as authHelper from "../_helper.ts";
-import { type AuthModel, type UserModel } from "@/type/auth/model.ts";
-import { getMe, login, register } from "@/api/auth";
-import { RegisterInput } from "@/api/auth/schema/signup-schema.ts";
+import {
+  BaseModel,
+  CharityModel,
+  DonorModel,
+  UserModel,
+} from "@/type/auth/model.ts";
+import { getMe, login, register, logoutMe } from "@/api/auth";
+import { RegisterInput } from "@/api/signup/schema/signup-schema.ts";
 import { APIResponse } from "@/api/axios.ts";
-import { LoginInput } from "@/api/auth/schema/login-schema.ts";
+import { LoginInput } from "@/api/login/schema/login-schema.ts";
 
 interface AuthContextProps {
   isLoading: boolean;
-  auth: AuthModel | undefined;
-  saveAuth: (auth: AuthModel | undefined) => void;
+  auth: CharityModel | DonorModel | undefined;
+  saveAuth: (auth: CharityModel | DonorModel | undefined) => void;
   currentUser: UserModel | undefined;
   setCurrentUser: Dispatch<SetStateAction<UserModel | undefined>>;
-  signIn: (loginInfo: LoginInput) => Promise<void>;
+  signIn: (
+    loginInfo: LoginInput
+  ) => Promise<APIResponse<BaseModel> | undefined>;
   loginWithGoogle?: () => Promise<void>;
   loginWithFacebook?: () => Promise<void>;
-  signUp: (something: RegisterInput) => Promise<void>;
+  signUp: (
+    signupInfo: RegisterInput
+  ) => Promise<APIResponse<BaseModel> | undefined>;
   getUser: () => Promise<APIResponse<UserModel>>;
-  logout: () => void;
+  logout: () => Promise<APIResponse<BaseModel> | undefined>;
   verify: () => Promise<void>;
 }
 
@@ -33,17 +42,14 @@ const AuthContext = createContext<AuthContextProps | null>(null);
 
 const AuthProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(true);
-  const [auth, setAuth] = useState<AuthModel | undefined>(
-    authHelper.getCookieAuth()
-  );
+  const [auth, setAuth] = useState<BaseModel | undefined>();
   const [currentUser, setCurrentUser] = useState<UserModel | undefined>();
 
   const verify = async () => {
-    if (!auth) return;
     try {
-      console.log(888, auth);
-      const { data: user } = await getUser();
-      setCurrentUser(user);
+      const { data } = await getUser();
+      setAuth(data);
+      setCurrentUser(data);
     } catch {
       saveAuth(undefined);
       setCurrentUser(undefined);
@@ -56,7 +62,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     });
   }, []);
 
-  const saveAuth = (auth: AuthModel | undefined) => {
+  const saveAuth = (auth: any | undefined) => {
     setAuth(auth);
     if (auth) {
       authHelper.setCookieAuth(auth);
@@ -66,44 +72,43 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   const signIn = async (loginInfo: LoginInput) => {
-    try {
-      const { data: auth } = await login(loginInfo);
-      saveAuth(auth);
-      console.log(999);
-      const { data: user } = await getUser();
-      setCurrentUser(user);
-    } catch (error) {
-      saveAuth(undefined);
-      throw new Error(`Error ${error}`);
+    const response = await login(loginInfo);
+    console.log(111, "login response", response);
+
+    if (response.status == 200) {
+      window.location.href = "/profile";
     }
+
+    return response;
   };
 
-  const signUp = async (something: RegisterInput) => {
-    const { data, error } = await register(something);
-    if (error) {
-      saveAuth(undefined);
-      throw new Error(`Error ${error}`);
+  const signUp = async (registerInfo: RegisterInput) => {
+    const response = await register(registerInfo);
+    console.log(222, "signup response", response);
+
+    if (response.status == 200) {
+      window.location.href = "/auth/login";
     }
 
-    if (!data) {
-      saveAuth(undefined);
-      throw new Error(`Something went wrong while signing up!`);
-    }
-
-    saveAuth(auth);
-    console.log(9898);
-    const { data: userData } = await getUser();
-
-    setCurrentUser(userData);
+    return response;
   };
 
   const getUser = async () => {
-    return await getMe();
+    const response = await getMe();
+    console.log(333, "getMe response", response);
+
+    if (response.status == 200) {
+      setAuth(response.data);
+    }
+
+    return response;
   };
 
-  const logout = () => {
-    saveAuth(undefined);
-    setCurrentUser(undefined);
+  const logout = async () => {
+    const response = await logoutMe();
+    console.log(444, "logout response", response);
+
+    return response;
   };
 
   return (

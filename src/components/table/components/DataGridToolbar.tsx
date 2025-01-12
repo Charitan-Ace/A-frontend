@@ -1,11 +1,11 @@
-import React from 'react';
-import { DataGridPagination, useDataGrid } from '..';
+import React from "react";
+import { DataGridPagination, useDataGrid } from "..";
 
 const DataGridToolbar = () => {
   const { table, props } = useDataGrid();
 
   return (
-    <div className="card-footer justify-center md:justify-between flex-col md:flex-row gap-3 text-gray-600 text-2sm font-medium">
+    <div className="card-footer justify-center flex md:justify-between flex-col md:flex-row gap-3 text-gray-600 text-2sm font-medium">
       <div className="flex items-center gap-2">
         {props.pagination?.sizesLabel}
         <select
@@ -20,9 +20,10 @@ const DataGridToolbar = () => {
               {size}
             </option>
           ))}
-        </select>{' '}
+        </select>{" "}
         {props.pagination?.sizesDescription}
       </div>
+      {/* ----------------- */}
       <DataGridPagination />
     </div>
   );

@@ -1,15 +1,19 @@
 import { clsx } from "clsx";
-import { Navbar, NAVBAR_ITEMS, useNavCurrentItem } from "@/layout/navbar";
+import { Navbar } from "@/layout/navbar";
 import { toAbsoluteUrl } from "@/utils/assets.ts";
 import { UserIndicator } from "@/layout/header/user-indicator.tsx";
 import { useLocation } from "react-router-dom";
+import HeadlessButton from "@/components/button/headless-button/HeadlessButton";
+import useAuth from "@/hooks/use-auth";
 
 const Header = () => {
-  const currentLocation = useLocation();
-  const currentNavigation = useNavCurrentItem(
-    currentLocation.pathname,
-    NAVBAR_ITEMS
-  );
+  const { logout } = useAuth();
+
+  // const currentLocation = useLocation();
+  // const currentNavigation = useNavCurrentItem(
+  //   currentLocation.pathname,
+  //   NAVBAR_ITEMS
+  // );
 
   // console.log("currentNavigation", currentNavigation, NAVBAR_ITEMS);
 
@@ -34,6 +38,12 @@ const Header = () => {
             <Navbar />
           </div>
           <div className="basis-1/4">
+            <HeadlessButton
+              title="Logout"
+              color="green"
+              text="white"
+              onClick={logout}
+            />
             <UserIndicator />
           </div>
         </div>

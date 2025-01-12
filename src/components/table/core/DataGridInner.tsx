@@ -48,7 +48,7 @@ const DataGridInner = <TData extends object>() => {
   return (
     <Fragment>
       <div className="grid min-w-full">
-        <div className="scrollable-x-auto min-h-96">
+        <div className="scrollable-x-auto">
           <DataGridTable>
             <DataGridTableHead>
               {table
@@ -62,7 +62,7 @@ const DataGridInner = <TData extends object>() => {
             <DataGridTableBody>
               <DataGridFilter />
               {!isInitialized ? (
-                <div></div>
+                <tr></tr>
               ) : table.getRowModel().rows.length > 0 ? (
                 renderRows(table.getRowModel().rows)
               ) : (

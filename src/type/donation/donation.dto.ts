@@ -1,6 +1,9 @@
 export interface DonationDto {
-    id: number;
-    project: string;
-    date: string;
-    amount: string;
-  }
+  id: number;
+  amount: number;
+  message: string;
+  transactionStripeId: string | null;
+  projectId: string;
+  donorId: string;
+  createdAt: string;
+}

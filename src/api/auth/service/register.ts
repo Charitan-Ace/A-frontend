@@ -1,49 +1,47 @@
 import axios from "axios";
 import { APIResponse, ValidationError } from "@/api/axios.ts";
 import { REGISTER_URL } from "@/api/auth/constant.ts";
-import { RegisterInput } from "@/api/auth/schema/signup-schema";
-import { AuthModel } from "@/type/auth/model.ts";
+import { RegisterInput } from "@/api/signup/schema/signup-schema";
+import { BaseModel } from "@/type/auth/model.ts";
 import * as jose from "jose";
+import { postRequest } from "@/utils/http-request";
+import { encryptionKey } from "./get-key";
+// import { error } from "console";
 
-//DEPRECATED
-export const encryptionKey = async () => {
-  const response = await axios.get<jose.JWK>("/.well-known/jwk");
-  return response.data;
-};
-
-const register = async (input: RegisterInput) => {
+const register = async (
+  input: RegisterInput
+): Promise<APIResponse<BaseModel>> => {
   try {
     const key = await encryptionKey();
 
+    console.log("Registering user with data:", input);
     const jwe = await new jose.CompactEncrypt(
       new TextEncoder().encode(JSON.stringify(input))
     )
       .setProtectedHeader({ alg: "RSA-OAEP-256", enc: "A256GCM" })
       .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
 
-    const { data, status } = await axios.post<string>(REGISTER_URL, jwe, {
-      headers: {
-        "Content-Type": "application/jose",
-      },
-    });
+    const url = REGISTER_URL;
+    const response = await postRequest(url, jwe);
 
     return {
-      data: data,
-      status: status,
-    } as unknown as APIResponse<AuthModel>;
+      data: undefined,
+      status: response.status,
+      error: undefined,
+    };
   } catch (error) {
     if (!axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
       return {
-        data: null,
+        data: undefined,
         error: JSON.stringify(error),
         status: 400,
-      } as unknown as APIResponse<AuthModel>;
+      };
     }
     return {
-      data: null,
+      data: undefined,
       error: error.message,
       status: error.response?.status || 400,
-    } as unknown as APIResponse<AuthModel>;
+    };
   }
 };
 

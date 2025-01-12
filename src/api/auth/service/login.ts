@@ -1,45 +1,38 @@
-import axios from "axios";
-import { APIResponse, ValidationError } from "@/api/axios.ts";
 import { LOGIN_URL } from "@/api/auth/constant.ts";
-import { AuthModel } from "@/type/auth/model.ts";
-import { LoginInput } from "../schema/login-schema";
-import { encryptionKey } from "./register";
+import { LoginInput } from "../../login/schema/login-schema";
 import * as jose from "jose";
+import { postRequest } from "@/utils/http-request";
+import { BaseModel } from "@/type/auth/model";
+import { APIResponse } from "@/api/axios";
+import { encryptionKey } from "./get-key";
 
-//DEPRECATED
 const login = async (input: LoginInput) => {
   try {
     const key = await encryptionKey();
 
+    const { email, password } = input;
+    console.log("login", email, password);
+
     const jwe = await new jose.CompactEncrypt(
-      new TextEncoder().encode(JSON.stringify(input))
+      new TextEncoder().encode(JSON.stringify({ email, password }))
     )
       .setProtectedHeader({ alg: "RSA-OAEP-256", enc: "A256GCM" })
       .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
 
-    const { data, status } = await axios.post<string>(LOGIN_URL, jwe, {
-      headers: {
-        "Content-Type": "application/jose",
-      },
-    });
+    const response = await postRequest(LOGIN_URL, jwe);
+    // const responseData = await response.json;
 
     return {
-      data: data,
-      status: status,
-    } as unknown as APIResponse<AuthModel>;
-  } catch (error) {
-    if (!axios.isAxiosError<ValidationError, Record<string, unknown>>(error)) {
-      return {
-        data: null,
-        error: JSON.stringify(error),
-        status: 400,
-      } as unknown as APIResponse<AuthModel>;
-    }
+      data: undefined,
+      status: response.status,
+      error: undefined,
+    } as unknown as APIResponse<BaseModel>;
+  } catch (error: any) {
     return {
-      data: null,
+      data: undefined,
       error: error.message,
       status: error.status,
-    } as unknown as APIResponse<AuthModel>;
+    } as unknown as APIResponse<BaseModel>;
   }
 };
 

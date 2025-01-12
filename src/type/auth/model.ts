@@ -1,7 +1,7 @@
 // import { type TLanguageCode } from '@/i18n';
 export interface LoginResponse {
-  auth: AuthModel;
-  jwe: JWEKey;
+  auth?: AuthModel;
+  jwe?: JWEKey;
 }
 export interface AuthModel {
   access_token: string;
@@ -17,40 +17,42 @@ export interface JWEKey {
 }
 
 export interface BaseModel {
-  id: number;
-  createdAt: Date;
-  updatedAt: Date;
+  email: string;
+  roleId: string;
+  active: boolean;
 }
 
 export interface UserModel {
-  id: number;
-  email: string;
-  isVerified: boolean;
+  id?: number;
+  email?: string;
+  isVerified?: boolean;
   auth?: AuthModel;
+  roleId?: string;
+  active?: boolean;
 }
 
 export interface DonorModel extends UserModel {
-  firstName: string;
-  lastName: string;
-  address: string;
-  avatar: string;
-  donorStripeId: string;
+  firstName?: string;
+  lastName?: string;
+  address?: string;
+  avatar?: string;
+  donorStripeId?: string;
 }
 
 export interface CharityModel extends UserModel {
-  name: string;
-  organizationType: OrganizationType;
-  address: string;
-  taxCode: string;
-  description: string;
-  image: string[];
-  video: string[];
-  logo: string;
-  charityStripeId: string;
+  companyName?: string;
+  organizationType?: OrganizationType;
+  address?: string;
+  taxCode?: string;
+  description?: string;
+  image?: string[];
+  video?: string[];
+  logo?: string;
+  charityStripeId?: string;
 }
 
 export enum OrganizationType {
-  COMPANY = "COMPANY",
+  ORGANIZATION = "ORGANIZATION",
   INDIVIDUAL = "INDIVIDUAL",
   NON_PROFIT = "NON_PROFIT",
 }
@@ -62,12 +64,11 @@ export interface Admin {
 }
 
 export interface UserDto {
-    id: number;
-    username: string;
-    email: string;
-    firstName: string;
-    lastName: string;
-    phone?: string;
-    profilePictureUrl?: string;
-  }
-  
+  id: number;
+  username: string;
+  email: string;
+  firstName: string;
+  lastName: string;
+  phone?: string;
+  profilePictureUrl?: string;
+}
