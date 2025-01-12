@@ -5,19 +5,14 @@ import { TextField } from "@mui/material";
 
 const DonateFormUI = ({
   projectName,
+  projectId,
   onClose,
 }: {
   projectName: string;
+  projectId: string;
   onClose: () => void;
 }) => {
-  const {
-    register,
-    handleSubmit,
-    onSubmit,
-    errors,
-    donationTotal,
-    setDonationTotal,
-  } = useDonateForm();
+  const { register, handleSubmit, onSubmit, errors } = useDonateForm(projectId);
 
   useEffect(() => {
     document.body.style.overflow = "hidden";
@@ -46,45 +41,6 @@ const DonateFormUI = ({
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-          {/* <div className="grid grid-cols-2 gap-4 mb-4">
-            <Button
-              type="button"
-              className={`bg-gray-200 hover:bg-emerald-900 ${
-                donationTotal === 10 ? "bg-primary text-white" : "text-black"
-              }`}
-              onClick={() => setDonationTotal(10)}
-            >
-              $10
-            </Button>
-            <Button
-              type="button"
-              className={`bg-gray-200 hover:bg-emerald-900 ${
-                donationTotal === 25 ? "bg-primary text-white" : "text-black"
-              }`}
-              onClick={() => setDonationTotal(25)}
-            >
-              $25
-            </Button>
-            <Button
-              type="button"
-              className={`bg-gray-200 hover:bg-emerald-900 ${
-                donationTotal === 50 ? "bg-primary text-white" : "text-black"
-              }`}
-              onClick={() => setDonationTotal(50)}
-            >
-              $50
-            </Button>
-            <Button
-              type="button"
-              className={`bg-gray-200 hover:bg-emerald-900 ${
-                donationTotal === 100 ? "bg-primary text-white" : "text-black"
-              }`}
-              onClick={() => setDonationTotal(100)}
-            >
-              $100
-            </Button>
-          </div> */}
-
           <TextField
             label="Donation Amount"
             type="number"
@@ -120,7 +76,7 @@ const DonateFormUI = ({
             helperText={errors.email?.message}
           />
           <TextField
-            label="Leave A Comment"
+            label="Leave A Message"
             multiline
             rows={3}
             fullWidth
@@ -129,15 +85,10 @@ const DonateFormUI = ({
             error={!!errors.message}
             helperText={errors.message?.message}
           />
-          {/* <label className="flex items-center space-x-2 mb-4">
-            <input type="checkbox" {...register("agreeToTerms")} />
-            <span>Agree to terms?</span>
-          </label> */}
-
-          <p className="text-right font-medium mb-4">
-            Donation Total: ${donationTotal}
-          </p>
-          <Button type="submit" className="bg-primary w-full hover:bg-emerald-900">
+          <Button
+            type="submit"
+            className="bg-primary w-full hover:bg-emerald-900"
+          >
             Donate Now
           </Button>
         </form>
