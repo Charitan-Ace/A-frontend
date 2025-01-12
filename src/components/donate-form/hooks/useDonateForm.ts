@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { toast } from "sonner";
+import { toast } from "react-toastify";
 import { DonationInput, donationSchema } from "@/api/donation/schema/donation-schema";
 import { createDonation } from "@/api/donation/service/donation-service";
 
@@ -25,9 +25,9 @@ const useDonateForm = (projectId: string, onClose: () => void) => {
       };
 
       await createDonation(payload);
+      toast.success("Donate successfully. Thank you for your donation!");
       onClose();
-      toast.success("Thank you for your donation!");
-      reset();
+      // reset();
     } catch (error) {
       console.error("Donation failed:", error);
       toast.error("Failed to process the donation. Please try again.");

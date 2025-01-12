@@ -4,6 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { parseAsInteger, parseAsStringEnum, useQueryStates } from "nuqs";
 import { FilterController, ProjectCard, ProjectLoading } from "./_components";
 import { Pagination } from "@/components/pagination/pagination";
+import { ToastContainer } from "react-toastify";
 
 const ProjectPage = () => {
   const [queryParams, setQueryParams] = useQueryStates(
@@ -66,6 +67,7 @@ const ProjectPage = () => {
               <ProjectCard key={index} project={project} />
             ))}
         </div>
+        <ToastContainer />
       </div>
     </div>
   );
