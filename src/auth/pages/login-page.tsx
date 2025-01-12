@@ -2,23 +2,16 @@ import { LoginInput } from "@/api/login/schema/login-schema";
 import BreadcrumbHeader from "@/components/breadcrumb-header";
 import { LoginFormUI } from "@/components/login-form/login-form";
 import useAuth from "@/hooks/use-auth";
-import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 
 const LoginPage = () => {
-  const navigate = useNavigate();
   const { signIn } = useAuth();
 
   const handleLoginWithRedirect = async (data: LoginInput) => {
     try {
       const response = await signIn(data);
       toast.success("Login successful!");
-      console.log(214, "Login response:", response);
 
-      if (response && response.status === 200) {
-        console.log(217, "Login successful!");
-        navigate("/profile");
-      }
       return response;
     } catch (error) {
       console.error("Login error:", error);

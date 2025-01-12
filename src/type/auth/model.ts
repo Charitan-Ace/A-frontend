@@ -27,7 +27,7 @@ export interface UserModel {
   email?: string;
   isVerified?: boolean;
   auth?: AuthModel;
-  role?: string;
+  roleId?: string;
   active?: boolean;
 }
 

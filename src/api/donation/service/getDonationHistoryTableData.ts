@@ -1,5 +1,5 @@
 import { getRequest } from "@/utils/http-request";
-import { DONATIONS_URL } from "./../../../api/donation/constant";
+import { GET_MY_DONATIONS_URL } from "./../../../api/donation/constant";
 
 const getDonationHistoryTableData = async ({
   pageIndex,
@@ -10,7 +10,7 @@ const getDonationHistoryTableData = async ({
 }) => {
   try {
     const response = await getRequest(
-      `${DONATIONS_URL}?page=${pageIndex}&limit=${pageSize}`
+      `${GET_MY_DONATIONS_URL}?page=${pageIndex}&limit=${pageSize}`
     );
     const data = await response.json;
     console.log(data);
