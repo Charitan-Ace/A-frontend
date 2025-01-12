@@ -18,8 +18,6 @@ import { getMe, login, register, logoutMe } from "@/api/auth";
 import { RegisterInput } from "@/api/signup/schema/signup-schema.ts";
 import { APIResponse } from "@/api/axios.ts";
 import { LoginInput } from "@/api/login/schema/login-schema.ts";
-import { encryptionKey } from "@/api/auth/service/get-key.ts";
-import { JWK } from "jose";
 
 interface AuthContextProps {
   isLoading: boolean;
@@ -38,7 +36,6 @@ interface AuthContextProps {
   getUser: () => Promise<APIResponse<UserModel>>;
   logout: () => Promise<APIResponse<BaseModel> | undefined>;
   verify: () => Promise<void>;
-  jwkKey: JWK | undefined;
 }
 
 const AuthContext = createContext<AuthContextProps | null>(null);
@@ -47,13 +44,12 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   const [loading, setLoading] = useState(true);
   const [auth, setAuth] = useState<BaseModel | undefined>();
   const [currentUser, setCurrentUser] = useState<UserModel | undefined>();
-  const [jwkKey, setJwkKey] = useState<JWK | undefined>();
 
   const verify = async () => {
-    if (!auth) return;
     try {
-      const { data: user } = await getUser();
-      setCurrentUser(user);
+      const { data } = await getUser();
+      setAuth(data);
+      setCurrentUser(data);
     } catch {
       saveAuth(undefined);
       setCurrentUser(undefined);
@@ -64,18 +60,7 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     verify().finally(() => {
       setLoading(false);
     });
-    getKey();
   }, []);
-
-  // TODO: change to correct getMe
-  useEffect(() => {
-    getUser();
-  }, [jwkKey]);
-
-  const getKey = async () => {
-    const key = await encryptionKey();
-    setJwkKey(key);
-  };
 
   const saveAuth = (auth: any | undefined) => {
     setAuth(auth);
@@ -87,44 +72,39 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
   };
 
   const signIn = async (loginInfo: LoginInput) => {
-    if (!jwkKey) {
-      console.log("JWK key is not defined");
-      throw new Error("JWK key is not defined");
-    }
-    const response = await login(loginInfo, jwkKey);
+    const response = await login(loginInfo);
     console.log(111, "login response", response);
 
-    await getUser();
+    if (response.status == 200) {
+      window.location.href = "/profile";
+    }
+
     return response;
   };
 
   const signUp = async (registerInfo: RegisterInput) => {
-    if (!jwkKey) {
-      throw new Error("JWK key is not defined");
-    }
-    const response = await register(registerInfo, jwkKey);
+    const response = await register(registerInfo);
     console.log(222, "signup response", response);
+
+    if (response.status == 200) {
+      window.location.href = "/auth/login";
+    }
 
     return response;
   };
 
   const getUser = async () => {
-    if (!jwkKey) {
-      throw new Error("JWK key is not defined");
-    }
     const response = await getMe();
     console.log(333, "getMe response", response);
 
-    setAuth(response.data);
+    if (response.status == 200) {
+      setAuth(response.data);
+    }
 
     return response;
   };
 
   const logout = async () => {
-    if (!jwkKey) {
-      throw new Error("JWK key is not defined");
-    }
-
     const response = await logoutMe();
     console.log(444, "logout response", response);
 
@@ -144,7 +124,6 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
         getUser,
         logout,
         verify,
-        jwkKey,
       }}
     >
       {children}

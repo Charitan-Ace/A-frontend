@@ -3,12 +3,12 @@ import { Button } from "../ui/button";
 // import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Label } from "@/components/ui/label";
 import { DonorModel } from "@/type/auth/model";
-import { DonorProfileEditModal } from "./components/donor-update-model.tsx/donor-edit-modal";
 import { Card } from "@/components/ui/card";
+import useDonorDetailsCard from "./hooks/useDonorDetailsCard";
+import { DonorProfileEditModal } from "./components/donor-update-model.tsx/donor-edit-modal";
 
 const DonorProfileDetails = (donor: DonorModel) => {
-  const [isModalOpen, setModalOpen] = useState(false);
-
+  const { isModalOpen, setModalOpen } = useDonorDetailsCard();
   return (
     <>
       <Card>

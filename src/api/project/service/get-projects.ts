@@ -1,5 +1,5 @@
 import axios from "axios";
-import { PROJECT_URL } from "../constant";
+import { GET_PROJECT_URL } from "../constant";
 import { GetProjectsInput } from "../schema/get-projects";
 import { ProjectDto } from "@/type/project/project.dto";
 import { APIResponse, ValidationError } from "../../axios";
@@ -7,10 +7,10 @@ import { ProjectCategoryEnum } from "@/type/enum";
 
 const getProjects = async (input: GetProjectsInput) => {
   const { page, pageSize, category, status } = input;
-  let queryUrl = `${PROJECT_URL}?status=${status}&category=${category}&_page=${page}&_per_page=${pageSize}`;
+  let queryUrl = `${GET_PROJECT_URL}?status=${status}&category=${category}&_page=${page}&_per_page=${pageSize}`;
 
   if (category === ProjectCategoryEnum.ALL) {
-    queryUrl = `${PROJECT_URL}?status=${status}&_page=${page}&_per_page=${pageSize}`;
+    queryUrl = `${GET_PROJECT_URL}?status=${status}&_page=${page}&_per_page=${pageSize}`;
   }
 
   try {

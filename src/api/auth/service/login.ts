@@ -4,9 +4,12 @@ import * as jose from "jose";
 import { postRequest } from "@/utils/http-request";
 import { BaseModel } from "@/type/auth/model";
 import { APIResponse } from "@/api/axios";
+import { encryptionKey } from "./get-key";
 
-const login = async (input: LoginInput, key: jose.JWK) => {
+const login = async (input: LoginInput) => {
   try {
+    const key = await encryptionKey();
+
     const { email, password } = input;
     console.log("login", email, password);
 

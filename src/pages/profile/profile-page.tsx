@@ -1,9 +1,11 @@
-import ProfileDetails from "../../components/donor-card/donor-details-card";
+import DonorProfileDetails from "../../components/donor-card/donor-details-card";
 import { DonationHistoryTable } from "../../components/donation-history-table/donation-history-table";
 import ShortBanner from "@/components/banner/short-banner/ShortBanner";
 import { useEffect } from "react";
 import useAuth from "@/hooks/use-auth";
 import { CharityModel, DonorModel, OrganizationType } from "@/type/auth/model";
+import { getRequest } from "@/utils/http-request";
+import { GET_ME_DONOR_URL } from "@/api/profile/constant";
 
 const donorSample: DonorModel = {
   email: "john.doe@example.com", // Assuming this comes from UserModel
@@ -38,7 +40,13 @@ const ProfilePage = () => {
   const { auth } = useAuth();
 
   useEffect(() => {
-    console.log(333, auth);
+    const fetchDonorProfile = getRequest(GET_ME_DONOR_URL).then((res) => {
+      console.log(res);
+      const temp = res.json;
+      console.log(temp);
+    });
+
+    console.log(fetchDonorProfile);
   }, [auth]);
 
   return (
@@ -46,9 +54,9 @@ const ProfilePage = () => {
       <ShortBanner title="Profile" />
       <div className="container mx-auto p-6">
         {auth ? (
-          <ProfileDetails {...donorSample} />
+          <DonorProfileDetails {...donorSample} />
         ) : (
-          <ProfileDetails {...charitySample} />
+          <DonorProfileDetails {...charitySample} />
         )}
 
         <DonationHistoryTable />

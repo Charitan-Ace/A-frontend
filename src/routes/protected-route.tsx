@@ -1,23 +1,27 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Navigate, Outlet } from "react-router-dom";
 import { useAuthContext } from "@/auth";
 
 interface ProtectedRouteProps {
-  allowedRoles: string[]; // Roles allowed to access the route
-  redirectTo?: string; // Default to "/auth/login" if not specified
+  allowedRoles: string[];
+  redirectTo?: string;
 }
 
 const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
   allowedRoles,
   redirectTo = "/auth/login",
 }) => {
-  const { auth } = useAuthContext();
+  const { auth, isLoading } = useAuthContext();
 
-  if (!auth || !auth.role || !auth.active) {
+  if (isLoading) {
+    return <div>Loading...</div>;
+  }
+
+  if (!auth || !auth.roleId || !auth.active) {
     return <Navigate to={redirectTo} replace />;
   }
 
-  if (!allowedRoles.includes(auth.role)) {
+  if (!allowedRoles.includes(auth.roleId)) {
     return <Navigate to="/error/403" replace />;
   }
 

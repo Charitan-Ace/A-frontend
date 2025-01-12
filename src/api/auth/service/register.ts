@@ -5,13 +5,15 @@ import { RegisterInput } from "@/api/signup/schema/signup-schema";
 import { BaseModel } from "@/type/auth/model.ts";
 import * as jose from "jose";
 import { postRequest } from "@/utils/http-request";
+import { encryptionKey } from "./get-key";
 // import { error } from "console";
 
 const register = async (
-  input: RegisterInput,
-  key: jose.JWK
+  input: RegisterInput
 ): Promise<APIResponse<BaseModel>> => {
   try {
+    const key = await encryptionKey();
+
     console.log("Registering user with data:", input);
     const jwe = await new jose.CompactEncrypt(
       new TextEncoder().encode(JSON.stringify(input))
