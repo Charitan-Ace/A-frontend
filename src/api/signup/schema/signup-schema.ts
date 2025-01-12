@@ -3,7 +3,7 @@ import { z } from "zod";
 const donorProfileSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
-  phoneNumber: z.string().optional(),
+  address: z.string().optional(),
 });
 
 const charityProfileSchema = z.object({

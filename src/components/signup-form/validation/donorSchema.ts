@@ -6,7 +6,7 @@ export const donorSchema = z.object({
   profile: z.object({
     firstName: z.string().nonempty("First name is required"),
     lastName: z.string().nonempty("Last name is required"),
-    phoneNumber: z.string().optional(),
+    address: z.string().optional(),
   }),
 });
 
