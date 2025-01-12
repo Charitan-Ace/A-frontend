@@ -9,6 +9,7 @@ export interface ProjectDto {
   goal: number;
   statusType: ProjectStatusEnum;
   startTime: Date;
+  currentDonation: number;
   endTime: Date;
   charityId: string;
   countryIsoCode: string;

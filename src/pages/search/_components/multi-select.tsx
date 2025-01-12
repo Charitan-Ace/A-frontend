@@ -23,7 +23,7 @@ function MultiSelect<T>({
   filterBy,
   options,
   onValueChange,
-  defaultItems
+  defaultItems,
 }: MultiSelectProps<T>) {
   const ITEM_HEIGHT = 48;
   const ITEM_PADDING_TOP = 4;
@@ -36,17 +36,17 @@ function MultiSelect<T>({
     },
   };
 
-
   const { selectedItems, setSelectedItems, placeholder } = useMultiSelect<T>({
     filterBy,
-    defaultItems
+    defaultItems,
   });
-
 
   const handleChange = useCallback(
     (event: SelectChangeEvent<string[]>) => {
       const values = event.target.value as string[];
-      const selectedOptions = values.map((val) => JSON.parse(val) as { name: string; value: T });
+      const selectedOptions = values.map(
+        (val) => JSON.parse(val) as { name: string; value: T }
+      );
       setSelectedItems(selectedOptions);
       onValueChange(selectedOptions);
     },
@@ -54,37 +54,31 @@ function MultiSelect<T>({
   );
 
   return (
-    <div >
-      <FormControl sx={{ m: 1, width: 200 }}>
-        <InputLabel id={`filter-${filterBy}`}>
-          {filterBy}
-        </InputLabel>
-        <Select
-          labelId={`filter-${filterBy}`}
-          id={`filter-${filterBy}`}
-          value={selectedItems.map((item) => JSON.stringify(item))}
-          onChange={handleChange}
-          multiple
-          input={<OutlinedInput label={filterBy} />}
-          MenuProps={MenuProps}
-          renderValue={() => <p className="!text-sm">{placeholder}</p>}
-        >
-          {options.map((option) => (
-            <MenuItem
-              value={JSON.stringify(option)}
-              key={option.name}
-            >
-              <Checkbox
-                checked={selectedItems.some(
-                  (item) => item.name === option.name
-                )}
-              />
-              <ListItemText className="h-fit p-0" primary={<p className="h-fit p-0">{option.name}</p>} />
-            </MenuItem>
-          ))}
-        </Select>
-      </FormControl>
-    </div>
+    <FormControl sx={{ m: 1, width: 200 }}>
+      <InputLabel id={`filter-${filterBy}`}>{filterBy}</InputLabel>
+      <Select
+        labelId={`filter-${filterBy}`}
+        id={`filter-${filterBy}`}
+        value={selectedItems.map((item) => JSON.stringify(item))}
+        onChange={handleChange}
+        multiple
+        input={<OutlinedInput label={filterBy} />}
+        MenuProps={MenuProps}
+        renderValue={() => <p className="!text-sm">{placeholder}</p>}
+      >
+        {options.map((option) => (
+          <MenuItem value={JSON.stringify(option)} key={option.name}>
+            <Checkbox
+              checked={selectedItems.some((item) => item.name === option.name)}
+            />
+            <ListItemText
+              className="h-fit p-0"
+              primary={<p className="h-fit p-0">{option.name}</p>}
+            />
+          </MenuItem>
+        ))}
+      </Select>
+    </FormControl>
   );
 }
 

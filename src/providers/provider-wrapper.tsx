@@ -1,8 +1,8 @@
 import { PropsWithChildren } from "react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 import { AuthProvider } from "@/auth/providers/cookies-provider.tsx";
 import { NuqsAdapter } from "nuqs/adapters/react";
+import { Toaster as ShadcnToaster } from "@/components/ui/toaster";
 import { LayoutProvider, LoadersProvider, SettingsProvider } from "@/providers";
 import { Toaster } from "sonner";
 
@@ -21,6 +21,7 @@ const ProvidersWrapper = ({ children }: PropsWithChildren) => {
         </NuqsAdapter>
       </AuthProvider>
       <Toaster />
+      <ShadcnToaster />
     </QueryClientProvider>
   );
 };

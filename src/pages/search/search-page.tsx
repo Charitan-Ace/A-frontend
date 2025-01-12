@@ -9,7 +9,6 @@ import {
   projectCategories,
   ProjectCategoryEnum,
   ProjectStatusEnum,
-  projectStatuses,
 } from "@/type/enum";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/api/project/service/get-projects.ts";
@@ -19,6 +18,7 @@ import {
   ProjectLoading,
 } from "@/pages/search/_components";
 import { Pagination } from "@/components/pagination";
+import { IRegion } from "@/type/geography";
 
 const SearchPage = () => {
   const [queryParams, setQueryParams] = useQueryStates(
@@ -30,9 +30,9 @@ const SearchPage = () => {
           Object.values(ProjectCategoryEnum)
         )
       ),
-      status: parseAsArrayOf(
-        parseAsStringEnum<ProjectStatusEnum>(Object.values(ProjectStatusEnum))
-      ),
+      status: parseAsStringEnum<ProjectStatusEnum>(
+        Object.values(ProjectStatusEnum)
+      ).withDefault(ProjectStatusEnum.ONGOING),
       q: parseAsString.withDefault(""),
       countryIsoCode: parseAsArrayOf(parseAsString),
     },
@@ -60,7 +60,7 @@ const SearchPage = () => {
             ? null
             : category
           : null,
-        statuses: status ? (status.length === 0 ? null : status) : null,
+        status: status,
         q,
         countryIsoCodes: countryIsoCode
           ? countryIsoCode.map((code) => code.toUpperCase()).length === 0
@@ -84,16 +84,14 @@ const SearchPage = () => {
             name: cate.label,
             value: cate.value as ProjectCategoryEnum,
           }))}
-        defaultStatus={projectStatuses
-          .filter((tus) => status?.includes(tus.value as ProjectStatusEnum))
-          .map((tuses) => ({
-            name: tuses.label,
-            value: tuses.value as ProjectStatusEnum,
-          }))}
+        defaultStatus={status}
         setQ={(value) => setQueryParams({ q: value })}
         onCategoryChange={(value) => setQueryParams({ category: value })}
-        onStatusChange={(value) => setQueryParams({ status: value })}
-      />
+        onStatusChange={(value) => setQueryParams({ status: value })} 
+        defaultRegion={[]} 
+        onRegionChange={function (region: IRegion[]): void {
+          throw new Error("Function not implemented.");
+        } }      />
       <div className="container">
         <Pagination
           currentPage={page > pageSize ? 1 : page}

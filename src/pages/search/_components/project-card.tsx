@@ -31,7 +31,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             size="lg"
             className="bg-emerald-600 hover:bg-emerald-700 text-xl"
           >
-            <Link to={`/project/${project.id}`} />
+            <Link to={`/project/${project.id}`}>View Details</Link>
           </Button>
         </div>
       </div>

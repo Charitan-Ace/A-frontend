@@ -27,7 +27,6 @@ export enum ProjectCategoryEnum {
   HUMANITARIAN = "HUMANITARIAN",
   HOUSING = "HOUSING",
   OTHER = "OTHER",
-  ALL = "ALL",
 }
 
 export enum ProjectStatusEnum {
@@ -38,7 +37,6 @@ export enum ProjectStatusEnum {
   ENDED = "ENDED",
   HALTED = "HALTED",
   DELETED = "DELETED",
-  ALL = "ALL",
 }
 
 export const projectStatuses = [
@@ -71,7 +69,7 @@ export const projectStatuses = [
     LucideIcon: Trash2,
   },
   {
-    value: "APPORVED",
+    value: "APPROVED",
     label: "Approved",
     classes: "border-emerald-400 text-emerald-700 bg-emerald-100",
     icon: "ThumbsUp" as keyof typeof icons,
@@ -91,13 +89,13 @@ export const projectStatuses = [
     icon: "PauseCircle" as keyof typeof icons,
     LucideIcon: PauseCircle,
   },
-  {
-    value: "ALL",
-    label: "All",
-    classes: "border-slate-400 text-slate-700 bg-slate-100",
-    icon: "Globe" as keyof typeof icons,
-    LucideIcon: Globe,
-  },
+//   {
+//     value: "ALL",
+//     label: "All",
+//     classes: "border-slate-400 text-slate-700 bg-slate-100",
+//     icon: "Globe" as keyof typeof icons,
+//     LucideIcon: Globe,
+//   },
 ];
 
 export const projectCategories = [
@@ -157,11 +155,11 @@ export const projectCategories = [
     icon: "MoreHorizontal" as keyof typeof icons,
     LucideIcon: MoreHorizontal,
   },
-  {
-    value: "ALL",
-    label: "All",
-    classes: "border-slate-400 text-slate-700 bg-slate-100",
-    icon: "Globe" as keyof typeof icons,
-    LucideIcon: Globe,
-  },
+//   {
+//     value: "ALL",
+//     label: "All",
+//     classes: "border-slate-400 text-slate-700 bg-slate-100",
+//     icon: "Globe" as keyof typeof icons,
+//     LucideIcon: Globe,
+//   },
 ];

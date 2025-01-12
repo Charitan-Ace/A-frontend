@@ -6,6 +6,7 @@ import { HomePage } from "@/pages/home";
 import { DonationPage } from "@/pages/donation";
 import CreateProjectForm from "@/pages/project/_component/create-project-form";
 import { SearchPage } from "@/pages/search";
+import { ProjectDetailPage } from "@/pages/project/project-detail-page";
 
 const AppRoutingSetup = (): ReactElement => {
   return (
@@ -34,7 +35,7 @@ const AppRoutingSetup = (): ReactElement => {
         <Route path="/donation" element={<DonationPage />} />
         {/* <Route path="/project" element={<ProjectPage />} /> */}
         <Route path="/project/search" element={<SearchPage />} />
-        {/* <Route path="/project/:id" element={<ProjectDetailPage />} /> */}
+        <Route path="/project/:id" element={<ProjectDetailPage />} />
       </Route>
 
       {/*<Route path="error/*" element={<ErrorsRouting />} />*/}

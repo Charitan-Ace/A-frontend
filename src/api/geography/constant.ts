@@ -1,6 +1,4 @@
 const API_URL = import.meta.env.VITE_APP_API_URL;
-export const GEOGRAPHY = `${API_URL}/geogpraphy`;
-export const REGISTER_URL = `${API_URL}/api/auth/register`;
-export const FORGOT_PASSWORD_URL = `${API_URL}/forgot-password`;
-export const RESET_PASSWORD_URL = `${API_URL}/reset-password`;
-export const GET_ME_URL = `${API_URL}/user`;
+const GEOGRAPHY_URL = `${API_URL}/geogpraphy`;
+export const REGION_URL = `${GEOGRAPHY_URL}/region`;
+export const COUNTRY_URL = `${GEOGRAPHY_URL}/country`;

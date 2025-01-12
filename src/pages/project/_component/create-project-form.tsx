@@ -7,6 +7,7 @@ import { ProjectCategoryEnum } from "@/type/enum";
 import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Button,
+  Card,
   FormControl,
   InputLabel,
   MenuItem,
@@ -14,9 +15,11 @@ import {
   TextField,
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
+import { Upload, X } from "lucide-react";
 import { useForm } from "react-hook-form";
 import { Fragment } from "react/jsx-runtime";
 import { toast } from "sonner";
+import MediaUploadForm from "./media-upload";
 
 const dateFormatter = (date: Date) => {
   const offset = -new Date().getTimezoneOffset();
@@ -83,6 +86,7 @@ const CreateProjectForm = () => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
+      <MediaUploadForm/>
       <TextField
         label="Project Title"
         variant="outlined"
@@ -163,9 +167,6 @@ const CreateProjectForm = () => {
             fullWidth
           >
             {Object.values(ProjectCategoryEnum).map((type) => {
-              if (type === ProjectCategoryEnum.ALL) {
-                return <Fragment key={type}></Fragment>;
-              }
               return (
                 <MenuItem key={type} value={type}>
                   {type}

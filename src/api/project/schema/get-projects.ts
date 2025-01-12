@@ -9,9 +9,7 @@ export const getProjectsSchema = z.object({
       z.nativeEnum(ProjectCategoryEnum).default(ProjectCategoryEnum.HEALTH)
     )
     .nullish(),
-  statuses: z
-    .array(z.nativeEnum(ProjectStatusEnum).default(ProjectStatusEnum.ONGOING))
-    .nullish(),
+  status: z.nativeEnum(ProjectStatusEnum).default(ProjectStatusEnum.ONGOING),
   countryIsoCodes: z.array(z.string()).nullish(),
 });
 

@@ -9,7 +9,6 @@ import { getProjectById } from "@/api/project/service/get-project-by-id";
 
 const ProjectDetailPage = () => {
   const projectId = useParams<{ id: string }>().id;
-  console.log(projectId);
 
   const { data: projectRes } = useQuery({
     queryKey: ["project", projectId],
@@ -24,7 +23,7 @@ const ProjectDetailPage = () => {
   const { data: project } = projectRes;
 
   return (
-    <div className="container mx-auto px-4 py-8 max-w-7xl mt-12">
+    <div className="container mx-auto px-4 py-8 max-w-7xl mt-16">
       {project && (
         <>
           <h1 className="text-3xl font-bold mb-8">{project.title}</h1>
@@ -46,7 +45,7 @@ const ProjectDetailPage = () => {
                 {/* Progress Bar */}
                 <div className="space-y-2">
                   <div className="text-sm">Donate</div>
-                  <Progress value={60} className="h-2 bg-gray-100" />
+                  <Progress value={project.currentDonation} className="h-2 bg-gray-100" />
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>
                       Raised: ${project.currentDonation.toLocaleString("en-US")}
