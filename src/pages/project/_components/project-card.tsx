@@ -85,6 +85,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       {showDonateForm && (
         <DonateFormUI
           projectName={project.name}
+          projectId={project.id}
           onClose={() => setShowDonateForm(false)}
         />
       )}

@@ -1,33 +1,37 @@
-import { useState } from "react";
 import { useForm } from "react-hook-form";
-import { toast } from "sonner";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { toast } from "react-toastify";
+import { DonationInput, donationSchema } from "@/api/donation/schema/donation-schema";
+import { createDonation } from "@/api/donation/service/donation-service";
 
-interface DonateFormValues {
-  firstName: string;
-  lastName: string;
-  email: string;
-  amount: number;
-  message?: string;
-  agreeToTerms: boolean;
-}
-
-const useDonateForm = () => {
-  const [donationTotal, setDonationTotal] = useState(10);
-
+const useDonateForm = (projectId: string, onClose: () => void) => {
   const {
     register,
     handleSubmit,
+    reset,
     formState: { errors },
-  } = useForm<DonateFormValues>();
+  } = useForm<DonationInput>({
+    resolver: zodResolver(donationSchema),
+    defaultValues: { projectId },
+  });
 
-  const onSubmit = (data: DonateFormValues) => {
-    if (!data.agreeToTerms) {
-      toast.error("You must agree to the terms!");
-      return;
+  const onSubmit = async (data: DonationInput) => {
+    try {
+      const { amount, message, projectId } = data;
+      const payload: Partial<DonationInput> = {
+        amount,
+        message,
+        projectId,
+      };
+
+      await createDonation(payload);
+      toast.success("Donate successfully. Thank you for your donation!");
+      onClose();
+      // reset();
+    } catch (error) {
+      console.error("Donation failed:", error);
+      toast.error("Failed to process the donation. Please try again.");
     }
-
-    console.log("Donation submitted:", { ...data, amount: donationTotal });
-    toast.success("Donation submitted!");
   };
 
   return {
@@ -35,8 +39,6 @@ const useDonateForm = () => {
     handleSubmit,
     onSubmit,
     errors,
-    donationTotal,
-    setDonationTotal,
   };
 };
 
