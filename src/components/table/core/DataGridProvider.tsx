@@ -60,8 +60,8 @@ export const DataGridProvider = <TData extends object>({
       loading: "Loading...",
     },
     pagination: {
-      info: "{from} - {to} of {count}",
-      sizes: [5, 10, 25, 50, 100],
+      info: "{from} - {to} of total {count}",
+      sizes: [1, 10, 25, 50, 100],
       sizesLabel: "⚙️",
       sizesDescription: "rows / page",
       size: 5,
@@ -117,6 +117,8 @@ export const DataGridProvider = <TData extends object>({
       };
 
       const { data, total } = await mergedProps.onFetchData(requestParams);
+
+      console.log("Data fetched:", data, total);
       if (data) {
         setData(data);
         setTotalRows(total);

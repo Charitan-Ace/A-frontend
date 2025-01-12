@@ -2,15 +2,20 @@ import { BaseModel } from "@/type/auth/model.ts";
 import * as jose from "jose";
 import { APIResponse } from "@/api/axios.ts";
 import { GET_ME_URL } from "../constant";
-import { LoginInput } from "@/api/login/schema/login-schema";
-import { getRequest } from "@/utils/http-request";
 
 const getMe = async () => {
   try {
-    const response = await getRequest(GET_ME_URL);
-    const responseData = await response.json;
+    const response = await fetch(GET_ME_URL, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      credentials: "include",
+    });
 
-    console.log(12312, response);
+    console.log(response);
+
+    const responseData = await response.json;
 
     return {
       data: responseData,

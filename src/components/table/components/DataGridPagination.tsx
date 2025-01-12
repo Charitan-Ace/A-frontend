@@ -40,7 +40,7 @@ const DataGridPagination = () => {
       buttons.push(
         <button
           key={i}
-          className={`btn ${pageIndex === i ? "active" : ""}`}
+          className={`btn ${pageIndex === i ? "active" : ""} mx-2`}
           onClick={() => table.setPageIndex(i)}
         >
           {i + 1}
@@ -56,7 +56,10 @@ const DataGridPagination = () => {
       return (
         <button
           className="btn"
-          onClick={() => table.setPageIndex(currentGroupStart - 1)}
+          onClick={() => {
+            console.log("currentGroupStart", currentGroupStart);
+            table.setPageIndex(currentGroupStart - 1);
+          }}
         >
           ...
         </button>
@@ -71,7 +74,10 @@ const DataGridPagination = () => {
       return (
         <button
           className="btn"
-          onClick={() => table.setPageIndex(currentGroupEnd)}
+          onClick={() => {
+            console.log("currentGroupEnd", currentGroupEnd);
+            table.setPageIndex(currentGroupEnd);
+          }}
         >
           ...
         </button>

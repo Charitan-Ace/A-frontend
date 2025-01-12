@@ -115,7 +115,9 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
     const response = await getMe();
     console.log(333, "getMe response", response);
 
-    setAuth(response.data);
+    if (response.status !== 200) {
+      setAuth(response.data);
+    }
 
     return response;
   };
