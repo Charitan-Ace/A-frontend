@@ -10,49 +10,15 @@ export interface INavbarItem {
 
 export const NAVBAR_ITEMS: INavbarItem[] = [
   {
-    name: "Login",
-    path: "/auth/login",
-    icon: "LogIn",
-    active: false,
-  },
-  {
-    name: "SignUp",
-    path: "/auth/signup",
-    icon: "UserPlus",
+    name: "Home",
+    path: "/",
+    icon: "House",
     active: false,
   },
   {
     name: "Profile",
     path: "/profile",
     icon: "Users",
-    active: false,
-    // children: [
-    //   {
-    //     name: "Overview",
-    //     path: "/profile",
-    //     active: false,
-    //   },
-    //   {
-    //     name: "Profile Settings",
-    //     path: "/profile/setting",
-    //     active: false,
-    //   },
-    //   {
-    //     name: "Donation History",
-    //     path: "/profile/history",
-    //     active: false,
-    //   },
-    //   {
-    //     name: "Your Projects",
-    //     path: "/profile/projects",
-    //     active: false,
-    //   },
-    // ],
-  },
-  {
-    name: "Donation",
-    path: "/donation",
-    icon: "Heart",
     active: false,
   },
   {
@@ -72,5 +38,17 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
     //     active: false,
     //   },
     // ],
+  },
+  {
+    name: "Login",
+    path: "/auth/login",
+    icon: "LogIn",
+    active: false,
+  },
+  {
+    name: "SignUp",
+    path: "/auth/signup",
+    icon: "UserPlus",
+    active: false,
   },
 ];
