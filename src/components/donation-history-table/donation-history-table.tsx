@@ -16,7 +16,7 @@ const DonationHistoryTable = () => {
       {
         accessorKey: "amount",
         header: "Amount",
-        cell: (info) => `$${info.getValue().toLocaleString()}`, // Format as currency
+        cell: (info) => `$${info.getValue()?.toLocaleString()}`, // Format as currency
       },
       {
         accessorKey: "message",

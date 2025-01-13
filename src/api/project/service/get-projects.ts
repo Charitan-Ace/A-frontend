@@ -1,26 +1,35 @@
 import axios from "axios";
-import { GET_PROJECT_URL } from "../constant";
+import { PROJECT_SEARCH_URL } from "../constant";
 import { GetProjectsInput } from "../schema/get-projects";
 import { ProjectDto } from "@/type/project/project.dto";
 import { APIResponse, ValidationError } from "../../axios";
-import { ProjectCategoryEnum } from "@/type/enum";
 
 const getProjects = async (input: GetProjectsInput) => {
-  const { page, pageSize, category, status } = input;
-  let queryUrl = `${GET_PROJECT_URL}?status=${status}&category=${category}&_page=${page}&_per_page=${pageSize}`;
+  const { page, pageSize, categoryTypes, status, q, countryIsoCodes } = input;
 
-  if (category === ProjectCategoryEnum.ALL) {
-    queryUrl = `${GET_PROJECT_URL}?status=${status}&_page=${page}&_per_page=${pageSize}`;
-  }
+  const queryUrl = `${PROJECT_SEARCH_URL}?page=${page}&size=${pageSize}`;
 
   try {
-    const { data, status } = await axios.get<{
-      data: ProjectDto[];
-      pages: number;
-    }>(queryUrl);
+    let totalPage = 0;
+    const { data, status: queryStatus, headers } = await axios.post<ProjectDto[]>(queryUrl, {
+      name: q,
+      categoryTypes,
+      status,
+      countryIsoCodes,
+    });
+
+    if (headers["Total-Pages"]) {
+      totalPage = parseInt(headers["Total-Pages"]);
+    } else {
+      totalPage = 1;
+    }
+
     return {
-      data: data,
-      status: status,
+      data: {
+        data: data,
+        pages: totalPage,
+      },
+      status: queryStatus,
     } as unknown as APIResponse<{
       data: ProjectDto[];
       pages: number;
