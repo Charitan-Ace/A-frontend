@@ -1,7 +1,9 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import useDonateForm from "./hooks/useDonateForm";
-import { TextField } from "@mui/material";
+import { InputAdornment, TextField } from "@mui/material";
+import useDonorDetailsCard from "../profile-card/components/donor-card/hooks/useDonorDetailsCard";
+import { DonorModel } from "@/type/auth/model";
 
 const DonateFormUI = ({
   projectName,
@@ -17,12 +19,20 @@ const DonateFormUI = ({
     onClose
   );
 
+  const displayDonor = true;
+
+  const [messageLength, setMessageLength] = useState(0);
+
   useEffect(() => {
     document.body.style.overflow = "hidden";
     return () => {
       document.body.style.overflow = "";
     };
   }, []);
+
+  const handleMessageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setMessageLength(e.target.value.length);
+  };
 
   return (
     <div
@@ -52,6 +62,11 @@ const DonateFormUI = ({
             {...register("amount", { valueAsNumber: true })}
             error={!!errors.amount}
             helperText={errors.amount?.message}
+            InputProps={{
+              startAdornment: (
+                <InputAdornment position="start">$</InputAdornment>
+              ),
+            }}
           />
           <TextField
             label="First Name"
@@ -60,6 +75,8 @@ const DonateFormUI = ({
             {...register("firstName")}
             error={!!errors.firstName}
             helperText={errors.firstName?.message}
+            InputProps={{ readOnly: !!displayDonor }}
+            defaultValue={displayDonor?.firstName || ""}
           />
           <TextField
             label="Last Name"
@@ -68,6 +85,18 @@ const DonateFormUI = ({
             {...register("lastName")}
             error={!!errors.lastName}
             helperText={errors.lastName?.message}
+            InputProps={{ readOnly: !!displayDonor }}
+            defaultValue={displayDonor?.lastName || ""}
+          />
+          <TextField
+            label="Address"
+            fullWidth
+            margin="normal"
+            {...register("address")}
+            error={!!errors.address}
+            helperText={errors.address?.message}
+            InputProps={{ readOnly: !!displayDonor }}
+            defaultValue={displayDonor?.address || ""}
           />
           <TextField
             label="Your Email"
@@ -77,6 +106,8 @@ const DonateFormUI = ({
             {...register("email")}
             error={!!errors.email}
             helperText={errors.email?.message}
+            InputProps={{ readOnly: !!displayDonor }}
+            defaultValue={displayDonor?.email || ""}
           />
           <TextField
             label="Leave A Message"
@@ -87,6 +118,17 @@ const DonateFormUI = ({
             {...register("message")}
             error={!!errors.message}
             helperText={errors.message?.message}
+            onChange={(e) => {
+              register("message").onChange(e);
+              handleMessageChange(e);
+            }}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  {`${messageLength}/250`}
+                </InputAdornment>
+              ),
+            }}
           />
           <Button
             type="submit"
