@@ -73,10 +73,10 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             />
             <div className="flex justify-between items-center pt-2">
               <span className="text-lg font-medium">
-                Raised: ${project.currentDonation.toLocaleString("en-Us")}
+                Raised: ${project.currentDonation?.toLocaleString("en-Us")}
               </span>
               <span className="text-lg font-medium">
-                Goal: ${project.goal.toLocaleString("en-Us")}
+                Goal: ${project.goal?.toLocaleString("en-Us")}
               </span>
             </div>
           </div>

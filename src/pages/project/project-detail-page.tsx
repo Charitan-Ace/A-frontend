@@ -45,12 +45,16 @@ const ProjectDetailPage = () => {
                 {/* Progress Bar */}
                 <div className="space-y-2">
                   <div className="text-sm">Donate</div>
-                  <Progress value={project.currentDonation} className="h-2 bg-gray-100" />
+                  <Progress
+                    value={project.currentDonation}
+                    className="h-2 bg-gray-100"
+                  />
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>
-                      Raised: ${project.currentDonation.toLocaleString("en-US")}
+                      Raised: $
+                      {project.currentDonation?.toLocaleString("en-US")}
                     </span>
-                    <span>Goal: ${project.goal.toLocaleString("en-US")}</span>
+                    <span>Goal: ${project.goal?.toLocaleString("en-US")}</span>
                   </div>
                 </div>
 

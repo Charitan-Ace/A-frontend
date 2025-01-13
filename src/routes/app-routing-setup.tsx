@@ -15,6 +15,7 @@ const AppRoutingSetup = (): ReactElement => {
       {/* Public routes */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/project" element={<SearchPage />} />
         <Route path="/project/search" element={<SearchPage />} />
         <Route path="/project/:id" element={<ProjectDetailPage />} />
         <Route path="/auth/*" element={<AuthRoutes />} />
@@ -22,13 +23,12 @@ const AppRoutingSetup = (): ReactElement => {
         {/* Protected routes */}
         <Route element={<ProtectedRoute allowedRoles={["DONOR", "CHARITY"]} />}>
           <Route path="/profile/*" element={<ProfilePage />} />
-          <Route path="/donation" element={<DonationPage />} />
         </Route>
 
-        <Route element={<ProtectedRoute allowedRoles={["CHARITY"]} />}>
-          <Route path="/project" element={<ProjectPage />} />
-          <Route path="/project/manage" element={<ProjectPage />} />
-        </Route>
+        <Route path="/donation" element={<DonationPage />} />
+
+        <Route path="/project" element={<ProjectPage />} />
+        <Route path="/project/manage" element={<ProjectPage />} />
       </Route>
 
       {/* Fallback route */}
