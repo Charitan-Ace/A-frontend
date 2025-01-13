@@ -61,7 +61,7 @@ export const DataGridProvider = <TData extends object>({
     },
     pagination: {
       info: "{from} - {to} of total {count}",
-      sizes: [1, 10, 25, 50, 100],
+      sizes: [5, 10, 25, 50, 100],
       sizesLabel: "⚙️",
       sizesDescription: "rows / page",
       size: 5,

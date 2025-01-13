@@ -1,5 +1,5 @@
 import { getRequest } from "@/utils/http-request";
-import { GET_PROJECTS_ME_URL } from "../constant";
+import { GET_PROJECTS_ME_TEMP_URL, GET_PROJECTS_ME_URL } from "../constant";
 import { APIResponse } from "@/api/axios";
 import { AxiosError } from "axios";
 
@@ -11,9 +11,7 @@ const getProjectsMe = async ({
   pageSize: number;
 }) => {
   try {
-    const response = await getRequest(
-      `${GET_PROJECTS_ME_URL}?page=${pageIndex}&size=${pageSize}`
-    );
+    const response = await getRequest(`${GET_PROJECTS_ME_TEMP_URL}`);
     const data = response.json;
 
     return {

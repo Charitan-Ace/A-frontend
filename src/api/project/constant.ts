@@ -8,3 +8,5 @@ export const GET_PROJECT_BY_USERS_URL = `${API_URL}/project/user`;
 export const GET_PROJECT_BY_CHARITY_URL = `${API_URL}/project/charity`;
 
 export const GET_PROJECTS_ME_URL = `${API_URL}/project/me`;
+
+export const GET_PROJECTS_ME_TEMP_URL = `${API_URL}/project/my-projects/status/APPROVED`;

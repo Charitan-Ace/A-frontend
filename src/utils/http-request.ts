@@ -9,7 +9,7 @@ export default async function sendHttpRequest<T>(
   method: "GET" | "POST" | "PUT" | "DELETE" | "PATCH" = "GET",
   body: any = null,
   credentials: RequestCredentials = "include",
-  headers: HeadersInit = { "Content-Type": "application/json" } // Custom headers
+  headers: HeadersInit = { "Content-Type": "application/json" }
 ): Promise<HttpResponse<T>> {
   const options: RequestInit = {
     method,
