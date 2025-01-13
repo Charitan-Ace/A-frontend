@@ -70,6 +70,14 @@ const DonateFormUI = ({
             helperText={errors.lastName?.message}
           />
           <TextField
+            label="Address"
+            fullWidth
+            margin="normal"
+            {...register("address")}
+            error={!!errors.address}
+            helperText={errors.address?.message}
+          />
+          <TextField
             label="Your Email"
             type="email"
             fullWidth

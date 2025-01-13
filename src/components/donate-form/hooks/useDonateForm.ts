@@ -19,7 +19,7 @@ const useDonateForm = (projectId: string, onClose: () => void) => {
     defaultValues: { projectId },
   });
 
-  const payloadDoner = (data: DonationInput) => {
+  const payloadDonor = (data: DonationInput) => {
     const { amount, message, projectId } = data;
 
     const payload = {
@@ -34,7 +34,7 @@ const useDonateForm = (projectId: string, onClose: () => void) => {
   }
 
   const payloadGuest = (data: DonationInput) => {
-    const { amount, message, projectId } = data;
+    const { amount, message, projectId, email, firstName, lastName, address} = data;
 
     const payload = {
       amount: amount,
@@ -42,21 +42,21 @@ const useDonateForm = (projectId: string, onClose: () => void) => {
       projectId: projectId,
       successUrl: successUrl,
       cancelUrl: cancelUrl,
-      email: "test@gmail.com",
-      firstName: "Linh",
-      lastName: "Do",
-      address: "My Home"
+      email: email,
+      firstName: firstName,
+      lastName: lastName,
+      address: address
     }
     return payload;
   }
 
   const onSubmit = async (data: DonationInput) => {
     try {
-      const isGuest = true
-      const payload = isGuest ? payloadGuest(data):  payloadDoner(data)
+      const isGuest = false
+      const payload = isGuest ? payloadGuest(data):  payloadDonor(data)
 
-      var body = await createDonation(payload);
-      window.location.href = body.redirectUrl
+      var res = await createDonation(payload);
+      window.location.href = res.redirectUrl
 
       // toast.success("Donate successfully. Thank you for your donation!");
       // onClose();
