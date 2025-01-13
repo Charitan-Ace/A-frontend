@@ -3,12 +3,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { FileText } from "lucide-react";
 import { DonateForm } from "@/pages/search/_components/donate-form";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@/api/project/service/get-project-by-id";
+import { ImagesCarousel } from "./_component/project-images-carousel";
 
 const ProjectDetailPage = () => {
   const projectId = useParams<{ id: string }>().id;
+  const [searchParams] = useSearchParams();
+
+  const isLoadingImages = searchParams.get("isLoadingImages") === "true";
 
   const { data: projectRes } = useQuery({
     queryKey: ["project", projectId],
@@ -22,6 +26,14 @@ const ProjectDetailPage = () => {
 
   const { data: project } = projectRes;
 
+  const TEMP_IMAGES = [
+    "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg",
+
+    "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg",
+
+    "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg",
+  ];
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl mt-16">
       {project && (
@@ -32,13 +44,20 @@ const ProjectDetailPage = () => {
               {/* Main content */}
               <div className="space-y-8">
                 {/* Hero Image */}
-                <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
+                {isLoadingImages && project.mediaDtoList.length === 0 ? (
+                  <div className="aspect-video rounded-lg bg-gray-600" />
+                ) : (
+                  <ImagesCarousel
+                    images={
+                      project.mediaDtoList.length === 0
+                        ? TEMP_IMAGES
+                        : project.mediaDtoList
+                            .filter((media) => !media.isThumbnail)
+                            .map((media) => media.mediaUrl)
+                    }
                   />
-                </div>
+                )}
+
                 {/* Donate Button */}
                 <DonateForm />
 

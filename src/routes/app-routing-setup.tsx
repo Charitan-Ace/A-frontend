@@ -8,6 +8,7 @@ import { DonationPage } from "@/pages/donation";
 import { ProfilePage } from "@/pages/profile";
 import ProtectedRoute from "./protected-route";
 import { ProjectDetailPage, ProjectPage } from "@/pages/project";
+import CreateProjectForm from "@/pages/project/_component/create-project-form";
 import TestPage from "@/pages/test/test-page";
 
 const AppRoutingSetup = (): ReactElement => {
@@ -16,6 +17,7 @@ const AppRoutingSetup = (): ReactElement => {
       {/* Public routes */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
+        <Route path="/project/create" element={<CreateProjectForm />} />
         <Route path="/project" element={<SearchPage />} />
         <Route path="/project/search" element={<SearchPage />} />
         <Route path="/project/:id" element={<ProjectDetailPage />} />

@@ -18,7 +18,6 @@ import {
   ProjectLoading,
 } from "@/pages/search/_components";
 import { Pagination } from "@/components/pagination";
-import { COUNTRIES } from "@/type/geography";
 
 const SearchPage = () => {
   const [queryParams, setQueryParams] = useQueryStates(

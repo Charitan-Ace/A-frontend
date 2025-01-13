@@ -1,4 +1,7 @@
+import { QueryClient } from "@tanstack/react-query";
 import axios, { AxiosInstance, AxiosRequestConfig, AxiosResponse } from "axios";
+
+const queryClient = new QueryClient();
 
 export default class APIClient {
   private axiosInstance: AxiosInstance;
@@ -66,3 +69,6 @@ export default class APIClient {
     return response.data;
   }
 }
+
+
+export { queryClient };
