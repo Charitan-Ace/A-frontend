@@ -18,7 +18,7 @@ import {
   ProjectLoading,
 } from "@/pages/search/_components";
 import { Pagination } from "@/components/pagination";
-import { IRegion } from "@/type/geography";
+import { COUNTRIES } from "@/type/geography";
 
 const SearchPage = () => {
   const [queryParams, setQueryParams] = useQueryStates(
@@ -87,11 +87,14 @@ const SearchPage = () => {
         defaultStatus={status}
         setQ={(value) => setQueryParams({ q: value })}
         onCategoryChange={(value) => setQueryParams({ category: value })}
-        onStatusChange={(value) => setQueryParams({ status: value })} 
-        defaultRegion={[]} 
-        onRegionChange={function (region: IRegion[]): void {
-          throw new Error("Function not implemented.");
-        } }      />
+        onStatusChange={(value) => setQueryParams({ status: value })}
+        defaultCountry={[]}
+        onCountryChange={(region) => {
+          setQueryParams({
+            countryIsoCode: region.map((country) => country.code),
+          });
+        }}
+      />
       <div className="container">
         <Pagination
           currentPage={page > pageSize ? 1 : page}

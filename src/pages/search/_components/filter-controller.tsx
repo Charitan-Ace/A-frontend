@@ -5,10 +5,9 @@ import {
   projectCategories,
   ProjectCategoryEnum,
   ProjectStatusEnum,
-  projectStatuses,
 } from "@/type/enum";
 import { MultiSelect } from "./multi-select";
-import { IRegion } from "@/type/geography";
+import { COUNTRIES, ICountry, IRegion, REGIONS } from "@/type/geography";
 import { useQuery } from "@tanstack/react-query";
 import { getAllRegion } from "@/api/geography/get-all-region";
 import {
@@ -18,18 +17,16 @@ import {
   Select,
   Skeleton,
 } from "@mui/material";
-import { type } from "os";
-import { Fragment } from "react/jsx-runtime";
 
 interface FilterControllerProps {
   q: string;
   setQ: (value: string) => void;
   defaultCategory: { name: string; value: ProjectCategoryEnum }[];
   defaultStatus: ProjectStatusEnum;
-  defaultRegion: { name: string; value: IRegion }[];
+  defaultCountry: { name: string; value: ICountry }[];
   onStatusChange: (statuses: ProjectStatusEnum) => void;
   onCategoryChange: (category: ProjectCategoryEnum[]) => void;
-  onRegionChange: (region: IRegion[]) => void;
+  onCountryChange: (country: ICountry[]) => void;
 }
 
 const FilterController = ({
@@ -37,8 +34,8 @@ const FilterController = ({
   onStatusChange,
   defaultCategory,
   defaultStatus,
-  defaultRegion,
-  onRegionChange,
+  defaultCountry,
+  onCountryChange,
   q,
   setQ,
 }: FilterControllerProps) => {
@@ -64,23 +61,24 @@ const FilterController = ({
         />
       </div>
 
-      {isLoading ? (
+      {/* {isLoading ? (
         <Skeleton />
       ) : (
-        data?.data && (
-          <MultiSelect<IRegion>
-            filterBy={"Region"}
-            defaultItems={defaultRegion}
-            options={data.data.map((region) => ({
-              name: region.name,
-              value: region,
-            }))}
-            onValueChange={(selectedRegions) =>
-              onRegionChange(selectedRegions.map((status) => status.value))
-            }
-          />
-        )
-      )}
+        data?.data && ( */}
+      <MultiSelect<ICountry>
+        filterBy={"Country"}
+        defaultItems={defaultCountry}
+        isSearchable={true}
+        options={COUNTRIES.map((country) => ({
+          name: country.name,
+          value: country,
+        }))}
+        onValueChange={(selectedCountries) =>
+          onCountryChange(selectedCountries.map((country) => country.value))
+        }
+      />
+      {/* )
+      )} */}
 
       <FormControl sx={{ m: 1, width: 200 }}>
         <InputLabel id="category-select">Status</InputLabel>
@@ -91,7 +89,6 @@ const FilterController = ({
           onChange={(e) => onStatusChange(e.target.value as ProjectStatusEnum)}
         >
           {Object.values(ProjectStatusEnum).map((status) => {
-
             return (
               <MenuItem key={status} value={status}>
                 {status.charAt(0) + status.toLowerCase().slice(1)}
@@ -100,21 +97,6 @@ const FilterController = ({
           })}
         </Select>
       </FormControl>
-
-      {/* 
-      <MultiSelect<ProjectStatusEnum>
-        filterBy={"Status"}
-        defaultItems={defaultStatus}
-        options={projectStatuses.map((status) => ({
-          name: status.label,
-          value: status.value as ProjectStatusEnum,
-        }))}
-        onValueChange={(selectedStatuses) =>
-          onStatusChange(
-            selectedStatuses.map((status) => status.value as ProjectStatusEnum)
-          )
-        }
-      /> */}
 
       <MultiSelect<ProjectCategoryEnum>
         filterBy={"Category"}

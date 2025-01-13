@@ -1,11 +1,11 @@
 import { Progress } from "@/components/ui/progress";
 import { toAbsoluteUrl } from "@/utils/assets";
 import { Handshake, Users, Hospital, Earth } from "lucide-react";
-import { ProjectCard, ProjectLoading } from "../project/_components";
 import { useQuery } from "@tanstack/react-query";
 import { getProjects } from "@/api/project/service/get-projects";
 import { ProjectCategoryEnum, ProjectStatusEnum } from "@/type/enum";
 import LongBanner from "@/components/banner/long-banner/LongBanner";
+import { ProjectCard, ProjectLoading } from "../search/_components";
 
 const HomePage = () => {
   const funFacts = [
@@ -15,14 +15,16 @@ const HomePage = () => {
     { icon: Earth, numbers: "4597", text: "Country Members", offset: 45 },
   ];
 
+  const categories = Object.values(ProjectCategoryEnum);
   const { data: res, isFetching } = useQuery({
     queryKey: ["latest-projects"],
     queryFn: () =>
       getProjects({
         page: 1,
         pageSize: 4,
-        category: ProjectCategoryEnum.ALL,
-        status: ProjectStatusEnum.ONGOING,
+        categoryTypes: categories,
+        status: ProjectStatusEnum.APPROVED,
+        countryIsoCodes: []
       }),
   });
 

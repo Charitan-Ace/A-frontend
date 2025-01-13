@@ -2,12 +2,12 @@ import { ReactElement } from "react";
 import { Navigate, Route, Routes } from "react-router";
 import { AuthRoutes } from "@/auth";
 import { MainLayout } from "@/layout";
-import { ProjectPage } from "@/pages/project";
 import { SearchPage } from "@/pages/search";
 import { HomePage } from "@/pages/home";
 import { DonationPage } from "@/pages/donation";
 import { ProfilePage } from "@/pages/profile";
 import ProtectedRoute from "./protected-route";
+import { ProjectDetailPage, ProjectPage } from "@/pages/project";
 
 const AppRoutingSetup = (): ReactElement => {
   return (
@@ -16,7 +16,7 @@ const AppRoutingSetup = (): ReactElement => {
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
         <Route path="/project/search" element={<SearchPage />} />
-        <Route path="/project/:id" element={<ProjectPage />} />
+        <Route path="/project/:id" element={<ProjectDetailPage />} />
         <Route path="/auth/*" element={<AuthRoutes />} />
 
         {/* Protected routes */}

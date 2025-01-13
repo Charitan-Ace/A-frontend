@@ -17,7 +17,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
   );
 
   const projectStatus = projectStatuses.find(
-    (status) => status.value === project.status
+    (status) => status.value === project.statusType
   );
 
   const [showDonateForm, setShowDonateForm] = useState(false);
@@ -28,7 +28,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
         <div className="group relative h-[400px] bg-muted">
           <img
             src={project.imageUrl}
-            alt={project.name}
+            alt={project.title}
             className="w-full h-full object-cover"
           />
           <div className="absolute inset-0 flex items-center justify-center bg-gray-600/0 opacity-0 transition-all group-hover:bg-gray-600/80 group-hover:opacity-100">
@@ -45,7 +45,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-emerald-600 font-medium">
-                {project.category}
+                {project.categoryType}
               </span>
 
               {projectStatus && (
@@ -58,7 +58,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
                 </Badge>
               )}
             </div>
-            <h2 className="text-4xl font-serif">{project.name}</h2>
+            <h2 className="text-4xl font-serif">{project.title}</h2>
             <p className="text-muted-foreground">{project.description}</p>
           </div>
 
@@ -84,7 +84,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       </Card>
       {showDonateForm && (
         <DonateFormUI
-          projectName={project.name}
+          projectName={project.title}
           projectId={project.id}
           onClose={() => setShowDonateForm(false)}
         />

@@ -2,20 +2,25 @@ import { useCallback } from "react";
 import {
   Checkbox,
   FormControl,
+  InputAdornment,
   InputLabel,
   ListItemText,
+  ListSubheader,
   MenuItem,
   OutlinedInput,
   Select,
   SelectChangeEvent,
+  TextField,
 } from "@mui/material";
 
 import { useMultiSelect } from "../_hooks/use-multi-select";
+import { SearchIcon } from "lucide-react";
 
 interface MultiSelectProps<T> {
   filterBy: string;
   options: { name: string; value: T }[];
   defaultItems: { name: string; value: T }[];
+  isSearchable?: boolean;
   onValueChange: (value: { name: string; value: T }[]) => void;
 }
 
@@ -24,8 +29,9 @@ function MultiSelect<T>({
   options,
   onValueChange,
   defaultItems,
+  isSearchable = false,
 }: MultiSelectProps<T>) {
-  const ITEM_HEIGHT = 48;
+  const ITEM_HEIGHT = 80;
   const ITEM_PADDING_TOP = 4;
   const MenuProps = {
     PaperProps: {
@@ -34,11 +40,19 @@ function MultiSelect<T>({
         width: 250,
       },
     },
+    autoFocus: false,
   };
 
-  const { selectedItems, setSelectedItems, placeholder } = useMultiSelect<T>({
+  const {
+    initialOptions,
+    selectedItems,
+    setSelectedItems,
+    placeholder,
+    setQuery,
+  } = useMultiSelect<T>({
     filterBy,
     defaultItems,
+    options,
   });
 
   const handleChange = useCallback(
@@ -66,7 +80,31 @@ function MultiSelect<T>({
         MenuProps={MenuProps}
         renderValue={() => <p className="!text-sm">{placeholder}</p>}
       >
-        {options.map((option) => (
+        {isSearchable && (
+          <ListSubheader>
+            <TextField
+              size="small"
+              // Autofocus on textfield
+              autoFocus
+              placeholder="Type to search..."
+              fullWidth
+              InputProps={{
+                startAdornment: (
+                  <InputAdornment position="start">
+                    <SearchIcon />
+                  </InputAdornment>
+                ),
+              }}
+              onChange={(e) => setQuery(e.target.value)}
+              onKeyDown={(e) => {
+                // Prevents autoselecting item while typing (default Select behaviour)
+                e.stopPropagation();
+              }}
+            />
+          </ListSubheader>
+        )}
+
+        {initialOptions.map((option) => (
           <MenuItem value={JSON.stringify(option)} key={option.name}>
             <Checkbox
               checked={selectedItems.some((item) => item.name === option.name)}
