@@ -37,6 +37,7 @@ export interface DonorModel extends UserModel {
   address?: string;
   avatar?: string;
   donorStripeId?: string;
+  userId?: number;
 }
 
 export interface CharityModel extends UserModel {
@@ -71,4 +72,14 @@ export interface UserDto {
   lastName: string;
   phone?: string;
   profilePictureUrl?: string;
+}
+
+export interface CharityProfileData {
+  userId: string;
+  companyName: string;
+  address: string;
+  taxCode: string;
+  organizationType: string;
+  assetsKey: string;
+  video: string;
 }

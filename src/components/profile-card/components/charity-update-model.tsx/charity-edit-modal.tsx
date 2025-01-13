@@ -6,7 +6,6 @@ import { Label } from "@/components/ui/label";
 import { useCharityProfile } from "./hooks/useCharityProfileUpdate";
 import { CharityUpdateInput } from "@/api/profile/schema/charity-update-schema";
 import { OrganizationType } from "@/type/auth/model";
-import { Select } from "@mui/material";
 interface CharityProfileEditModalProps {
   getProfileCharity: () => Promise<any>;
   updateProfileCharity: (body: CharityUpdateInput) => Promise<any>;
@@ -91,21 +90,27 @@ const CharityProfileEditModal: React.FC<CharityProfileEditModalProps> = ({
                 required
               />
             </div>
-            <Select
-              className="mt-3 col-span-1 md:col-span-2"
-              fullWidth
-              defaultValue={formData.organizationType || ""}
-              onChange={(e) =>
-                handleInputChange("organizationType", e.target.value)
-              }
-            >
-              <option value="" disabled>
-                Organization Type
-              </option>
-              <option value={OrganizationType.COMPANY}>Company</option>
-              <option value={OrganizationType.INDIVIDUAL}>Individual</option>
-              <option value={OrganizationType.NON_PROFIT}>Non-Profit</option>
-            </Select>
+
+            <div>
+              <Label htmlFor="taxCode" className="text-gray-700">
+                Address
+              </Label>
+
+              <select
+                className="border border-gray-300 font-sans rounded-md p-2 w-full"
+                defaultValue={formData.organizationType || ""}
+                onChange={(e) =>
+                  handleInputChange("organizationType", e.target.value)
+                }
+              >
+                <option value="" disabled>
+                  Organization Type
+                </option>
+                <option value={OrganizationType.COMPANY}>Company</option>
+                <option value={OrganizationType.INDIVIDUAL}>Individual</option>
+                <option value={OrganizationType.NON_PROFIT}>Non-Profit</option>
+              </select>
+            </div>
           </form>
         )}
 

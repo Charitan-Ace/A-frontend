@@ -7,20 +7,6 @@ import { getRequest } from "@/utils/http-request";
 
 const getMe = async () => {
   try {
-    // TODO: for testing, remove later
-    // const { email, password } = input;
-    // console.log("login", email, password);
-
-    // const jwe = await new jose.CompactEncrypt(
-    //   new TextEncoder().encode(JSON.stringify({ email, password }))
-    // )
-    //   .setProtectedHeader({ alg: "RSA-OAEP-256", enc: "A256GCM" })
-    //   .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
-
-    // const response = await postRequest(LOGIN_URL, jwe);
-
-    // -----------------------------------------
-    // TODO: open this later
     const response = await getRequest(GET_ME_URL);
     const responseData = await response.json;
 
