@@ -27,7 +27,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
       <Card className="max-w-md overflow-hidden">
         <div className="group relative h-[400px] bg-muted">
           <img
-            src={project.imageUrl}
+            src={project.mediaDtoList[0]}
             alt={project.title}
             className="w-full h-full object-cover"
           />

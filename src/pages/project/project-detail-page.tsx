@@ -6,6 +6,8 @@ import { DonateForm } from "@/pages/search/_components/donate-form";
 import { useParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@/api/project/service/get-project-by-id";
+import { ImagesCarousel } from "./_component/project-images-carousel";
+import { Carousel } from "./_hooks/carousel-context";
 
 const ProjectDetailPage = () => {
   const projectId = useParams<{ id: string }>().id;
@@ -22,6 +24,14 @@ const ProjectDetailPage = () => {
 
   const { data: project } = projectRes;
 
+  const TEMP_IMAGES = [
+    "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg",
+
+    "https://i.pinimg.com/474x/49/ea/cf/49eacfdc693f2cc7f1ca9dd14e075d62.jpg",
+
+    "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg",
+  ];
+
   return (
     <div className="container mx-auto px-4 py-8 max-w-7xl mt-16">
       {project && (
@@ -32,20 +42,23 @@ const ProjectDetailPage = () => {
               {/* Main content */}
               <div className="space-y-8">
                 {/* Hero Image */}
-                <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
-                  <img
-                    src={project.imageUrl}
-                    alt={project.title}
-                    className="w-full h-full object-cover"
-                  />
-                </div>
+                <ImagesCarousel
+                  images={
+                    project.mediaDtoList.length === 0
+                      ? TEMP_IMAGES
+                      : project.mediaDtoList
+                  }
+                />
                 {/* Donate Button */}
                 <DonateForm />
 
                 {/* Progress Bar */}
                 <div className="space-y-2">
                   <div className="text-sm">Donate</div>
-                  <Progress value={project.currentDonation} className="h-2 bg-gray-100" />
+                  <Progress
+                    value={project.currentDonation}
+                    className="h-2 bg-gray-100"
+                  />
                   <div className="flex justify-between text-sm text-gray-600">
                     <span>
                       Raised: ${project.currentDonation.toLocaleString("en-US")}
