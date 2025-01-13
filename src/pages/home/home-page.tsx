@@ -123,7 +123,7 @@ const HomePage = () => {
             Find The Popular Cause And Donate Them
           </h1>
           <a
-            href="/project/:id"
+            href="/project/"
             className="text-primary font-medium flex items-center gap-1 group hover:underline"
           >
             View All Causes

@@ -36,7 +36,7 @@ const Header = () => {
             <Navbar />
           </div>
           <div className="basis-1/4">
-            {/* <UserIndicator /> */}
+            <UserIndicator />
           </div>
         </div>
 
