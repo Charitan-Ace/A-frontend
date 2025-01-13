@@ -26,28 +26,28 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
     path: "/profile",
     icon: "Users",
     active: false,
-    children: [
-      {
-        name: "Overview",
-        path: "/profile",
-        active: false,
-      },
-      {
-        name: "Profile Settings",
-        path: "/profile/setting",
-        active: false,
-      },
-      {
-        name: "Donation History",
-        path: "/profile/history",
-        active: false,
-      },
-      {
-        name: "Your Projects",
-        path: "/profile/projects",
-        active: false,
-      },
-    ],
+    // children: [
+    //   {
+    //     name: "Overview",
+    //     path: "/profile",
+    //     active: false,
+    //   },
+    //   {
+    //     name: "Profile Settings",
+    //     path: "/profile/setting",
+    //     active: false,
+    //   },
+    //   {
+    //     name: "Donation History",
+    //     path: "/profile/history",
+    //     active: false,
+    //   },
+    //   {
+    //     name: "Your Projects",
+    //     path: "/profile/projects",
+    //     active: false,
+    //   },
+    // ],
   },
   {
     name: "Donation",
@@ -60,17 +60,17 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
     path: "/project",
     icon: "Folder",
     active: false,
-    children: [
-      {
-        name: "Search Projects",
-        path: "/project/search",
-        active: false,
-      },
-      {
-        name: "Project Details",
-        path: "/project/:id",
-        active: false,
-      },
-    ],
+    // children: [
+    //   {
+    //     name: "Search Projects",
+    //     path: "/project/search",
+    //     active: false,
+    //   },
+    //   {
+    //     name: "Project Details",
+    //     path: "/project/:id",
+    //     active: false,
+    //   },
+    // ],
   },
 ];
