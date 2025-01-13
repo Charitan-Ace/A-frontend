@@ -89,11 +89,11 @@ export const LoginFormUI: React.FC<LoginFormProps> = ({
         Login
       </Button>
 
-      <Typography variant="body2" align="center" className="mt-2">
+      {/* <Typography variant="body2" align="center" className="mt-2">
         <a href={linkForgotPassword} className="text-primary hover:underline">
           Forgot your password?
         </a>
-      </Typography>
+      </Typography> */}
 
       <Typography variant="body2" align="center" className="mt-1">
         Don&apos;t have an account?{" "}

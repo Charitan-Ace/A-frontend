@@ -1,18 +1,28 @@
 import useAuth from "@/hooks/use-auth";
-import React from "react";
 import getFullDonorInfo from "./api/getFullDonorInfo";
 import DonorProfileDetails from "./components/donor-card/donor-details-card";
+import updateProfileDonor from "@/api/profile/service/updateProfileDonor";
+import CharityProfileDetails from "./components/charity-card/charity-details-card";
+import getFullCharityInfo from "./api/getFullCharityInfo";
+import updateProfileCharity from "@/api/profile/service/updateProfileCharity";
 
 const ProfileCard = () => {
+  const { auth } = useAuth();
   return (
     <>
-      {/* {auth && auth.roleId == "DONOR" ? (
-        <DonorProfileDetails loadData={getProfileDonor} />
-      ) : (
-        <DonorProfileDetails />
-      )} */}
+      {auth && auth.roleId == "DONOR" && (
+        <DonorProfileDetails
+          loadData={getFullDonorInfo}
+          updateProfileDonor={updateProfileDonor}
+        />
+      )}
 
-      <DonorProfileDetails loadData={getFullDonorInfo} />
+      {auth && auth.roleId == "CHARITY" && (
+        <CharityProfileDetails
+          loadData={getFullCharityInfo}
+          updateProfileCharity={updateProfileCharity}
+        />
+      )}
     </>
   );
 };
