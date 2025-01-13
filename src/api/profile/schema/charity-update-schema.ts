@@ -4,7 +4,7 @@ export const charityProfileSchema = z.object({
   companyName: z.string().min(1),
   taxCode: z.string().min(1),
   address: z.string().min(1),
-  organizationType: z.enum(["INDIVIDUAL", "ORGANIZATION"]),
+  organizationType: z.enum(["INDIVIDUAL", "ORGANIZATION", "NON_PROFIT"]),
 });
 
 export type CharityUpdateInput = z.infer<typeof charityProfileSchema>;

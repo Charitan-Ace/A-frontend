@@ -106,7 +106,10 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const logout = async () => {
     const response = await logoutMe();
-    console.log(444, "logout response", response);
+
+    if (response.status == 200) {
+      window.location.href = "/auth/login";
+    }
 
     return response;
   };

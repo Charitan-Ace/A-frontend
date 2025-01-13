@@ -1,32 +1,32 @@
 import { Button } from "../../../ui/button";
-import { DonorModel } from "@/type/auth/model";
+import { CharityModel } from "@/type/auth/model";
 import { Card } from "@/components/ui/card";
-import useDonorDetailsCard from "./hooks/useDonorDetailsCard";
+import useCharityDetailsCard from "./hooks/useCharityDetailsCard";
 import { TextField } from "@mui/material";
-import DonorProfileEditModal from "../donor-update-model.tsx/donor-edit-modal";
 import { useEffect } from "react";
-import { DonorUpdateInput } from "@/api/profile/schema/donor-update-schema";
+import { CharityUpdateInput } from "@/api/profile/schema/charity-update-schema";
+import CharityProfileEditModal from "../charity-update-model.tsx/charity-edit-modal";
 
-const DonorProfileDetails = ({
+const CharityProfileDetails = ({
   donor,
   loadData,
-  updateProfileDonor,
+  updateProfileCharity,
 }: {
-  donor?: DonorModel;
-  loadData: () => Promise<DonorModel | null>;
-  updateProfileDonor: (body: DonorUpdateInput) => Promise<any>;
+  donor?: CharityModel;
+  loadData: () => Promise<CharityModel | null>;
+  updateProfileCharity: (body: CharityUpdateInput) => Promise<any>;
 }) => {
   const { isModalOpen, setModalOpen, data, isLoading, handleLoadData } =
-    useDonorDetailsCard({ loadData });
+    useCharityDetailsCard({ loadData });
 
-  const displayDonor = data || donor;
+  const displayCharity = data || donor;
 
   useEffect(() => {
     handleLoadData();
   }, []);
 
-  const handleSave = (updatedDonor: DonorModel) => {
-    console.log("Donor updated:", updatedDonor);
+  const handleSave = (updatedCharity: CharityModel) => {
+    console.log("Charity updated:", updatedCharity);
     handleLoadData();
   };
 
@@ -36,7 +36,7 @@ const DonorProfileDetails = ({
         <div className="m-6">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-2">
-              <h2 className="text-xl font-semibold">Donor Details</h2>
+              <h2 className="text-xl font-semibold">Charity Details</h2>
               <div className="flex-grow h-[1px] bg-gray-300"></div>
             </div>
             <Button
@@ -49,11 +49,11 @@ const DonorProfileDetails = ({
           </div>
 
           <div className="flex flex-col md:flex-row items-center gap-12 mt-4">
-            {displayDonor?.avatar && (
+            {displayCharity?.avatar && (
               <div className="w-48 h-48 border-2 border-gray-300 rounded-full overflow-hidden">
                 <img
-                  src={displayDonor.avatar}
-                  alt={`${displayDonor.firstName || "Donor"}'s Avatar`}
+                  src={displayCharity.avatar}
+                  alt={`${displayCharity.firstName || "Charity"}'s Avatar`}
                   className="object-cover w-full h-full"
                 />
               </div>
@@ -65,7 +65,7 @@ const DonorProfileDetails = ({
                   label="Email"
                   variant="outlined"
                   fullWidth
-                  value={displayDonor?.email || "N/A"}
+                  value={displayCharity?.email || "N/A"}
                   InputProps={{ readOnly: true }}
                   size="small"
                 />
@@ -75,27 +75,27 @@ const DonorProfileDetails = ({
                   label="Role"
                   variant="outlined"
                   fullWidth
-                  value={displayDonor?.roleId || "N/A"}
+                  value={displayCharity?.roleId || "N/A"}
                   InputProps={{ readOnly: true }}
                   size="small"
                 />
               </div>
               <div>
                 <TextField
-                  label="First Name"
+                  label="Company Name"
                   variant="outlined"
                   fullWidth
-                  value={displayDonor?.firstName || "N/A"}
+                  value={displayCharity?.companyName || "N/A"}
                   InputProps={{ readOnly: true }}
                   size="small"
                 />
               </div>
               <div>
                 <TextField
-                  label="Last Name"
+                  label="Tax Code"
                   variant="outlined"
                   fullWidth
-                  value={displayDonor?.lastName || "N/A"}
+                  value={displayCharity?.taxCode || "N/A"}
                   InputProps={{ readOnly: true }}
                   size="small"
                 />
@@ -105,7 +105,17 @@ const DonorProfileDetails = ({
                   label="Address"
                   variant="outlined"
                   fullWidth
-                  value={displayDonor?.address || "N/A"}
+                  value={displayCharity?.address || "N/A"}
+                  InputProps={{ readOnly: true }}
+                  size="small"
+                />
+              </div>
+              <div>
+                <TextField
+                  label="Organization Type"
+                  variant="outlined"
+                  fullWidth
+                  value={displayCharity?.organizationType || "N/A"}
                   InputProps={{ readOnly: true }}
                   size="small"
                 />
@@ -116,10 +126,10 @@ const DonorProfileDetails = ({
       </Card>
 
       {isModalOpen && (
-        <DonorProfileEditModal
+        <CharityProfileEditModal
           onClose={() => setModalOpen(false)}
-          getProfileDonor={loadData}
-          updateProfileDonor={updateProfileDonor}
+          getProfileCharity={loadData}
+          updateProfileCharity={updateProfileCharity}
           onSave={handleSave}
         />
       )}
@@ -127,4 +137,4 @@ const DonorProfileDetails = ({
   );
 };
 
-export default DonorProfileDetails;
+export default CharityProfileDetails;

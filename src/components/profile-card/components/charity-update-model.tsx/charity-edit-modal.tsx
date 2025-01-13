@@ -1,27 +1,29 @@
-// src/components/donor-update-model/DonorProfileEditModal.tsx
+// src/components/donor-update-model/CharityProfileEditModal.tsx
 
 import React from "react";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
-import { useDonorProfile } from "./hooks/useDonorProfileUpdate";
-import { DonorUpdateInput } from "@/api/profile/schema/donor-update-schema";
-interface DonorProfileEditModalProps {
-  getProfileDonor: () => Promise<any>;
-  updateProfileDonor: (body: DonorUpdateInput) => Promise<any>;
+import { useCharityProfile } from "./hooks/useCharityProfileUpdate";
+import { CharityUpdateInput } from "@/api/profile/schema/charity-update-schema";
+import { OrganizationType } from "@/type/auth/model";
+import { Select } from "@mui/material";
+interface CharityProfileEditModalProps {
+  getProfileCharity: () => Promise<any>;
+  updateProfileCharity: (body: CharityUpdateInput) => Promise<any>;
   onClose: () => void;
   onSave: (donor: any) => void;
 }
 
-const DonorProfileEditModal: React.FC<DonorProfileEditModalProps> = ({
-  getProfileDonor,
-  updateProfileDonor,
+const CharityProfileEditModal: React.FC<CharityProfileEditModalProps> = ({
+  getProfileCharity,
+  updateProfileCharity,
   onClose,
   onSave,
 }) => {
   const { formData, loading, error, success, handleInputChange, handleSubmit } =
-    useDonorProfile({
-      getProfileDonor,
-      updateProfileDonor,
+    useCharityProfile({
+      getProfileCharity,
+      updateProfileCharity,
       onSave,
       onClose,
     });
@@ -49,34 +51,23 @@ const DonorProfileEditModal: React.FC<DonorProfileEditModalProps> = ({
             onSubmit={handleSubmit}
           >
             <div>
-              <Label htmlFor="firstName" className="text-gray-700">
+              <Label htmlFor="companyName" className="text-gray-700">
                 First Name
               </Label>
               <input
-                id="firstName"
+                id="companyName"
                 type="text"
-                value={formData.firstName || ""}
-                onChange={(e) => handleInputChange("firstName", e.target.value)}
-                className="border border-gray-300 font-sans rounded-md p-2 w-full"
-                required
-              />
-            </div>
-            <div>
-              <Label htmlFor="lastName" className="text-gray-700">
-                Last Name
-              </Label>
-              <input
-                id="lastName"
-                type="text"
-                value={formData.lastName || ""}
-                onChange={(e) => handleInputChange("lastName", e.target.value)}
+                value={formData.companyName || ""}
+                onChange={(e) =>
+                  handleInputChange("companyName", e.target.value)
+                }
                 className="border border-gray-300 font-sans rounded-md p-2 w-full"
                 required
               />
             </div>
             <div>
               <Label htmlFor="address" className="text-gray-700">
-                Address
+                Last Name
               </Label>
               <input
                 id="address"
@@ -87,6 +78,36 @@ const DonorProfileEditModal: React.FC<DonorProfileEditModalProps> = ({
                 required
               />
             </div>
+            <div>
+              <Label htmlFor="taxCode" className="text-gray-700">
+                Address
+              </Label>
+              <input
+                id="taxCode"
+                type="text"
+                value={formData.taxCode || ""}
+                onChange={(e) => handleInputChange("taxCode", e.target.value)}
+                className="border border-gray-300 font-sans rounded-md p-2 w-full"
+                required
+              />
+            </div>
+            <Select
+              className="mt-3"
+              fullWidth
+              defaultValue=""
+              onChange={(e) =>
+                handleInputChange("organizationType", e.target.value)
+              }
+            >
+              <option value="" disabled>
+                Organization Type
+              </option>
+              <option value={OrganizationType.ORGANIZATION}>
+                Organization
+              </option>
+              <option value={OrganizationType.INDIVIDUAL}>Individual</option>
+              <option value={OrganizationType.NON_PROFIT}>Non-Profit</option>
+            </Select>
           </form>
         )}
 
@@ -119,4 +140,4 @@ const DonorProfileEditModal: React.FC<DonorProfileEditModalProps> = ({
   );
 };
 
-export default DonorProfileEditModal;
+export default CharityProfileEditModal;

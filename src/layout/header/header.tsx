@@ -2,13 +2,9 @@ import { clsx } from "clsx";
 import { Navbar } from "@/layout/navbar";
 import { toAbsoluteUrl } from "@/utils/assets.ts";
 import { UserIndicator } from "@/layout/header/user-indicator.tsx";
-import { useLocation } from "react-router-dom";
-import HeadlessButton from "@/components/button/headless-button/HeadlessButton";
-import useAuth from "@/hooks/use-auth";
+import { useNavigate } from "react-router-dom";
 
 const Header = () => {
-  const { logout } = useAuth();
-
   // const currentLocation = useLocation();
   // const currentNavigation = useNavCurrentItem(
   //   currentLocation.pathname,
@@ -16,11 +12,12 @@ const Header = () => {
   // );
 
   // console.log("currentNavigation", currentNavigation, NAVBAR_ITEMS);
+  const navigate = useNavigate();
 
   return (
     <header
       className={clsx(
-        "header fixed top-0 z-50 start-0 end-0 flex justify-center items-stretch shrink-0 h-24",
+        "header fixed top-0 z-50 start-0 end-0 flex justify-center items-stretch shrink-0 h-fit pb-3",
         "shadow-sm bg-black bg-opacity-20"
       )}
     >
@@ -29,8 +26,9 @@ const Header = () => {
           <div className="flex items-center gap-2 basis-1/4">
             <img
               src={toAbsoluteUrl("/media/logo/Charitan_Logo.png")}
-              className="max-h-[25px] shrink-0 grow-0"
+              className="h-9 shrink-0 grow-0 hover:cursor-pointer"
               alt="logo-test"
+              onClick={() => navigate("/")}
             />
             {/* <p className="text-primary-foreground font-semibold">Charitan</p> */}
           </div>
@@ -38,12 +36,6 @@ const Header = () => {
             <Navbar />
           </div>
           <div className="basis-1/4">
-            <HeadlessButton
-              title="Logout"
-              color="green"
-              text="white"
-              onClick={logout}
-            />
             <UserIndicator />
           </div>
         </div>
