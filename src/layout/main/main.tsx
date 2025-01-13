@@ -1,6 +1,7 @@
 import { Fragment } from "react";
 import { Outlet } from "react-router";
 import { Header } from "@/layout/header";
+import Footer from "../footer/footer";
 
 const Main = () => {
   return (
@@ -10,6 +11,7 @@ const Main = () => {
         <main className="grow content" role="content">
           <Outlet />
         </main>
+        <Footer />
       </div>
     </Fragment>
   );
