@@ -2,4 +2,4 @@ const API_URL = import.meta.env.VITE_APP_API_URL ?? "http://localhost:3000";
 
 export const DONATIONS_URL = `${API_URL}/donation`;
 
-export const GET_MY_DONATIONS_URL = `${API_URL}/donation/my-donations`;
+export const GET_MY_DONATIONS_URL = `${API_URL}/donation/donor/my-donations`;

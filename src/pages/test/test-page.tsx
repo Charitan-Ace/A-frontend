@@ -1,4 +1,5 @@
 import { getProjects } from "@/api/project";
+import getProjectsMe from "@/api/project/service/get-projects-by-charity";
 import getTotalDonation from "@/api/statistics/service/getTotalDonation";
 import { Button } from "@/components/ui/button";
 import { ProjectCategoryEnum, ProjectStatusEnum } from "@/type/enum";
@@ -23,7 +24,9 @@ const TestPage = () => {
         <Button onClick={() => getTotalDonation()}>
           Get Total Statistic Donation
         </Button>
-        <Button onClick={() => {}}>Test Page</Button>
+        <Button onClick={() => getProjectsMe({ pageIndex: 10, pageSize: 10 })}>
+          Project Me
+        </Button>
         <Button onClick={() => {}}>Test Page</Button>
         <Button onClick={() => {}}>Test Page</Button>
         <Button onClick={() => {}}>Test Page</Button>

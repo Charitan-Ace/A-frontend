@@ -2,7 +2,6 @@ import {
   CheckCircle2,
   Church,
   Clock,
-  Globe,
   GraduationCap,
   Heart,
   Home,
@@ -37,6 +36,27 @@ export enum ProjectStatusEnum {
   COMPLETED = "COMPLETED",
   HALTED = "HALTED",
   DELETED = "DELETED",
+}
+
+export enum ProjectCategoryEnumText {
+  FOOD = "Food",
+  HEALTH = "Health",
+  EDUCATION = "Education",
+  ENVIRONMENT = "Environment",
+  RELIGION = "Religion",
+  HUMANITARIAN = "Humanitarian",
+  HOUSING = "Housing",
+  OTHER = "Other",
+}
+
+export enum ProjectStatusEnumText {
+  PENDING = "Pending",
+  APPROVED = "Approved",
+  ONGOING = "Ongoing",
+  COMPLETED = "Completed",
+  ENDED = "Ended",
+  HALTED = "Halted",
+  DELETED = "Deleted",
 }
 
 export const projectStatuses = [

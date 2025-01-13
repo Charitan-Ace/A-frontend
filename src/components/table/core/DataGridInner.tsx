@@ -48,7 +48,7 @@ const DataGridInner = <TData extends object>() => {
   return (
     <Fragment>
       <div className="grid min-w-full">
-        <div className="scrollable-x-auto">
+        <div className="scrollable-x-auto overflow-x-scroll">
           <DataGridTable>
             <DataGridTableHead>
               {table

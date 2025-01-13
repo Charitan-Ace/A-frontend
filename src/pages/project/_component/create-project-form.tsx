@@ -28,7 +28,7 @@ import ShortBanner from "@/components/banner/short-banner/ShortBanner";
 const dateFormatter = (date: Date) => {
   const offset = -new Date().getTimezoneOffset();
   const offsetDate = new Date(date.getTime() + offset * 60 * 1000);
-  return offsetDate.toISOString().slice(0, 16); // Format as YYYY-MM-DDTHH:mm
+  return offsetDate.toISOString().slice(0, 16);
 };
 
 const addTimeZoneOffset = (date: string) => {

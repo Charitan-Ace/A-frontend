@@ -24,7 +24,7 @@ const HomePage = () => {
         pageSize: 4,
         categoryTypes: categories,
         status: ProjectStatusEnum.APPROVED,
-        countryIsoCodes: []
+        countryIsoCodes: [],
       }),
   });
 
@@ -125,7 +125,7 @@ const HomePage = () => {
             Find The Popular Cause And Donate Them
           </h1>
           <a
-            href="/project/"
+            href="/project"
             className="text-primary font-medium flex items-center gap-1 group hover:underline"
           >
             View All Causes
