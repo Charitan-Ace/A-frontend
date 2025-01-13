@@ -24,12 +24,10 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
 
   return (
     <>
-      <Card className="max-w-md overflow-hidden">
-        <div className="group relative h-[400px] bg-muted">
+      <Card className="max-w-md overflow-hidden flex flex-col">
+        <div className="grow-0 group relative h-[400px] bg-muted">
           <img
-            src={
-              project.mediaDtoList[0]?.mediaUrl
-            }
+            src={project.mediaDtoList[0]?.mediaUrl}
             alt={project.title}
             className="w-full h-full object-cover"
           />
@@ -43,7 +41,7 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             </Button>
           </div>
         </div>
-        <CardContent className="p-6 space-y-6">
+        <CardContent className="p-6 grow-0 space-y-6">
           <div className="space-y-4">
             <div className="flex items-center justify-between">
               <span className="text-emerald-600 font-medium">
@@ -83,6 +81,15 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             </div>
           </div>
         </CardContent>
+        <div className="grow flex-col"></div>
+
+        <div className="m-2 grow-0 ">
+          <a href={`/project/${project.id}`}>
+            <Button className="text-white hover:text-primary hover:bg-secondary w-full font-medium flex items-center gap-1 hover:underline">
+              View Details
+            </Button>
+          </a>
+        </div>
       </Card>
       {showDonateForm && (
         <DonateFormUI
