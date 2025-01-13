@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from "react";
-import { INavbarItem } from "@/layout/navbar/navbar-config.ts";
+import { INavbarItem, NAVBAR_ITEMS } from "@/layout/navbar/navbar-config.ts";
 import { matchPath, useLocation } from "react-router-dom";
 
 interface UseNavbarProps {
@@ -27,7 +27,7 @@ const useNavbar = ({ items, role }: UseNavbarProps) => {
   );
 
   const activePaths = useMemo(() => {
-    return (getActivePaths(items) ?? []).filter((item) =>
+    return (getActivePaths(items) ?? NAVBAR_ITEMS).filter((item) =>
       item.auth.includes(role)
     );
   }, [getActivePaths, items, role]);

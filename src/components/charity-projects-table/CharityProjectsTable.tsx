@@ -1,11 +1,23 @@
-import { Card } from "@mui/material";
-import { ColumnDef } from "@tanstack/react-table";
-import { useMemo } from "react";
-import { DataGrid } from "../table";
 import useCharityProjectsTable from "./hooks/useCharityProjectsTable";
 import { ProjectDto } from "@/type/project/project.dto";
-import { MediaReturnDto } from "@/type/media/media.dto";
 import { ProjectCategoryEnumText, ProjectStatusEnumText } from "@/type/enum";
+import { Button } from "../ui/button";
+import { PenSquareIcon } from "lucide-react";
+
+import { ColumnDef } from "@tanstack/react-table";
+import { Card } from "@mui/material";
+import { DataGrid } from "../table";
+import { useMemo } from "react";
+import {
+  AlertDialog,
+  AlertDialogAction,
+  AlertDialogCancel,
+  AlertDialogContent,
+  AlertDialogDescription,
+  AlertDialogFooter,
+  AlertDialogTitle,
+  AlertDialogTrigger,
+} from "../ui/alert-dialog";
 
 const CharityProjectsTable = () => {
   const columns = useMemo<ColumnDef<ProjectDto, any>[]>(
@@ -20,38 +32,38 @@ const CharityProjectsTable = () => {
         header: "Title",
         cell: (info) => info.getValue(),
       },
-      {
-        accessorKey: "mediaDtoList",
-        header: "Media",
-        cell: (info) => (
-          <div style={{ display: "flex", gap: "8px" }}>
-            {info.getValue().map((media: MediaReturnDto) =>
-              media.resourceType === "image" ? (
-                <img
-                  key={media.id}
-                  src={media.mediaUrl}
-                  alt={`Project media ${media.id}`}
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    objectFit: "cover",
-                  }}
-                />
-              ) : (
-                <video
-                  key={media.id}
-                  src={media.mediaUrl}
-                  style={{
-                    width: "50px",
-                    height: "50px",
-                    objectFit: "cover",
-                  }}
-                />
-              )
-            )}
-          </div>
-        ),
-      },
+      // {
+      //   accessorKey: "mediaDtoList",
+      //   header: "Media",
+      //   cell: (info) => (
+      //     <div style={{ display: "flex", gap: "8px" }}>
+      //       {info.getValue().map((media: MediaReturnDto) =>
+      //         media.resourceType === "image" ? (
+      //           <img
+      //             key={media.id}
+      //             src={media.mediaUrl}
+      //             alt={`Project media ${media.id}`}
+      //             style={{
+      //               width: "50px",
+      //               height: "50px",
+      //               objectFit: "cover",
+      //             }}
+      //           />
+      //         ) : (
+      //           <video
+      //             key={media.id}
+      //             src={media.mediaUrl}
+      //             style={{
+      //               width: "50px",
+      //               height: "50px",
+      //               objectFit: "cover",
+      //             }}
+      //           />
+      //         )
+      //       )}
+      //     </div>
+      //   ),
+      // },
       {
         accessorKey: "description",
         header: "Description",
@@ -111,15 +123,47 @@ const CharityProjectsTable = () => {
           });
         },
       },
-      {
-        accessorKey: "charityId",
-        header: "Charity ID",
-        cell: (info) => info.getValue(),
-      },
+      // {
+      //   accessorKey: "charityId",
+      //   header: "Charity ID",
+      //   cell: (info) => info.getValue(),
+      // },
       {
         accessorKey: "countryIsoCode",
         header: "Country",
         cell: (info) => info.getValue(),
+      },
+      {
+        id: "actions",
+        enableHiding: false,
+        cell: ({ row }) => {
+          const project = row.original;
+
+          return (
+            <AlertDialog>
+              <AlertDialogTrigger asChild>
+                <Button>
+                  <PenSquareIcon />
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent className="!max-w-[30%]">
+                <AlertDialogTitle>
+                  Project status change! - Project: {project.title}
+                </AlertDialogTitle>
+                <AlertDialogDescription>
+                  Would you want to change the status of the project to
+                  complete? Changes made will notice subscribers.
+                </AlertDialogDescription>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>Cancel</AlertDialogCancel>
+                  <AlertDialogAction>Continue</AlertDialogAction>
+                </AlertDialogFooter>
+
+                {/* <CreateProjectForm /> */}
+              </AlertDialogContent>
+            </AlertDialog>
+          );
+        },
       },
     ],
     []

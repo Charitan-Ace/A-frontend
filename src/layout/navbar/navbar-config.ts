@@ -23,18 +23,13 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
     icon: "Folder",
     active: false,
     auth: ["donor", "charity", "guest"],
-    // children: [
-    //   {
-    //     name: "Search Projects",
-    //     path: "/project/search",
-    //     active: false,
-    //   },
-    //   {
-    //     name: "Project Details",
-    //     path: "/project/:id",
-    //     active: false,
-    //   },
-    // ],
+  },
+  {
+    name: "My projects",
+    path: "/project/manage",
+    icon: "Folder",
+    active: false,
+    auth: ["charity"],
   },
   {
     name: "Profile",

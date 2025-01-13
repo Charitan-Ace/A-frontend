@@ -133,137 +133,134 @@ const CreateProjectForm = () => {
   };
 
   return (
-    <div className="">
-      <ShortBanner title="Create Project" />
-      <div className="container m-auto">
-        <form onSubmit={handleSubmit(onSubmit)}>
-          <TextField
-            label="Project Title"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            {...register("title")}
-            error={!!errors.title}
-            helperText={errors.title?.message}
-          />
+    <div className="container m-auto">
+      <form onSubmit={handleSubmit(onSubmit)}>
+        <TextField
+          label="Project Title"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          {...register("title")}
+          error={!!errors.title}
+          helperText={errors.title?.message}
+        />
 
-          <TextField
-            label="Project Description"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            {...register("description", {
-              maxLength: {
-                value: 200,
-                message: `Description cannot exceed ${200} characters`,
-              },
-            })}
-            multiline
-            maxRows={5}
-            error={!!errors.description}
-            helperText={
-              <span className="flex justify-between">
-                <span>{errors.description?.message}</span>
-                <span>
-                  {description.length}/{200}
-                </span>
+        <TextField
+          label="Project Description"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          {...register("description", {
+            maxLength: {
+              value: 200,
+              message: `Description cannot exceed ${200} characters`,
+            },
+          })}
+          multiline
+          maxRows={5}
+          error={!!errors.description}
+          helperText={
+            <span className="flex justify-between">
+              <span>{errors.description?.message}</span>
+              <span>
+                {description.length}/{200}
               </span>
-            }
-          />
+            </span>
+          }
+        />
 
+        <TextField
+          label="Goal Amount"
+          variant="outlined"
+          fullWidth
+          margin="normal"
+          type="number"
+          {...register("goal")}
+          error={!!errors.goal}
+          helperText={errors.goal?.message}
+        />
+
+        <div className="flex gap-2 items-center">
           <TextField
-            label="Goal Amount"
+            label="Start Date"
+            type="datetime-local"
             variant="outlined"
             fullWidth
             margin="normal"
-            type="number"
-            {...register("goal")}
-            error={!!errors.goal}
-            helperText={errors.goal?.message}
+            {...register("startTime")}
+            error={!!errors.startTime}
+            helperText={errors.startTime?.message}
           />
 
-          <div className="flex gap-2 items-center">
-            <TextField
-              label="Start Date"
-              type="datetime-local"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              {...register("startTime")}
-              error={!!errors.startTime}
-              helperText={errors.startTime?.message}
-            />
-
-            <TextField
-              label="End Date"
-              type="datetime-local"
-              variant="outlined"
-              fullWidth
-              margin="normal"
-              {...register("endTime")}
-              error={!!errors.endTime}
-              helperText={errors.endTime?.message}
-            />
-          </div>
-
-          <div className="flex items-center gap-2">
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="category-select">Category Type</InputLabel>
-              <Select
-                labelId="category-select"
-                label="Category Type"
-                {...register("categoryType")}
-                error={!!errors.categoryType}
-                fullWidth
-              >
-                {Object.values(ProjectCategoryEnum).map((type) => {
-                  return (
-                    <MenuItem key={type} value={type}>
-                      {type}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-
-            <FormControl fullWidth margin="normal">
-              <InputLabel id="country-code">Country</InputLabel>
-              <Select
-                labelId="country-code"
-                label="Country"
-                {...register("countryIsoCode")}
-                error={!!errors.countryIsoCode}
-              >
-                {COUNTRIES.map((country) => {
-                  return (
-                    <MenuItem key={country.code} value={country.code}>
-                      {country.name}
-                    </MenuItem>
-                  );
-                })}
-              </Select>
-            </FormControl>
-          </div>
-
-          <MediaUploadForm
-            isValid={isValid}
-            mediaFiles={mediaFiles}
-            removeFile={removeFile}
-            handleFileChange={handleFileChange}
-          />
-
-          <Button
-            variant="contained"
-            color="primary"
-            type="submit"
+          <TextField
+            label="End Date"
+            type="datetime-local"
+            variant="outlined"
             fullWidth
-            disabled={!isValid || createNewProject.isPending || !formValid}
-            sx={{ mt: 2 }}
-          >
-            Create Project
-          </Button>
-        </form>
-      </div>
+            margin="normal"
+            {...register("endTime")}
+            error={!!errors.endTime}
+            helperText={errors.endTime?.message}
+          />
+        </div>
+
+        <div className="flex items-center gap-2">
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="category-select">Category Type</InputLabel>
+            <Select
+              labelId="category-select"
+              label="Category Type"
+              {...register("categoryType")}
+              error={!!errors.categoryType}
+              fullWidth
+            >
+              {Object.values(ProjectCategoryEnum).map((type) => {
+                return (
+                  <MenuItem key={type} value={type}>
+                    {type}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+
+          <FormControl fullWidth margin="normal">
+            <InputLabel id="country-code">Country</InputLabel>
+            <Select
+              labelId="country-code"
+              label="Country"
+              {...register("countryIsoCode")}
+              error={!!errors.countryIsoCode}
+            >
+              {COUNTRIES.map((country) => {
+                return (
+                  <MenuItem key={country.code} value={country.code}>
+                    {country.name}
+                  </MenuItem>
+                );
+              })}
+            </Select>
+          </FormControl>
+        </div>
+
+        <MediaUploadForm
+          isValid={isValid}
+          mediaFiles={mediaFiles}
+          removeFile={removeFile}
+          handleFileChange={handleFileChange}
+        />
+
+        <Button
+          variant="contained"
+          color="primary"
+          type="submit"
+          fullWidth
+          disabled={!isValid || createNewProject.isPending || !formValid}
+          sx={{ mt: 2 }}
+        >
+          Create Project
+        </Button>
+      </form>
     </div>
   );
 };

@@ -14,11 +14,11 @@ const Footer = () => {
             © {new Date().getFullYear()} Charitan. All rights reserved.
           </p>
         </div>
-        <img
+        {/* <img
           src={toAbsoluteUrl("/media/home/homeBG-deco.png")}
           alt="scroll-down"
           className="absolute bottom-0 right-0"
-        />
+        /> */}
       </div>
     </div>
   );

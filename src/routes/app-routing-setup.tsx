@@ -8,8 +8,8 @@ import { DonationPage } from "@/pages/donation";
 import { ProfilePage } from "@/pages/profile";
 import ProtectedRoute from "./protected-route";
 import { ProjectDetailPage, ProjectPage } from "@/pages/project";
-import CreateProjectForm from "@/pages/project/_component/create-project-form";
 import TestPage from "@/pages/test/test-page";
+import { CreateProjectPage } from "@/pages/project/create-project-page";
 
 const AppRoutingSetup = (): ReactElement => {
   return (
@@ -17,24 +17,28 @@ const AppRoutingSetup = (): ReactElement => {
       {/* Public routes */}
       <Route element={<MainLayout />}>
         <Route path="/" element={<HomePage />} />
-        <Route path="/project/create" element={<CreateProjectForm />} />
-        <Route path="/project" element={<SearchPage />} />
-        <Route path="/project/:id" element={<ProjectDetailPage />} />
+
         <Route path="/auth/*" element={<AuthRoutes />} />
 
         <Route element={<ProtectedRoute allowedRoles={[]} />}>
           <Route path="/project/search" element={<SearchPage />} />
         </Route>
 
+        <Route path="/project/create" element={<CreateProjectPage />} />
+        <Route path="/project/:id" element={<ProjectDetailPage />} />
+
         {/* Protected routes */}
         <Route element={<ProtectedRoute allowedRoles={["DONOR", "CHARITY"]} />}>
           <Route path="/profile/*" element={<ProfilePage />} />
         </Route>
 
+        <Route element={<ProtectedRoute allowedRoles={["CHARITY"]} />}>
+          <Route path="/project/manage" element={<ProjectPage />} />
+        </Route>
+
         <Route path="/donation" element={<DonationPage />} />
 
-        <Route path="/project" element={<ProjectPage />} />
-        <Route path="/project/manage" element={<ProjectPage />} />
+        {/* <Route path="/project" element={<ProjectPage />} /> */}
 
         <Route path="/test-connection" element={<TestPage />} />
       </Route>
