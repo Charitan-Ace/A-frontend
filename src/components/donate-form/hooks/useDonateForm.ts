@@ -4,10 +4,12 @@ import { toast } from "react-toastify";
 import { DonationInput, donationSchema } from "@/api/donation/schema/donation-schema";
 import { createDonation } from "@/api/donation/service/donation-service";
 import { truncate } from "fs/promises";
+import useAuth from "@/hooks/use-auth";
 
 const useDonateForm = (projectId: string, onClose: () => void) => {
-  const successUrl = "http://localhost:3000/success";
-  const cancelUrl = "http://localhost:3000/cancel";
+  const successUrl = window.location.href;
+  const cancelUrl = window.location.href;
+  const { auth } = useAuth();
 
   const {
     register,
@@ -52,8 +54,9 @@ const useDonateForm = (projectId: string, onClose: () => void) => {
 
   const onSubmit = async (data: DonationInput) => {
     try {
-      const isGuest = false
-      const payload = isGuest ? payloadGuest(data):  payloadDonor(data)
+      const isDonor = !!auth?.email
+      const payload = isDonor ? payloadDonor(data) : payloadGuest(data)
+      console.log(payload)
 
       var res = await createDonation(payload);
       window.location.href = res.redirectUrl
