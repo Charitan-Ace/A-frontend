@@ -3,14 +3,14 @@ import { z } from "zod";
 const donorProfileSchema = z.object({
   firstName: z.string(),
   lastName: z.string(),
-  address: z.string().optional(),
+  address: z.string(),
 });
 
 const charityProfileSchema = z.object({
   companyName: z.string(),
   taxCode: z.string(),
   address: z.string(),
-  organizationType: z.enum(["INDIVIDUAL", "ORGANIZATION"]),
+  organizationType: z.enum(["INDIVIDUAL", "COMPANY", "NON_PROFIT"]),
 });
 
 export const registerSchema = z.discriminatedUnion("role", [

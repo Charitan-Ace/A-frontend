@@ -8,6 +8,7 @@ import { DonationPage } from "@/pages/donation";
 import { ProfilePage } from "@/pages/profile";
 import ProtectedRoute from "./protected-route";
 import { ProjectDetailPage, ProjectPage } from "@/pages/project";
+import TestPage from "@/pages/test/test-page";
 
 const AppRoutingSetup = (): ReactElement => {
   return (
@@ -29,6 +30,8 @@ const AppRoutingSetup = (): ReactElement => {
 
         <Route path="/project" element={<ProjectPage />} />
         <Route path="/project/manage" element={<ProjectPage />} />
+
+        <Route path="/test-connection" element={<TestPage />} />
       </Route>
 
       {/* Fallback route */}

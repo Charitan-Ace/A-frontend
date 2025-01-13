@@ -6,7 +6,7 @@ import Footer from "../footer/footer";
 const Main = () => {
   return (
     <Fragment>
-      <div className="wrapper flex grow flex-col font-playfair">
+      <div className="wrapper flex grow flex-col font-montserrat">
         <Header />
         <main className="grow content" role="content">
           <Outlet />

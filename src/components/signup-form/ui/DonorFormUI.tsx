@@ -54,6 +54,15 @@ const DonorFormUI = ({
         error={!!errors.profile?.lastName}
         helperText={errors.profile?.lastName?.message}
       />
+      <TextField
+        label="Address"
+        variant="outlined"
+        fullWidth
+        margin="normal"
+        {...register("profile.address")}
+        error={!!errors.profile?.address}
+        helperText={errors.profile?.address?.message}
+      />
 
       {isError && (
         <div className="w-full flex justify-center text-red-500 text-sm font-montserrat">

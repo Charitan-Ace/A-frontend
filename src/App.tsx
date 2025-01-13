@@ -21,7 +21,9 @@ const App = () => {
       <CookiesProvider>
         <PathnameProvider>
           <ThemeProvider>
-            <AppRouting />
+            <div className="max-w-screen overflow-hidden">
+              <AppRouting />
+            </div>
           </ThemeProvider>
         </PathnameProvider>
       </CookiesProvider>

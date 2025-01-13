@@ -92,9 +92,9 @@ const CharityProfileEditModal: React.FC<CharityProfileEditModalProps> = ({
               />
             </div>
             <Select
-              className="mt-3"
+              className="mt-3 col-span-1 md:col-span-2"
               fullWidth
-              defaultValue=""
+              defaultValue={formData.organizationType || ""}
               onChange={(e) =>
                 handleInputChange("organizationType", e.target.value)
               }
@@ -102,9 +102,7 @@ const CharityProfileEditModal: React.FC<CharityProfileEditModalProps> = ({
               <option value="" disabled>
                 Organization Type
               </option>
-              <option value={OrganizationType.ORGANIZATION}>
-                Organization
-              </option>
+              <option value={OrganizationType.COMPANY}>Company</option>
               <option value={OrganizationType.INDIVIDUAL}>Individual</option>
               <option value={OrganizationType.NON_PROFIT}>Non-Profit</option>
             </Select>

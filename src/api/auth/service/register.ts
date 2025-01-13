@@ -14,7 +14,8 @@ const register = async (
   try {
     const key = await encryptionKey();
 
-    console.log("Registering user with data:", input);
+    console.log(87686, "Registering user with data:", input);
+    console.log(342423, input.profile);
     const jwe = await new jose.CompactEncrypt(
       new TextEncoder().encode(JSON.stringify(input))
     )

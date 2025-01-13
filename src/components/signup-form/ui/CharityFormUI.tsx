@@ -76,7 +76,7 @@ const CharityFormUI = ({
         <option value="" disabled>
           Organization Type
         </option>
-        <option value={OrganizationType.ORGANIZATION}>Organization</option>
+        <option value={OrganizationType.COMPANY}>Company</option>
         <option value={OrganizationType.INDIVIDUAL}>Individual</option>
         <option value={OrganizationType.NON_PROFIT}>Non-Profit</option>
       </Select>

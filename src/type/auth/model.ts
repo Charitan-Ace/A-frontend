@@ -52,7 +52,7 @@ export interface CharityModel extends UserModel {
 }
 
 export enum OrganizationType {
-  ORGANIZATION = "ORGANIZATION",
+  COMPANY = "COMPANY",
   INDIVIDUAL = "INDIVIDUAL",
   NON_PROFIT = "NON_PROFIT",
 }

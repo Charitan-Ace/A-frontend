@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { APIResponse } from "@/api/axios";
-import { CharityModel } from "@/type/auth/model";
+import { CharityModel, OrganizationType } from "@/type/auth/model";
 import { CharityUpdateInput } from "@/api/profile/schema/charity-update-schema";
 
 interface UseCharityProfileProps {
@@ -31,7 +31,7 @@ export const useCharityProfile = ({
     companyName: "",
     taxCode: "",
     address: "",
-    organizationType: "ORGANIZATION",
+    organizationType: OrganizationType.COMPANY,
   });
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);

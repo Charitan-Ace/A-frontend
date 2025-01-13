@@ -26,7 +26,9 @@ const useCharityForm = (
         email: data.email,
         password: data.password,
         role: "CHARITY",
-        profile: { ...data.profile, organizationType: "ORGANIZATION" },
+        profile: {
+          ...data.profile,
+        },
       });
       if (response.status !== 200) {
         setIsError(true);
