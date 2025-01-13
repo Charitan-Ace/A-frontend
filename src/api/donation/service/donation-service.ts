@@ -1,13 +1,16 @@
 import { DONATIONS_URL } from "../constant";
 import { DonationInput } from "../schema/donation-schema";
-import { postRequest } from "@/utils/http-request";
+import sendHttpRequest from "@/utils/http-request";
 
 const createDonation = async (data: Partial<DonationInput>) => {
-  const response = await postRequest<DonationInput>(
+  const response = await sendHttpRequest<DonationInput>(
     DONATIONS_URL,
+    "POST",
     data,
     "include",
-    { "Content-Type": "application/json" }
+    {
+      "Content-Type": "application/json",
+    }
   );
 
   if (response.status !== 201) {

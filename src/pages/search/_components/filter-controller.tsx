@@ -2,21 +2,15 @@ import { LucideIcon } from "@/components/lucide-icons.tsx";
 import { Input } from "@/components/ui/input.tsx";
 
 import {
+  getProjectStatuses,
   projectCategories,
   ProjectCategoryEnum,
   ProjectStatusEnum,
 } from "@/type/enum";
 import { MultiSelect } from "./multi-select";
-import { COUNTRIES, ICountry, IRegion, REGIONS } from "@/type/geography";
-import { useQuery } from "@tanstack/react-query";
-import { getAllRegion } from "@/api/geography/get-all-region";
-import {
-  FormControl,
-  InputLabel,
-  MenuItem,
-  Select,
-  Skeleton,
-} from "@mui/material";
+import { COUNTRIES, ICountry } from "@/type/geography";
+import { FormControl, InputLabel, MenuItem, Select } from "@mui/material";
+import useAuth from "@/hooks/use-auth";
 
 interface FilterControllerProps {
   q: string;
@@ -39,10 +33,12 @@ const FilterController = ({
   q,
   setQ,
 }: FilterControllerProps) => {
-  const { data, isLoading } = useQuery({
-    queryKey: ["regions"],
-    queryFn: () => getAllRegion(),
-  });
+  // const { data, isLoading } = useQuery({
+  //   queryKey: ["regions"],
+  //   queryFn: () => getAllRegion(),
+  // });
+
+  const { auth } = useAuth();
 
   return (
     <div className="flex flex-wrap items-center justify-center container">
@@ -88,7 +84,7 @@ const FilterController = ({
           value={defaultStatus}
           onChange={(e) => onStatusChange(e.target.value as ProjectStatusEnum)}
         >
-          {Object.values(ProjectStatusEnum).map((status) => {
+          {getProjectStatuses(auth!).map((status) => {
             return (
               <MenuItem key={status} value={status}>
                 {status.charAt(0) + status.toLowerCase().slice(1)}

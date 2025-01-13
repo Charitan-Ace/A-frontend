@@ -4,10 +4,13 @@ import { matchPath, useLocation } from "react-router-dom";
 
 interface UseNavbarProps {
   items: INavbarItem[];
+  role: "charity" | "donor" | "guest";
 }
 
-const useNavbar = ({ items }: UseNavbarProps) => {
-  const [navbarItems, setNavbarItems] = useState<INavbarItem[]>(items);
+const useNavbar = ({ items, role }: UseNavbarProps) => {
+  const [navbarItems, setNavbarItems] = useState<INavbarItem[]>(
+    items.filter((item) => item.auth.includes(role))
+  );
   const currentPath = useLocation();
 
   const getActivePaths = useCallback(
@@ -24,8 +27,10 @@ const useNavbar = ({ items }: UseNavbarProps) => {
   );
 
   const activePaths = useMemo(() => {
-    return getActivePaths(items);
-  }, [getActivePaths, items]);
+    return (getActivePaths(items) ?? []).filter((item) =>
+      item.auth.includes(role)
+    );
+  }, [getActivePaths, items, role]);
 
   useEffect(() => {
     if (!activePaths) {

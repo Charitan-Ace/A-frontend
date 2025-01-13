@@ -18,8 +18,12 @@ import {
   ProjectLoading,
 } from "@/pages/search/_components";
 import { Pagination } from "@/components/pagination";
+import { useAuthContext } from "@/auth";
+import LongBanner from "@/components/banner/long-banner/LongBanner";
+import ShortBanner from "@/components/banner/short-banner/ShortBanner";
 
 const SearchPage = () => {
+  const { auth } = useAuthContext();
   const [queryParams, setQueryParams] = useQueryStates(
     {
       page: parseAsInteger.withDefault(1),
@@ -31,7 +35,7 @@ const SearchPage = () => {
       ),
       status: parseAsStringEnum<ProjectStatusEnum>(
         Object.values(ProjectStatusEnum)
-      ).withDefault(ProjectStatusEnum.ONGOING),
+      ).withDefault(ProjectStatusEnum.APPROVED),
       q: parseAsString.withDefault(""),
       countryIsoCode: parseAsArrayOf(parseAsString),
     },
@@ -73,8 +77,9 @@ const SearchPage = () => {
   const totalPage = res?.data?.pages;
 
   return (
-    <div className="mt-28 flex justify-center items-center flex-col gap-4">
-      <h1 className="text-2xl font-bold">Projects!</h1>
+    <div className="flex justify-center items-center flex-col gap-4">
+      <ShortBanner title="Project" />
+
       <FilterController
         q={q}
         defaultCategory={projectCategories
@@ -115,7 +120,11 @@ const SearchPage = () => {
           {projects &&
             !isFetching &&
             projects.map((project, index) => (
-              <ProjectCard key={index} project={project} />
+              <ProjectCard
+                roleId={auth!.roleId ?? "DONOR"}
+                key={index}
+                project={project}
+              />
             ))}
         </div>
       </div>

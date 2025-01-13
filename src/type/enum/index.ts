@@ -16,6 +16,7 @@ import {
   Users,
   XCircle,
 } from "lucide-react";
+import { UserModel } from "../auth/model";
 
 export enum ProjectCategoryEnum {
   FOOD = "FOOD",
@@ -31,9 +32,8 @@ export enum ProjectCategoryEnum {
 export enum ProjectStatusEnum {
   PENDING = "PENDING",
   APPROVED = "APPROVED",
-  ONGOING = "ONGOING",
-  COMPLETED = "COMPLETED",
   ENDED = "ENDED",
+  COMPLETED = "COMPLETED",
   HALTED = "HALTED",
   DELETED = "DELETED",
 }
@@ -183,3 +183,22 @@ export const projectCategories = [
   //     LucideIcon: Globe,
   //   },
 ];
+
+export const getProjectStatuses = (auth: UserModel): ProjectStatusEnum[] => {
+  if (auth.roleId === "DONOR") {
+    return [
+      ProjectStatusEnum.APPROVED,
+      ProjectStatusEnum.COMPLETED,
+      ProjectStatusEnum.ENDED,
+    ];
+  }
+
+  return [
+    ProjectStatusEnum.PENDING,
+    ProjectStatusEnum.APPROVED,
+    ProjectStatusEnum.COMPLETED,
+    ProjectStatusEnum.ENDED,
+    ProjectStatusEnum.HALTED,
+    ProjectStatusEnum.DELETED,
+  ];
+};

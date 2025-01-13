@@ -9,9 +9,10 @@ import DonateFormUI from "@/components/donate-form/DonateForm";
 
 interface ProjectCardProps {
   project: ProjectDto;
+  roleId: string;
 }
 
-const ProjectCard = ({ project }: ProjectCardProps) => {
+const ProjectCard = ({ project, roleId }: ProjectCardProps) => {
   const currentDonateProgress = Math.round(
     (project.currentDonation / project.goal) * 100
   );
@@ -31,15 +32,17 @@ const ProjectCard = ({ project }: ProjectCardProps) => {
             alt={project.title}
             className="w-full h-full object-cover"
           />
-          <div className="absolute inset-0 flex items-center justify-center bg-gray-600/0 opacity-0 transition-all group-hover:bg-gray-600/80 group-hover:opacity-100">
-            <Button
-              size="lg"
-              className="bg-emerald-600 hover:bg-emerald-700 text-xl"
-              onClick={() => setShowDonateForm(true)}
-            >
-              Donate Now
-            </Button>
-          </div>
+          {roleId !== "CHARITY" && (
+            <div className="absolute inset-0 flex items-center justify-center bg-gray-600/0 opacity-0 transition-all group-hover:bg-gray-600/80 group-hover:opacity-100">
+              <Button
+                size="lg"
+                className="bg-emerald-600 hover:bg-emerald-700 text-xl"
+                onClick={() => setShowDonateForm(true)}
+              >
+                Donate Now
+              </Button>
+            </div>
+          )}
         </div>
         <CardContent className="p-6 grow-0 space-y-6">
           <div className="space-y-4">
