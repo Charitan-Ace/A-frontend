@@ -1,9 +1,10 @@
 import { ProjectCategoryEnum, ProjectStatusEnum } from "@/type/enum";
+import { MediaReturnDto } from "../media/media.dto";
 
 export interface ProjectDto {
   id: string;
   title: string;
-  mediaDtoList: string[];
+  mediaDtoList: MediaReturnDto[];
   description: string;
   categoryType: ProjectCategoryEnum;
   goal: number;

@@ -3,14 +3,16 @@ import { Card, CardContent } from "@/components/ui/card";
 import { Progress } from "@/components/ui/progress";
 import { FileText } from "lucide-react";
 import { DonateForm } from "@/pages/search/_components/donate-form";
-import { useParams } from "react-router-dom";
+import { useParams, useSearchParams } from "react-router-dom";
 import { useQuery } from "@tanstack/react-query";
 import { getProjectById } from "@/api/project/service/get-project-by-id";
 import { ImagesCarousel } from "./_component/project-images-carousel";
-import { Carousel } from "./_hooks/carousel-context";
 
 const ProjectDetailPage = () => {
   const projectId = useParams<{ id: string }>().id;
+  const [searchParams] = useSearchParams();
+
+  const isLoadingImages = searchParams.get("isLoadingImages") === "true";
 
   const { data: projectRes } = useQuery({
     queryKey: ["project", projectId],
@@ -42,13 +44,20 @@ const ProjectDetailPage = () => {
               {/* Main content */}
               <div className="space-y-8">
                 {/* Hero Image */}
-                <ImagesCarousel
-                  images={
-                    project.mediaDtoList.length === 0
-                      ? TEMP_IMAGES
-                      : project.mediaDtoList
-                  }
-                />
+                {isLoadingImages && project.mediaDtoList.length === 0 ? (
+                  <div className="aspect-video rounded-lg bg-gray-600" />
+                ) : (
+                  <ImagesCarousel
+                    images={
+                      project.mediaDtoList.length === 0
+                        ? TEMP_IMAGES
+                        : project.mediaDtoList
+                            .filter((media) => !media.isThumbnail)
+                            .map((media) => media.mediaUrl)
+                    }
+                  />
+                )}
+
                 {/* Donate Button */}
                 <DonateForm />
 
