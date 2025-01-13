@@ -14,20 +14,13 @@ const useNavbar = ({ items }: UseNavbarProps) => {
     (navItems: INavbarItem[]) => {
       //set active path for every items
       for (const item of navItems) {
-        if (currentPath.pathname.includes(item.path)) {
+        if (currentPath.pathname === item.path) {
           item.active = true;
-          if (!item.children) {
-            return;
-          }
-          if (currentPath.pathname === item.path) {
-            item.active = true;
-            return navItems;
-          }
-          getActivePaths(item.children);
+          return navItems;
         }
       }
     },
-    [currentPath],
+    [currentPath]
   );
 
   const activePaths = useMemo(() => {
@@ -46,7 +39,7 @@ const useNavbar = ({ items }: UseNavbarProps) => {
 
 const useNavCurrentItem = (
   pathname: string,
-  items: INavbarItem[] | null,
+  items: INavbarItem[] | null
 ): INavbarItem | null => {
   pathname = pathname.trim();
 
