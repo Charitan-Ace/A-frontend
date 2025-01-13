@@ -16,7 +16,7 @@ const DonationHistoryTable = () => {
       {
         accessorKey: "amount",
         header: "Amount",
-        cell: (info) => `$${info.getValue()?.toLocaleString()}`, // Format as currency
+        cell: (info) => `$${info.getValue()?.toLocaleString()}`,
       },
       {
         accessorKey: "message",
@@ -26,7 +26,7 @@ const DonationHistoryTable = () => {
       {
         accessorKey: "transactionStripeId",
         header: "Transaction ID",
-        cell: (info) => info.getValue() || "N/A", // Display "N/A" if null
+        cell: (info) => info.getValue() || "N/A",
       },
       {
         accessorKey: "projectId",
