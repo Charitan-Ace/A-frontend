@@ -16,12 +16,6 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
     active: false,
   },
   {
-    name: "Profile",
-    path: "/profile",
-    icon: "Users",
-    active: false,
-  },
-  {
     name: "Projects",
     path: "/project",
     icon: "Folder",
@@ -38,6 +32,12 @@ export const NAVBAR_ITEMS: INavbarItem[] = [
     //     active: false,
     //   },
     // ],
+  },
+  {
+    name: "Profile",
+    path: "/profile",
+    icon: "Users",
+    active: false,
   },
   {
     name: "Login",
