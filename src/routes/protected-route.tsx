@@ -17,6 +17,10 @@ const ProtectedRoute: React.FC<ProtectedRouteProps> = ({
     return <div>Loading...</div>;
   }
 
+  if (allowedRoles.length === 0) {
+    return <Outlet />;
+  }
+
   if (!auth || !auth.roleId || !auth.active) {
     return <Navigate to={redirectTo} replace />;
   }

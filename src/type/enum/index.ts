@@ -17,6 +17,7 @@ import {
   Users,
   XCircle,
 } from "lucide-react";
+import { UserModel } from "../auth/model";
 
 export enum ProjectCategoryEnum {
   FOOD = "FOOD",
@@ -32,9 +33,8 @@ export enum ProjectCategoryEnum {
 export enum ProjectStatusEnum {
   PENDING = "PENDING",
   APPROVED = "APPROVED",
-  ONGOING = "ONGOING",
-  COMPLETED = "COMPLETED",
   ENDED = "ENDED",
+  COMPLETED = "COMPLETED",
   HALTED = "HALTED",
   DELETED = "DELETED",
 }
@@ -89,13 +89,13 @@ export const projectStatuses = [
     icon: "PauseCircle" as keyof typeof icons,
     LucideIcon: PauseCircle,
   },
-//   {
-//     value: "ALL",
-//     label: "All",
-//     classes: "border-slate-400 text-slate-700 bg-slate-100",
-//     icon: "Globe" as keyof typeof icons,
-//     LucideIcon: Globe,
-//   },
+  //   {
+  //     value: "ALL",
+  //     label: "All",
+  //     classes: "border-slate-400 text-slate-700 bg-slate-100",
+  //     icon: "Globe" as keyof typeof icons,
+  //     LucideIcon: Globe,
+  //   },
 ];
 
 export const projectCategories = [
@@ -155,11 +155,30 @@ export const projectCategories = [
     icon: "MoreHorizontal" as keyof typeof icons,
     LucideIcon: MoreHorizontal,
   },
-//   {
-//     value: "ALL",
-//     label: "All",
-//     classes: "border-slate-400 text-slate-700 bg-slate-100",
-//     icon: "Globe" as keyof typeof icons,
-//     LucideIcon: Globe,
-//   },
+  //   {
+  //     value: "ALL",
+  //     label: "All",
+  //     classes: "border-slate-400 text-slate-700 bg-slate-100",
+  //     icon: "Globe" as keyof typeof icons,
+  //     LucideIcon: Globe,
+  //   },
 ];
+
+export const getProjectStatuses = (auth: UserModel): ProjectStatusEnum[] => {
+  if (auth.roleId === "DONOR") {
+    return [
+      ProjectStatusEnum.APPROVED,
+      ProjectStatusEnum.COMPLETED,
+      ProjectStatusEnum.ENDED,
+    ];
+  }
+
+  return [
+    ProjectStatusEnum.PENDING,
+    ProjectStatusEnum.APPROVED,
+    ProjectStatusEnum.COMPLETED,
+    ProjectStatusEnum.ENDED,
+    ProjectStatusEnum.HALTED,
+    ProjectStatusEnum.DELETED,
+  ];
+};

@@ -23,6 +23,7 @@ import { MediaFile } from "@/type/media/media.dto";
 import { useNavigate } from "react-router-dom";
 import { COUNTRIES } from "@/type/geography";
 import { queryClient } from "@/api/client";
+import ShortBanner from "@/components/banner/short-banner/ShortBanner";
 
 const dateFormatter = (date: Date) => {
   const offset = -new Date().getTimezoneOffset();
@@ -132,134 +133,137 @@ const CreateProjectForm = () => {
   };
 
   return (
-    <div className="container m-auto mt-[84px]">
-      <form onSubmit={handleSubmit(onSubmit)}>
-        <TextField
-          label="Project Title"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          {...register("title")}
-          error={!!errors.title}
-          helperText={errors.title?.message}
-        />
+    <div className="">
+      <ShortBanner title="Create Project" />
+      <div className="container m-auto">
+        <form onSubmit={handleSubmit(onSubmit)}>
+          <TextField
+            label="Project Title"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            {...register("title")}
+            error={!!errors.title}
+            helperText={errors.title?.message}
+          />
 
-        <TextField
-          label="Project Description"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          {...register("description", {
-            maxLength: {
-              value: 200,
-              message: `Description cannot exceed ${200} characters`,
-            },
-          })}
-          multiline
-          maxRows={5}
-          error={!!errors.description}
-          helperText={
-            <span className="flex justify-between">
-              <span>{errors.description?.message}</span>
-              <span>
-                {description.length}/{200}
+          <TextField
+            label="Project Description"
+            variant="outlined"
+            fullWidth
+            margin="normal"
+            {...register("description", {
+              maxLength: {
+                value: 200,
+                message: `Description cannot exceed ${200} characters`,
+              },
+            })}
+            multiline
+            maxRows={5}
+            error={!!errors.description}
+            helperText={
+              <span className="flex justify-between">
+                <span>{errors.description?.message}</span>
+                <span>
+                  {description.length}/{200}
+                </span>
               </span>
-            </span>
-          }
-        />
-
-        <TextField
-          label="Goal Amount"
-          variant="outlined"
-          fullWidth
-          margin="normal"
-          type="number"
-          {...register("goal")}
-          error={!!errors.goal}
-          helperText={errors.goal?.message}
-        />
-
-        <div className="flex gap-2 items-center">
-          <TextField
-            label="Start Date"
-            type="datetime-local"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            {...register("startTime")}
-            error={!!errors.startTime}
-            helperText={errors.startTime?.message}
+            }
           />
 
           <TextField
-            label="End Date"
-            type="datetime-local"
+            label="Goal Amount"
             variant="outlined"
             fullWidth
             margin="normal"
-            {...register("endTime")}
-            error={!!errors.endTime}
-            helperText={errors.endTime?.message}
+            type="number"
+            {...register("goal")}
+            error={!!errors.goal}
+            helperText={errors.goal?.message}
           />
-        </div>
 
-        <div className="flex items-center gap-2">
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="category-select">Category Type</InputLabel>
-            <Select
-              labelId="category-select"
-              label="Category Type"
-              {...register("categoryType")}
-              error={!!errors.categoryType}
+          <div className="flex gap-2 items-center">
+            <TextField
+              label="Start Date"
+              type="datetime-local"
+              variant="outlined"
               fullWidth
-            >
-              {Object.values(ProjectCategoryEnum).map((type) => {
-                return (
-                  <MenuItem key={type} value={type}>
-                    {type}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
+              margin="normal"
+              {...register("startTime")}
+              error={!!errors.startTime}
+              helperText={errors.startTime?.message}
+            />
 
-          <FormControl fullWidth margin="normal">
-            <InputLabel id="country-code">Country</InputLabel>
-            <Select
-              labelId="country-code"
-              label="Country"
-              {...register("countryIsoCode")}
-              error={!!errors.countryIsoCode}
-            >
-              {COUNTRIES.map((country) => {
-                return (
-                  <MenuItem key={country.code} value={country.code}>
-                    {country.name}
-                  </MenuItem>
-                );
-              })}
-            </Select>
-          </FormControl>
-        </div>
+            <TextField
+              label="End Date"
+              type="datetime-local"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              {...register("endTime")}
+              error={!!errors.endTime}
+              helperText={errors.endTime?.message}
+            />
+          </div>
 
-        <MediaUploadForm
-          isValid={isValid}
-          mediaFiles={mediaFiles}
-          removeFile={removeFile}
-          handleFileChange={handleFileChange}
-        />
+          <div className="flex items-center gap-2">
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="category-select">Category Type</InputLabel>
+              <Select
+                labelId="category-select"
+                label="Category Type"
+                {...register("categoryType")}
+                error={!!errors.categoryType}
+                fullWidth
+              >
+                {Object.values(ProjectCategoryEnum).map((type) => {
+                  return (
+                    <MenuItem key={type} value={type}>
+                      {type}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
 
-        <Button
-          variant="contained"
-          color="primary"
-          type="submit"
-          fullWidth
-          disabled={!isValid || createNewProject.isPending || !formValid}
-          sx={{ mt: 2 }}
-        >
-          Create Project
-        </Button>
-      </form>
+            <FormControl fullWidth margin="normal">
+              <InputLabel id="country-code">Country</InputLabel>
+              <Select
+                labelId="country-code"
+                label="Country"
+                {...register("countryIsoCode")}
+                error={!!errors.countryIsoCode}
+              >
+                {COUNTRIES.map((country) => {
+                  return (
+                    <MenuItem key={country.code} value={country.code}>
+                      {country.name}
+                    </MenuItem>
+                  );
+                })}
+              </Select>
+            </FormControl>
+          </div>
+
+          <MediaUploadForm
+            isValid={isValid}
+            mediaFiles={mediaFiles}
+            removeFile={removeFile}
+            handleFileChange={handleFileChange}
+          />
+
+          <Button
+            variant="contained"
+            color="primary"
+            type="submit"
+            fullWidth
+            disabled={!isValid || createNewProject.isPending || !formValid}
+            sx={{ mt: 2 }}
+          >
+            Create Project
+          </Button>
+        </form>
+      </div>
     </div>
   );
 };

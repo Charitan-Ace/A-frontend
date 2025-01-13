@@ -19,9 +19,12 @@ const AppRoutingSetup = (): ReactElement => {
         <Route path="/" element={<HomePage />} />
         <Route path="/project/create" element={<CreateProjectForm />} />
         <Route path="/project" element={<SearchPage />} />
-        <Route path="/project/search" element={<SearchPage />} />
         <Route path="/project/:id" element={<ProjectDetailPage />} />
         <Route path="/auth/*" element={<AuthRoutes />} />
+
+        <Route element={<ProtectedRoute allowedRoles={[]} />}>
+          <Route path="/project/search" element={<SearchPage />} />
+        </Route>
 
         {/* Protected routes */}
         <Route element={<ProtectedRoute allowedRoles={["DONOR", "CHARITY"]} />}>
