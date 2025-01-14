@@ -10,6 +10,7 @@ import ProtectedRoute from "./protected-route";
 import { ProjectDetailPage, ProjectPage } from "@/pages/project";
 import CreateProjectForm from "@/pages/project/_component/create-project-form";
 import TestPage from "@/pages/test/test-page";
+import { SubscriptionPage } from "@/pages/subscription";
 
 const AppRoutingSetup = (): ReactElement => {
   return (
@@ -22,6 +23,7 @@ const AppRoutingSetup = (): ReactElement => {
         <Route path="/project/search" element={<SearchPage />} />
         <Route path="/project/:id" element={<ProjectDetailPage />} />
         <Route path="/auth/*" element={<AuthRoutes />} />
+        <Route path="/subscription/*" element={<SubscriptionPage />} />
 
         {/* Protected routes */}
         <Route element={<ProtectedRoute allowedRoles={["DONOR", "CHARITY"]} />}>
