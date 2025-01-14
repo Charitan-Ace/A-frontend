@@ -3,7 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DonationDto } from "@/type/donation/donation.dto";
 import { DataGrid } from "@/components/table";
 import { useDonationHistoryTable } from "./hooks/useDonationHistoryTable";
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 
 const DonationHistoryTable = () => {
   const columns = useMemo<ColumnDef<DonationDto, any>[]>(
@@ -56,7 +56,9 @@ const DonationHistoryTable = () => {
     <div className="mt-8 w-full">
       <Card className="p-4">
         <div className="flex items-center gap-2">
-          <h2 className="text-xl font-semibold">Donation History</h2>
+          <h2 className="text-xl font-semibold text-primary underline">
+            Donation History
+          </h2>
         </div>
         <DataGrid
           layout={{ cellsBorder: true }}

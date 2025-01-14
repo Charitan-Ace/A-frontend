@@ -8,6 +8,7 @@ export const charitySchema = z.object({
     taxCode: z.string().nonempty("Tax code is required"),
     address: z.string().nonempty("Address is required"),
     organizationType: z.enum(["INDIVIDUAL", "COMPANY", "NON_PROFIT"]),
+    video: z.string().optional(),
   }),
 });
 

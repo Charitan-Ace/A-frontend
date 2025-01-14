@@ -11,7 +11,6 @@ const login = async (input: LoginInput) => {
     const key = await encryptionKey();
 
     const { email, password } = input;
-    console.log("login", email, password);
 
     const jwe = await new jose.CompactEncrypt(
       new TextEncoder().encode(JSON.stringify({ email, password }))
@@ -20,7 +19,6 @@ const login = async (input: LoginInput) => {
       .encrypt(await jose.importJWK(key, "RSA-OAEP-256"));
 
     const response = await postRequest(LOGIN_URL, jwe);
-    // const responseData = await response.json;
 
     return {
       data: undefined,

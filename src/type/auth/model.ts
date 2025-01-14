@@ -83,3 +83,10 @@ export interface CharityProfileData {
   assetsKey: string;
   video: string;
 }
+
+export enum ProjectStatus {
+  PENDING = "PENDING",
+  APPROVED = "APPROVED",
+  DELETED = "DELETED",
+  COMPLETED = "COMPLETED",
+}

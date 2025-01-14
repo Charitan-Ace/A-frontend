@@ -11,3 +11,5 @@ export const GET_PROJECT_BY_CHARITY_URL = `${API_URL}/project/charity`;
 export const GET_PROJECTS_ME_URL = `${API_URL}/project/me`;
 
 export const GET_PROJECTS_ME_TEMP_URL = `${API_URL}/project/my-projects/status/APPROVED`;
+
+export const GET_PROJECTS_BY_STATUS_URL = `${API_URL}/project/my-projects/status`;

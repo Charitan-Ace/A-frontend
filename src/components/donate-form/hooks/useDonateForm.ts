@@ -7,8 +7,8 @@ import { truncate } from "fs/promises";
 import useAuth from "@/hooks/use-auth";
 
 const useDonateForm = (projectId: string, onClose: () => void) => {
-  const successUrl = window.location.href;
-  const cancelUrl = window.location.href;
+  const successUrl = `${window.location.href}`;
+  const cancelUrl = `${window.location.href}`;
   const { auth } = useAuth();
 
   const {
@@ -54,11 +54,12 @@ const useDonateForm = (projectId: string, onClose: () => void) => {
 
   const onSubmit = async (data: DonationInput) => {
     try {
-      const isDonor = !!auth?.email
+      // const isDonor = !!auth?.email
+      const isDonor = auth?.roleId === "DONOR"
       const payload = isDonor ? payloadDonor(data) : payloadGuest(data)
       console.log(payload)
 
-      var res = await createDonation(payload);
+      const res = await createDonation(payload);
       window.location.href = res.redirectUrl
 
       // toast.success("Donate successfully. Thank you for your donation!");
@@ -66,7 +67,7 @@ const useDonateForm = (projectId: string, onClose: () => void) => {
       // reset();
     } catch (error) {
       console.error("Donation failed:", error);
-      toast.error("Failed to process the donation. Please try again.");
+      // toast.error("Failed to process the donation. Please try again.");
     }
   };
 

@@ -12,7 +12,10 @@ const SignUp = () => {
   const handleSignUp = async (data: RegisterInput) => {
     try {
       const response = await signUp(data);
-      toast.success("Registration successful!");
+
+      if (response?.status === 200) {
+        toast.success("Sign up successful!");
+      }
 
       if (response && response?.status === 200) {
         navigate("/auth/login");

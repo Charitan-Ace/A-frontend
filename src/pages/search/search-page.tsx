@@ -20,6 +20,7 @@ import {
 import { Pagination } from "@/components/pagination";
 import { useAuthContext } from "@/auth";
 import ShortBanner from "@/components/banner/short-banner/ShortBanner";
+import { ToastContainer } from "react-toastify";
 
 const SearchPage = () => {
   const { auth } = useAuthContext();
@@ -134,6 +135,7 @@ const SearchPage = () => {
           </div>
         </div>
       )}
+      <ToastContainer />
     </div>
   );
 };

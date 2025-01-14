@@ -1,3 +1,4 @@
+import getTopDonorsByCharity from "@/api/donation/service/getTopDonorsByCharity";
 import { getProjects } from "@/api/project";
 import getProjectsMe from "@/api/project/service/get-projects-by-charity";
 import getTotalDonation from "@/api/statistics/service/getTotalDonation";
@@ -35,8 +36,8 @@ const TestPage = () => {
           Project Me
         </Button>
         <Button onClick={() => getTest()}>Test projects by charity</Button>
-        <Button onClick={() => {}}>Test Page</Button>
-        <Button onClick={() => {}}>Test Page</Button>
+        <Button onClick={() => getTotalDonation()}>Total Donation</Button>
+        <Button onClick={() => getTopDonorsByCharity()}>Top Donors</Button>
         <Button onClick={() => {}}>Test Page</Button>
         <Button onClick={() => {}}>Test Page</Button>
         <Button onClick={() => {}}>Test Page</Button>

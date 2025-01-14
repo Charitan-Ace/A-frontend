@@ -1,13 +1,11 @@
 import { getRequest } from "@/utils/http-request";
-import { STATISTICS_TOTAL_DONATION_URL } from "../constant";
+import { GET_TOP_DONORS_CHARITY_URL } from "../constant";
 import { APIResponse } from "@/api/axios";
 
-const getTotalDonation = async () => {
+const getTopDonorsByCharity = async () => {
   try {
-    const response = await getRequest(STATISTICS_TOTAL_DONATION_URL);
-    const data = response.json;
-
-    console.log(data);
+    const response = await getRequest(GET_TOP_DONORS_CHARITY_URL);
+    const data = await response.json;
 
     return {
       data: data,
@@ -23,4 +21,4 @@ const getTotalDonation = async () => {
   }
 };
 
-export default getTotalDonation;
+export default getTopDonorsByCharity;

@@ -7,6 +7,10 @@ import useProfilePage from "./hooks/useProfilePage";
 import VideoPlayer from "@/components/video-player/VideoPlayer";
 import { useEffect } from "react";
 import { Card } from "@/components/ui/card";
+import getTotalDonation from "@/api/statistics/service/getTotalDonation";
+import { DonationStatisticsTable } from "@/components/donation-statistic-table/donation-statistic-table";
+import { DonorLeaderboard } from "@/components/donor-leaderboard-table/donor-leaderboard-table";
+import getTopDonorsByCharity from "@/api/donation/service/getTopDonorsByCharity";
 
 const ProfilePage = () => {
   const { auth } = useAuth();
@@ -32,17 +36,35 @@ const ProfilePage = () => {
         <ProfileCard />
 
         {/* ----------------- */}
-        <Card>
-          {auth?.roleId === "CHARITY" && <UploadVideoProfileContainer />}
-          <div className="mt-6 p-5">
-            {charityProfile?.video && (
-              <VideoPlayer videoUrl={charityProfile?.video} />
-            )}
+        {auth?.roleId === "CHARITY" && (
+          <div>
+            <DonorLeaderboard
+              loadData={async () => {
+                const apiResponse = await getTopDonorsByCharity();
+                if (apiResponse.error) {
+                  throw new Error(apiResponse.error);
+                }
+                // Return the actual data field
+                return apiResponse.data;
+              }}
+            />
+            <Card className="mt-6">
+              <UploadVideoProfileContainer reload={handleGetCharityProfile} />
+              <div className="mt-6 p-5">
+                {charityProfile?.video && (
+                  <VideoPlayer videoUrl={charityProfile?.video} />
+                )}
+              </div>
+            </Card>
           </div>
-        </Card>
+        )}
 
         {/* ------------------ */}
         {auth?.roleId === "DONOR" && <DonationHistoryTable />}
+        <DonationStatisticsTable
+          loadData={getTotalDonation}
+          columnHeading="Project Id"
+        />
       </div>
     </>
   );

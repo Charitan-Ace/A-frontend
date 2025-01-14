@@ -73,7 +73,6 @@ const AuthProvider = ({ children }: PropsWithChildren) => {
 
   const signIn = async (loginInfo: LoginInput) => {
     const response = await login(loginInfo);
-    console.log(111, "login response", response);
 
     if (response.status == 200) {
       window.location.href = "/profile";

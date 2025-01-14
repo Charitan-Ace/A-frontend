@@ -28,6 +28,7 @@ const useCharityForm = (
         role: "CHARITY",
         profile: {
           ...data.profile,
+          video: "",
         },
       });
       if (response.status !== 200) {

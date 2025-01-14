@@ -1,12 +1,12 @@
+import updateProfileAvatar from "@/api/profile/service/updateProfileAvatar";
 import { CHARITY_VIDEO_UPLOAD_URL } from "../constant";
 import { APIResponse } from "@/api/axios";
-import updateProfileCharityVideo from "@/api/profile/service/updateProfileCharityVideo";
 
-const uploadVideoCharityProfile = async (file: File) => {
+const uploadAvatarProfile = async (file: File) => {
   try {
     const videoResponse = await fetch(CHARITY_VIDEO_UPLOAD_URL, {
       method: "POST",
-      body: "intro.mp4",
+      body: "intro.jpg",
       credentials: "include",
       headers: {
         "Content-Type": "text/plain",
@@ -27,9 +27,9 @@ const uploadVideoCharityProfile = async (file: File) => {
     });
 
     if (uploadResponse.status == 200) {
-      const updateCharityProfileResponse = await updateProfileCharityVideo(url);
+      const updateProfileResponse = await updateProfileAvatar(url);
 
-      if (updateCharityProfileResponse?.status == 200) {
+      if (updateProfileResponse?.status == 200) {
         return {
           data: uploadResponse,
           status: uploadResponse.status,
@@ -45,4 +45,4 @@ const uploadVideoCharityProfile = async (file: File) => {
   }
 };
 
-export default uploadVideoCharityProfile;
+export default uploadAvatarProfile;
