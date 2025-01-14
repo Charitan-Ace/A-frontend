@@ -18,10 +18,10 @@ const getProjectsByStatus = async ({
       {}
     );
     const data = response.json;
-    console.log(data.content);
+    console.log(data);
 
     return {
-      data: data.content,
+      data: data,
       status: response.status,
       error: undefined,
     } as unknown as APIResponse<any>;

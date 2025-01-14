@@ -17,14 +17,16 @@ const useCharityProjectsTable = () => {
       pageSize,
     });
 
+    console.log(543453, response);
+
     return {
-      data: response.data,
-      total: response.totalPages,
+      data: response.data.content,
+      total: response.data.totalElements,
       pagination: {
         limit: pageSize,
         offset: pageIndex * pageSize,
         page: pageIndex + 1,
-        total: response.totalPages,
+        total: response.data.totalPages,
       },
     };
   };

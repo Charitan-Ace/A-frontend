@@ -211,8 +211,13 @@ const CharityProjectsTable = () => {
 
   return (
     <div className="mt-8 w-full">
-      <div className="flex flex-col gap-2">
-        <Label htmlFor="status-select">Status</Label>
+      <div className="flex gap-2">
+        <Label
+          htmlFor="status-select"
+          className="text-2xl underline text-primary font-semibold mb-1"
+        >
+          Select Status
+        </Label>
         <Select
           value={status}
           onValueChange={(value) => setStatus(value as ProjectStatus)}
@@ -233,7 +238,7 @@ const CharityProjectsTable = () => {
           </SelectContent>
         </Select>
       </div>
-      <Card className="p-4">
+      <Card className="p-4 mt-2">
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold">Projects </h2>
         </div>

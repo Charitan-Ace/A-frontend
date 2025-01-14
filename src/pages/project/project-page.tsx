@@ -5,7 +5,9 @@ const ProjectPage = () => {
   return (
     <div>
       <ShortBanner title="My Projects" />
-      <CharityProjectsTable />
+      <div className="mx-4">
+        <CharityProjectsTable />
+      </div>
     </div>
   );
 };

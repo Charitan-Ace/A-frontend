@@ -40,7 +40,7 @@ const AppRoutingSetup = (): ReactElement => {
 
         {/* <Route path="/project" element={<ProjectPage />} /> */}
 
-        <Route path="/test-connection" element={<TestPage />} />
+        {/* <Route path="/test-connection" element={<TestPage />} /> */}
       </Route>
 
       {/* Fallback route */}
