@@ -1,4 +1,3 @@
-# https://pnpm.io/docker
 # https://static-web-server.net/features/docker
 
 FROM node:20-slim AS base
