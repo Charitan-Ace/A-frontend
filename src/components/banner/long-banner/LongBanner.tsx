@@ -30,7 +30,7 @@ const LongBanner = () => {
           <SlideInButton
             title="Know about us"
             bgColor="bg-transparent"
-            link="/about"
+            link="/project/search"
           />
         </div>
       </div>

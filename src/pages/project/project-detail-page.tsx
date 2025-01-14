@@ -98,8 +98,6 @@ const ProjectDetailPage = () => {
 
   const { data: project } = projectRes;
 
-  
-
   const TEMP_IMAGES = [
     "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg",
 
@@ -217,14 +215,13 @@ const ProjectDetailPage = () => {
                         {project.description}
                       </p>
                     </section>
-
                   </div>
                 </div>
               </div>
 
               {/* Sidebar */}
               <div className="space-y-8">
-                <Card className="bg-teal-600/10 text-primary">
+                {/* <Card className="bg-teal-600/10 text-primary">
                   <CardContent className="p-6">
                     <h2 className="text-xl font-bold mb-4">Project Period</h2>
                     <div className="space-y-2">
@@ -246,7 +243,7 @@ const ProjectDetailPage = () => {
                       </div>
                     </div>
                   </CardContent>
-                </Card>
+                </Card> */}
 
                 {/* Summary Documents */}
                 <Card className="bg-teal-600/10 text-primary">
