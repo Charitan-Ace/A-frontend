@@ -1,9 +1,18 @@
-import { postRequest } from "@/utils/http-request";
+import sendHttpRequest, { postRequest } from "@/utils/http-request";
 import { SAVE_CARD_URL } from "../constant";
 
 const saveDonorCard = async (payload: { successUrl: string; cancelUrl: string }) => {
   try {
-    const response = await postRequest(SAVE_CARD_URL, payload);
+    const response = await sendHttpRequest(
+      SAVE_CARD_URL,
+      "POST",
+      payload,
+      "include",
+      {
+        "Content-Type": "application/json",
+      }
+    );
+    
     const data = await response.json;
 
     if (response.status === 200) {

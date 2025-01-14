@@ -44,6 +44,7 @@ const DonorProfileDetails = ({
     try {
       const res = await saveDonorCard(payload);
       if (res) {
+        window.location.href = res.redirectUrl
         console.log("Card info saved successfully:", res);
         toast.success("Card info saved successfully");
       } else {
