@@ -1,5 +1,4 @@
 import { CHARITY_VIDEO_UPLOAD_URL } from "../constant";
-import sendHttpRequest from "@/utils/http-request";
 import { APIResponse } from "@/api/axios";
 import updateProfileCharityVideo from "@/api/profile/service/updateProfileCharityVideo";
 
@@ -29,11 +28,6 @@ const uploadVideoCharityProfile = async (file: File) => {
 
     if (uploadResponse.status == 200) {
       const updateCharityProfileResponse = await updateProfileCharityVideo(url);
-      console.log(
-        87565,
-        "updateCharityProfileResponse",
-        updateCharityProfileResponse
-      );
 
       if (updateCharityProfileResponse?.status == 200) {
         return {

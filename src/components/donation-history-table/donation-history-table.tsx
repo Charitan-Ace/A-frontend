@@ -3,7 +3,7 @@ import { ColumnDef } from "@tanstack/react-table";
 import { DonationDto } from "@/type/donation/donation.dto";
 import { DataGrid } from "@/components/table";
 import { useDonationHistoryTable } from "./hooks/useDonationHistoryTable";
-import { Card } from "../ui/card";
+import { Card } from "@/components/ui/card";
 
 const DonationHistoryTable = () => {
   const columns = useMemo<ColumnDef<DonationDto, any>[]>(

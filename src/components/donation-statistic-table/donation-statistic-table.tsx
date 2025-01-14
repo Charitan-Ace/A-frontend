@@ -1,10 +1,19 @@
 import { Card } from "@/components/ui/card";
 import { useDonationStatisticTable } from "./hooks/useDonationStatisticTable";
+import { Typography } from "@mui/material";
 
 interface DonationStatisticsTableProps {
   loadData: () => Promise<any>;
   columnHeading: string;
 }
+
+// {
+//   "userId": "30c82470-fc28-42b7-ae8a-35dcb09e7ade",
+//   "donationStatistics": {
+//     "cffedd29-972f-41c4-bbe6-54829087caf1": 123.0,
+//     "dfsfsdfdsdf-fdsfsfsfs-fsfsfs-fs-dfsdf": 999.0,
+//   }
+// }
 
 export function DonationStatisticsTable({
   loadData,
@@ -42,15 +51,37 @@ export function DonationStatisticsTable({
           {entries.map(([donationId, amount], index) => (
             <tr
               key={donationId}
-              // Apply bg-gray-400 for odd index (i.e., 1, 3, 5, etc.)
               className={index % 2 === 1 ? "bg-[#EFF1F5]" : ""}
             >
-              <td className=" py-2 text-gray-700">{donationId}</td>
+              <td className=" py-2 text-gray-700">
+                <a
+                  href={`/project/${donationId}`}
+                  className="hover:text-blue-600"
+                >
+                  {donationId}
+                </a>
+              </td>
               <td className=" py-2 text-gray-700">${amount.toFixed(2)}</td>
             </tr>
           ))}
         </tbody>
       </table>
+
+      <div className="w-full flex flex-col text-xl">
+        <Typography className="mt-4" color="textSecondary">
+          <span className="text-primary underline font-bold">
+            Total Projects:
+          </span>{" "}
+          {entries.length}
+        </Typography>
+
+        <Typography className="mt-4" color="textSecondary">
+          <span className="text-primary underline font-bold">
+            Total Donation:{" "}
+          </span>{" "}
+          ${entries.reduce((acc, [, amount]) => acc + amount, 0).toFixed(2)}
+        </Typography>
+      </div>
     </Card>
   );
 }

@@ -9,6 +9,8 @@ import { useEffect } from "react";
 import { Card } from "@/components/ui/card";
 import getTotalDonation from "@/api/statistics/service/getTotalDonation";
 import { DonationStatisticsTable } from "@/components/donation-statistic-table/donation-statistic-table";
+import { DonorLeaderboard } from "@/components/donor-leaderboard-table/donor-leaderboard-table";
+import getTopDonorsByCharity from "@/api/donation/service/getTopDonorsByCharity";
 
 const ProfilePage = () => {
   const { auth } = useAuth();
@@ -35,14 +37,26 @@ const ProfilePage = () => {
 
         {/* ----------------- */}
         {auth?.roleId === "CHARITY" && (
-          <Card className="mt-6">
-            <UploadVideoProfileContainer reload={handleGetCharityProfile} />
-            <div className="mt-6 p-5">
-              {charityProfile?.video && (
-                <VideoPlayer videoUrl={charityProfile?.video} />
-              )}
-            </div>
-          </Card>
+          <div>
+            <DonorLeaderboard
+              loadData={async () => {
+                const apiResponse = await getTopDonorsByCharity();
+                if (apiResponse.error) {
+                  throw new Error(apiResponse.error);
+                }
+                // Return the actual data field
+                return apiResponse.data;
+              }}
+            />
+            <Card className="mt-6">
+              <UploadVideoProfileContainer reload={handleGetCharityProfile} />
+              <div className="mt-6 p-5">
+                {charityProfile?.video && (
+                  <VideoPlayer videoUrl={charityProfile?.video} />
+                )}
+              </div>
+            </Card>
+          </div>
         )}
 
         {/* ------------------ */}
