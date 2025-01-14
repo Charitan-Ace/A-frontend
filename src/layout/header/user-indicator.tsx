@@ -20,11 +20,11 @@ const UserIndicator = () => {
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
             <p className="text-white">{auth?.email?.split("@")[0]}</p>
+
+            <Button className="bg-transparent rounded-full p-2" onClick={logout}>
+              <LogOut />
+            </Button>
           </div>
-          <Button className="bg-black/50 rounded-full p-2" onClick={logout}>
-            {" "}
-            <LogOut />
-          </Button>
         </>
       )}
     </div>

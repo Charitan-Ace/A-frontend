@@ -8,6 +8,7 @@ import {
   NavigationMenuTrigger,
   navigationMenuTriggerStyle,
 } from "@/components/ui/navigation-menu.tsx";
+import { cn } from "@/lib/utils";
 import { INavbarItem, NAVBAR_ITEMS, useNavbar } from "@/layout/navbar";
 import { useCallback } from "react";
 
@@ -28,7 +29,12 @@ const Navbar = () => {
         key={navItem.path}
         href={navItem.path}
         active={navItem.active}
-        className={navigationMenuTriggerStyle()}
+        className={cn(
+          navigationMenuTriggerStyle(),
+          "px-4 py-2 text-base font-semibold transition-colors duration-200",
+          "text-white hover:text-black/80 bg-transparent",
+          navItem.active && "text-white underline underline-offset-4"
+        )}
       >
         {navItem.name}
       </NavigationMenuLink>
@@ -45,28 +51,42 @@ const Navbar = () => {
                 {renderLinks(item)}
               </NavigationMenuItem>
             );
-          } else {
-            return (
-              <NavigationMenuItem key={item.path}>
-                <NavigationMenuTrigger>
-                  <NavigationMenuLink href={item.path}>
-                    {item.name}
-                  </NavigationMenuLink>
-                </NavigationMenuTrigger>
-                <NavigationMenuContent>
-                  {item.children.map((i) => renderLinks(i))}
-                </NavigationMenuContent>
-              </NavigationMenuItem>
-            );
           }
+          return (
+            <NavigationMenuItem key={item.path}>
+              <NavigationMenuTrigger 
+                className={cn(
+                  "px-4 py-2 text-base font-semibold transition-colors duration-200",
+                  "text-white hover:text-white/80",
+                  item.active && "text-white underline underline-offset-4"
+                )}
+              >
+                <NavigationMenuLink href={item.path}>
+                  {item.name}
+                </NavigationMenuLink>
+              </NavigationMenuTrigger>
+              <NavigationMenuContent className="min-w-[8rem] rounded-md bg-black/80 backdrop-blur-sm p-1 shadow-lg">
+                <div className="grid gap-1">
+                  {item.children.map((i) => renderLinks(i))}
+                </div>
+              </NavigationMenuContent>
+            </NavigationMenuItem>
+          );
         })}
       </>
     );
   }, []);
+
   return (
-    <NavigationMenu>
-      <NavigationMenuList>{renderNavLinks(navbarItems)}</NavigationMenuList>
-    </NavigationMenu>
+    <div className="border-b border-white/10">
+      <div className="container mx-auto">
+        <NavigationMenu className="py-3">
+          <NavigationMenuList className="flex items-center gap-2">
+            {renderNavLinks(navbarItems)}
+          </NavigationMenuList>
+        </NavigationMenu>
+      </div>
+    </div>
   );
 };
 

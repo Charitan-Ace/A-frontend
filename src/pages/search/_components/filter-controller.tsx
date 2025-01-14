@@ -46,7 +46,7 @@ const FilterController = ({
         <Input
           type="search"
           placeholder="Search the history..."
-          className="pl-8"
+          className="pl-8 h-14"
           value={q}
           onChange={(e) => setQ(e.target.value)}
         />
