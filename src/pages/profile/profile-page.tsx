@@ -7,6 +7,8 @@ import useProfilePage from "./hooks/useProfilePage";
 import VideoPlayer from "@/components/video-player/VideoPlayer";
 import { useEffect } from "react";
 import { Card } from "@/components/ui/card";
+import getTotalDonation from "@/api/statistics/service/getTotalDonation";
+import { DonationStatisticsTable } from "@/components/donation-statistic-table/donation-statistic-table";
 
 const ProfilePage = () => {
   const { auth } = useAuth();
@@ -32,20 +34,23 @@ const ProfilePage = () => {
         <ProfileCard />
 
         {/* ----------------- */}
-        <Card className="mt-6">
-          {auth?.roleId === "CHARITY" && (
+        {auth?.roleId === "CHARITY" && (
+          <Card className="mt-6">
             <UploadVideoProfileContainer reload={handleGetCharityProfile} />
-          )}
-          <div className="mt-6 p-5">
-            {charityProfile?.video && (
-              <VideoPlayer videoUrl={charityProfile?.video} />
-            )}
-          </div>
-        </Card>
+            <div className="mt-6 p-5">
+              {charityProfile?.video && (
+                <VideoPlayer videoUrl={charityProfile?.video} />
+              )}
+            </div>
+          </Card>
+        )}
 
         {/* ------------------ */}
-
         {auth?.roleId === "DONOR" && <DonationHistoryTable />}
+        <DonationStatisticsTable
+          loadData={getTotalDonation}
+          columnHeading="Project Id"
+        />
       </div>
     </>
   );

@@ -7,6 +7,8 @@ const getTotalDonation = async () => {
     const response = await getRequest(STATISTICS_TOTAL_DONATION_URL);
     const data = response.json;
 
+    console.log(data);
+
     return {
       data: data,
       status: response.status,
