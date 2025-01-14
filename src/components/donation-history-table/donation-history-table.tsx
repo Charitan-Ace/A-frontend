@@ -4,8 +4,16 @@ import { DonationDto } from "@/type/donation/donation.dto";
 import { DataGrid } from "@/components/table";
 import { useDonationHistoryTable } from "./hooks/useDonationHistoryTable";
 import { Card } from "@/components/ui/card";
+import { APIResponse } from "@/api/axios";
+import { DONATION_STATEMENT_URL } from "@/api/statistics/constant";
 
-const DonationHistoryTable = () => {
+interface DonationHistoryTableProps {
+  loadDonationStatement: (id: number) => Promise<APIResponse<any>>;
+}
+
+const DonationHistoryTable = ({
+  loadDonationStatement,
+}: DonationHistoryTableProps) => {
   const columns = useMemo<ColumnDef<DonationDto, any>[]>(
     () => [
       {
@@ -44,6 +52,21 @@ const DonationHistoryTable = () => {
         cell: (info) => {
           const date = new Date(info.getValue());
           return date.toLocaleDateString(); // Format as needed
+        },
+      },
+      {
+        accessorKey: "id",
+        header: "Actions",
+        cell: (info) => {
+          return (
+            <a
+              href={`${DONATION_STATEMENT_URL}/${info.getValue()}`}
+              target="_top"
+              className="text-primary underline"
+            >
+              Load Statement
+            </a>
+          );
         },
       },
     ],

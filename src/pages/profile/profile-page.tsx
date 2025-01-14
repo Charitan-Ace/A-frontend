@@ -11,6 +11,7 @@ import getTotalDonation from "@/api/statistics/service/getTotalDonation";
 import { DonationStatisticsTable } from "@/components/donation-statistic-table/donation-statistic-table";
 import { DonorLeaderboard } from "@/components/donor-leaderboard-table/donor-leaderboard-table";
 import getTopDonorsByCharity from "@/api/donation/service/getTopDonorsByCharity";
+import getDonationStatement from "@/api/statistics/service/getDonationStatement";
 
 const ProfilePage = () => {
   const { auth } = useAuth();
@@ -60,7 +61,9 @@ const ProfilePage = () => {
         )}
 
         {/* ------------------ */}
-        {auth?.roleId === "DONOR" && <DonationHistoryTable />}
+        {auth?.roleId === "DONOR" && (
+          <DonationHistoryTable loadDonationStatement={getDonationStatement} />
+        )}
         <DonationStatisticsTable
           loadData={getTotalDonation}
           columnHeading="Project Id"
