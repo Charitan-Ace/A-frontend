@@ -1,13 +1,17 @@
 import useCharityProjectsTable from "./hooks/useCharityProjectsTable";
 import { ProjectDto } from "@/type/project/project.dto";
-import { ProjectCategoryEnumText, ProjectStatusEnumText } from "@/type/enum";
+import {
+  ProjectCategoryEnumText,
+  ProjectStatusEnum,
+  ProjectStatusEnumText,
+} from "@/type/enum";
 import { Button } from "@mui/material";
 import { PenSquareIcon } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
 import { Card } from "@mui/material";
 import { DataGrid } from "../table";
-import { useMemo } from "react";
+import { useMemo, useState } from "react";
 import {
   AlertDialog,
   AlertDialogAction,
@@ -30,8 +34,35 @@ import {
   SelectValue,
 } from "../ui/select";
 import CreateProjectForm from "@/pages/project/_component/create-project-form";
+import { useMutation } from "@tanstack/react-query";
+import { completeHaltProject } from "@/api/project/service/complete-halt-project";
+import { useNavigate } from "react-router-dom";
 
 const CharityProjectsTable = () => {
+  const router = useNavigate();
+  const updateStatus = useMutation({
+    mutationKey: ["updateProjectStatus"],
+    mutationFn: ({
+      projectId,
+      projectStatus,
+    }: {
+      projectId: string;
+      projectStatus: ProjectStatusEnum.COMPLETED | ProjectStatusEnum.HALTED;
+    }) => {
+      return completeHaltProject(projectId, projectStatus);
+    },
+    onSuccess: () => {
+      router("/project/manage");
+    },
+  });
+
+  const onUpdate = (
+    projectId: string,
+    projectStatus: ProjectStatusEnum.COMPLETED | ProjectStatusEnum.HALTED
+  ) => {
+    updateStatus.mutate({ projectId, projectStatus });
+  };
+
   const columns = useMemo<ColumnDef<ProjectDto, any>[]>(
     () => [
       {
@@ -190,13 +221,31 @@ const CharityProjectsTable = () => {
                     Project status change! - Project: {project.title}
                   </AlertDialogTitle>
                   <AlertDialogDescription>
-                    Would you want to change the status of the project to
-                    complete? Changes made will notice subscribers.
+                    Would you want to change the status of the project? Changes
+                    made will notice subscribers.
                   </AlertDialogDescription>
-                  <AlertDialogFooter>
+                  <div>
+                    <Button
+                      onClick={() =>
+                        onUpdate(project.id, ProjectStatusEnum.HALTED)
+                      }
+                    >
+                      Halt
+                    </Button>
+                    <Button
+                      onClick={() =>
+                        onUpdate(project.id, ProjectStatusEnum.COMPLETED)
+                      }
+                    >
+                      Complete
+                    </Button>
+                  </div>
+                  {/* <AlertDialogFooter>
                     <AlertDialogCancel>Cancel</AlertDialogCancel>
-                    <AlertDialogAction>Continue</AlertDialogAction>
-                  </AlertDialogFooter>
+                    <AlertDialogAction>
+                      Continue
+                    </AlertDialogAction>
+                  </AlertDialogFooter> */}
                 </AlertDialogContent>
               </AlertDialog>
             </div>
