@@ -142,7 +142,11 @@ const DonateFormUI = ({
           <div className="flex items-center justify-between my-6">
             <span className="font-xl font-semibold">Donation Total:</span>
             <span className="text-2xl font-bold">
-              ${donationAmount.toFixed(2)}
+              $
+              {donationAmount.toLocaleString("en-US", {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2,
+              })}
             </span>
           </div>
           <Button

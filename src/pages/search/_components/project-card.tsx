@@ -6,6 +6,7 @@ import { projectStatuses } from "@/type/enum";
 import { ProjectDto } from "@/type/project/project.dto";
 import { useState } from "react";
 import DonateFormUI from "@/components/donate-form/DonateForm";
+import { useAuthContext } from "@/auth";
 
 interface ProjectCardProps {
   project: ProjectDto;
@@ -21,6 +22,8 @@ const ProjectCard = ({ project, roleId }: ProjectCardProps) => {
     (status) => status.value === project.statusType
   );
 
+  const { auth } = useAuthContext();
+
   const [showDonateForm, setShowDonateForm] = useState(false);
 
   return (
@@ -34,13 +37,15 @@ const ProjectCard = ({ project, roleId }: ProjectCardProps) => {
           />
           {roleId !== "CHARITY" && (
             <div className="absolute inset-0 flex items-center justify-center bg-gray-600/0 opacity-0 transition-all group-hover:bg-gray-600/80 group-hover:opacity-100">
-              <Button
-                size="lg"
-                className="bg-emerald-600 hover:bg-emerald-700 text-xl"
-                onClick={() => setShowDonateForm(true)}
-              >
-                Donate Now
-              </Button>
+              {(auth?.roleId !== "CHARITY" || !auth) && (
+                <Button
+                  size="lg"
+                  className="bg-emerald-600 hover:bg-emerald-700 text-xl"
+                  onClick={() => setShowDonateForm(true)}
+                >
+                  Donate Now
+                </Button>
+              )}
             </div>
           )}
         </div>
