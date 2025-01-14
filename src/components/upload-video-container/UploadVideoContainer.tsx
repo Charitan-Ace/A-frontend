@@ -1,6 +1,12 @@
 import useUploadVideoProfile from "./hooks/useUploadVideoProfile";
 
-const UploadVideoProfileContainer = () => {
+type UploadVideoProfileContainerProps = {
+  reload: () => void;
+};
+
+const UploadVideoProfileContainer = ({
+  reload,
+}: UploadVideoProfileContainerProps) => {
   const {
     selectedFile,
     uploading,
@@ -8,7 +14,7 @@ const UploadVideoProfileContainer = () => {
     error,
     handleFileChange,
     handleUpload,
-  } = useUploadVideoProfile();
+  } = useUploadVideoProfile(reload);
   return (
     <div className="max-w-md mt-10 mx-auto p-6 bg-white rounded-lg shadow-md">
       <h2 className="text-2xl font-semibold mb-4 text-gray-800">

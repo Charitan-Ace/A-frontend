@@ -1,7 +1,7 @@
 import { useState } from "react";
 import uploadVideoCharityProfile from "@/api/media/service/uploadVideoCharityProfile";
 
-const useUploadVideoProfile = () => {
+const useUploadVideoProfile = (reload: () => void) => {
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
   const [uploading, setUploading] = useState<boolean>(false);
   const [response, setResponse] = useState<any>(null);
@@ -42,6 +42,7 @@ const useUploadVideoProfile = () => {
         apiResponse.status < 300
       ) {
         setResponse(apiResponse?.data);
+        reload();
       } else {
         setError(apiResponse?.error || "Upload failed.");
       }

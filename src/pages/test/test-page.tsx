@@ -35,7 +35,7 @@ const TestPage = () => {
           Project Me
         </Button>
         <Button onClick={() => getTest()}>Test projects by charity</Button>
-        <Button onClick={() => {}}>Test Page</Button>
+        <Button onClick={() => getTotalDonation()}>Total Donation</Button>
         <Button onClick={() => {}}>Test Page</Button>
         <Button onClick={() => {}}>Test Page</Button>
         <Button onClick={() => {}}>Test Page</Button>
