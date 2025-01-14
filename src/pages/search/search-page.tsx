@@ -19,7 +19,6 @@ import {
 } from "@/pages/search/_components";
 import { Pagination } from "@/components/pagination";
 import { useAuthContext } from "@/auth";
-import LongBanner from "@/components/banner/long-banner/LongBanner";
 import ShortBanner from "@/components/banner/short-banner/ShortBanner";
 
 const SearchPage = () => {

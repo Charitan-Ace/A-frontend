@@ -184,6 +184,10 @@ export const projectCategories = [
   //   },
 ];
 
+export const getStatusOptionsCharity = () => {
+  return ProjectStatusEnum.COMPLETED;
+};
+
 export const getProjectStatuses = (auth: UserModel): ProjectStatusEnum[] => {
   if (auth.roleId === "DONOR") {
     return [
