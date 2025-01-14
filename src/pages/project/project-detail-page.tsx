@@ -14,6 +14,9 @@ import SubscriptionForm from "@/components/subscription-form/SubscriptionForm";
 import getSubscribeProjects from "@/api/payment/service/getSubscribedProject";
 import cancelSubscription from "@/api/payment/service/cancelSubscription";
 import { toast, ToastContainer } from "react-toastify";
+import DonateFormUI from "@/components/donate-form/DonateForm";
+import { CharityModel } from "@/type/auth/model";
+import getProfileCharityById from "@/api/profile/service/getProfileCharityById";
 
 const ProjectDetailPage = () => {
   const projectId = useParams<{ id: string }>().id;
@@ -21,6 +24,8 @@ const ProjectDetailPage = () => {
   const [showSubscriptionForm, setShowSubscriptionForm] = useState(false);
   const [isSubscribed, setIsSubscribed] = useState(false);
   const [subscriptionId, setSubscriptionId] = useState<string | null>(null);
+  const [showDonateForm, setShowDonateForm] = useState(false);
+  const [charityInfo, setCharityInfo] = useState<CharityModel | null>(null);
 
   const { auth } = useAuthContext();
 
@@ -36,7 +41,7 @@ const ProjectDetailPage = () => {
     const fetchSubscriptions = async () => {
       try {
         const subscriptions = await getSubscribeProjects();
-        
+
         if (subscriptions && Array.isArray(subscriptions)) {
           console.log("subscriptions:", subscriptions);
           const isSubscribedToProject = subscriptions.includes(projectId ?? "");
@@ -66,7 +71,7 @@ const ProjectDetailPage = () => {
       if (success) {
         setIsSubscribed(false);
         setSubscriptionId(null);
-        toast.success("Subscription canceled successfully.")
+        toast.success("Subscription canceled successfully.");
       } else {
         toast.error("Failed to cancel subscription. Please try again.");
       }
@@ -76,11 +81,24 @@ const ProjectDetailPage = () => {
     }
   };
 
+  useEffect(() => {
+    const fetchCharityInfo = async () => {
+      if (project?.charityId) {
+        const data = await getProfileCharityById(project.charityId);
+        setCharityInfo(data);
+      }
+    };
+
+    fetchCharityInfo();
+  }, []);
+
   if (!projectRes) {
     return;
   }
 
   const { data: project } = projectRes;
+
+  
 
   const TEMP_IMAGES = [
     "https://i.pinimg.com/736x/ea/46/f2/ea46f2abca222b60f478adaf9828f1f5.jpg",
@@ -117,7 +135,21 @@ const ProjectDetailPage = () => {
 
                   {/* Donate Button */}
                   <div className="flex gap-4">
-                    {(auth?.roleId !== "CHARITY" || !auth) && <DonateForm />}
+                    {(auth?.roleId !== "CHARITY" || !auth) && (
+                      <Button
+                        className="rounded-sm text-white hover:bg-emerald-900"
+                        onClick={() => setShowDonateForm(true)}
+                      >
+                        Donate Now
+                      </Button>
+                    )}
+                    {showDonateForm && (
+                      <DonateFormUI
+                        projectName={project.title}
+                        projectId={project.id}
+                        onClose={() => setShowDonateForm(false)}
+                      />
+                    )}
                     {auth?.roleId == "DONOR" && (
                       <>
                         {isSubscribed ? (
@@ -148,18 +180,29 @@ const ProjectDetailPage = () => {
 
                   {/* Progress Bar */}
                   <div className="space-y-2">
-                    <div className="text-sm">Donate</div>
+                    <div className="flex justify-between items-center">
+                      <span className="text-2xl font-bold">
+                        Project Progress
+                      </span>
+                      <span className="text-2xl font-medium">
+                        {Math.round(
+                          (project.currentDonation / project.goal) * 100
+                        )}
+                        %
+                      </span>
+                    </div>
+
                     <Progress
                       value={project.currentDonation}
                       className="h-2 bg-gray-100"
                     />
-                    <div className="flex justify-between text-sm text-gray-600">
-                      <span>
+                    <div className="flex justify-between items-center pt-2">
+                      <span className="text-lg font-medium">
                         Raised: $
-                        {project.currentDonation?.toLocaleString("en-US")}
+                        {project.currentDonation?.toLocaleString("en-Us")}
                       </span>
-                      <span>
-                        Goal: ${project.goal?.toLocaleString("en-US")}
+                      <span className="text-lg font-medium">
+                        Goal: ${project.goal?.toLocaleString("en-Us")}
                       </span>
                     </div>
                   </div>
@@ -168,91 +211,82 @@ const ProjectDetailPage = () => {
                   <div className="space-y-8">
                     <section>
                       <h2 className="text-2xl font-bold mb-4">
-                        Donate For Poor Peoples Treatment And Medicine.
+                        Project Description
                       </h2>
                       <p className="text-gray-600 mb-4">
-                        Flyingfish Kafue Pike Cow Shark California Smoothtongue
-                        Golden Loach Temperate Ocean-Bass Gulper Sailbearer
-                        Kafue Porcupinefish Kafue Pike Opah Sunfish Gudgeon Boga
-                        Asiatic Glassfish Tadpole Fish Alewife, Poacher
-                        Airbreathing Catfish, Zebra Tilapia Northern Pearleye
-                        Naked-Back Knifefish Pupfish Dojo Loach. "Snake Mackerel
-                        Bonyfish Chub Arowana Honefish Weever Shark."
-                      </p>
-                      <p className="text-gray-600 mb-4">
-                        Asian Carps Sailback Scorpionfish Dragon Goby Lemon Sole
-                        Triplefin Blenny Hog Sucker. Smelt Sleeper Shovelnose
-                        Sturgeon Merluccid Hake Cow Shark Herring Smelt
-                        Trout-Perch Barbeled Houndshark.
+                        {project.description}
                       </p>
                     </section>
 
-                    <section>
-                      <h2 className="text-2xl font-bold mb-4">Challenge</h2>
-                      <p className="text-gray-600">
-                        Best Quality Only Happens When You Care Enough To Do
-                        Your Best. Steer Companies Away From Risky Denounce With
-                        Righteous Indignation Who Are So Beguiled And
-                        Demoralized By Pleasure Of The.
-                      </p>
-                    </section>
-
-                    {/* Bottom Image */}
-                    <div className="aspect-video bg-gray-200 rounded-lg overflow-hidden">
-                      <img
-                        src="/placeholder.jpg"
-                        alt="Challenge section image"
-                        className="w-full h-full object-cover"
-                      />
-                    </div>
                   </div>
                 </div>
               </div>
 
               {/* Sidebar */}
               <div className="space-y-8">
-                {/* Categories */}
-                <Card className="bg-gray-50">
+                <Card className="bg-teal-600/10 text-primary">
                   <CardContent className="p-6">
-                    <h2 className="text-xl font-bold mb-4">Category</h2>
+                    <h2 className="text-xl font-bold mb-4">Project Period</h2>
                     <div className="space-y-2">
                       <div className="flex justify-between">
-                        <span>Education</span>
-                        <span className="text-gray-500">(3)</span>
+                        <span className="font-semibold">Start Date:</span>
+                        <span className="text-gray-600">
+                          {project.startTime
+                            ? new Date(project.startTime).toLocaleDateString()
+                            : "N/A"}
+                        </span>
                       </div>
                       <div className="flex justify-between">
-                        <span>Food</span>
-                        <span className="text-gray-500">(2)</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Medical</span>
-                        <span className="text-gray-500">(4)</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Home</span>
-                        <span className="text-gray-500">(5)</span>
-                      </div>
-                      <div className="flex justify-between">
-                        <span>Water</span>
-                        <span className="text-gray-500">(4)</span>
+                        <span className="font-semibold">End Date:</span>
+                        <span className="text-gray-600">
+                          {project.endTime
+                            ? new Date(project.endTime).toLocaleDateString()
+                            : "N/A"}
+                        </span>
                       </div>
                     </div>
                   </CardContent>
                 </Card>
 
                 {/* Summary Documents */}
-                <Card className="bg-gray-50">
+                <Card className="bg-teal-600/10 text-primary">
                   <CardContent className="p-6">
                     <h2 className="text-xl font-bold mb-4">
-                      Summary Documents
+                      Charity Information
+                      {/* {project.charityId} */}
                     </h2>
-                    <Button
-                      variant="outline"
-                      className="w-full justify-start gap-2"
-                    >
-                      <FileText className="w-4 h-4" />
-                      Documents.pdf
-                    </Button>
+                    {charityInfo ? (
+                      <div className="space-y-2">
+                        <div className="flex justify-between">
+                          <span className="font-semibold">Organization:</span>
+                          <span className="text-gray-600">
+                            {charityInfo.companyName || "N/A"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="font-semibold">Type:</span>
+                          <span className="text-gray-600">
+                            {charityInfo.organizationType || "N/A"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="font-semibold">Address:</span>
+                          <span className="text-gray-600">
+                            {charityInfo.address || "N/A"}
+                          </span>
+                        </div>
+                        <div className="flex justify-between">
+                          <span className="font-semibold">Tax Code:</span>
+                          <span className="text-gray-600">
+                            {charityInfo.taxCode || "N/A"}
+                          </span>
+                        </div>
+                      </div>
+                    ) : (
+                      <div className="text-gray-600">
+                        Loading charity information...
+                      </div>
+                    )}
                   </CardContent>
                 </Card>
               </div>
