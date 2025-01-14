@@ -19,7 +19,7 @@ const DonateFormUI = ({
     onClose
   );
 
-  const displayDonor = true;
+  // const displayDonor = true;
 
   const [messageLength, setMessageLength] = useState(0);
 
@@ -75,8 +75,8 @@ const DonateFormUI = ({
             {...register("firstName")}
             error={!!errors.firstName}
             helperText={errors.firstName?.message}
-            InputProps={{ readOnly: !!displayDonor }}
-            defaultValue={displayDonor?.firstName || ""}
+            // InputProps={{ readOnly: !!displayDonor }}
+            // defaultValue={displayDonor?.firstName || ""}
           />
           <TextField
             label="Last Name"
@@ -85,8 +85,8 @@ const DonateFormUI = ({
             {...register("lastName")}
             error={!!errors.lastName}
             helperText={errors.lastName?.message}
-            InputProps={{ readOnly: !!displayDonor }}
-            defaultValue={displayDonor?.lastName || ""}
+            // InputProps={{ readOnly: !!displayDonor }}
+            // defaultValue={displayDonor?.lastName || ""}
           />
           <TextField
             label="Address"
@@ -95,8 +95,8 @@ const DonateFormUI = ({
             {...register("address")}
             error={!!errors.address}
             helperText={errors.address?.message}
-            InputProps={{ readOnly: !!displayDonor }}
-            defaultValue={displayDonor?.address || ""}
+            // InputProps={{ readOnly: !!displayDonor }}
+            // defaultValue={displayDonor?.address || ""}
           />
           <TextField
             label="Your Email"
@@ -106,8 +106,8 @@ const DonateFormUI = ({
             {...register("email")}
             error={!!errors.email}
             helperText={errors.email?.message}
-            InputProps={{ readOnly: !!displayDonor }}
-            defaultValue={displayDonor?.email || ""}
+            // InputProps={{ readOnly: !!displayDonor }}
+            // defaultValue={displayDonor?.email || ""}
           />
           <TextField
             label="Leave A Message"
@@ -120,7 +120,7 @@ const DonateFormUI = ({
             helperText={errors.message?.message}
             onChange={(e) => {
               register("message").onChange(e);
-              handleMessageChange(e);
+              handleMessageChange(e as React.ChangeEvent<HTMLInputElement>);
             }}
             InputProps={{
               endAdornment: (

@@ -6,6 +6,8 @@ import { TextField } from "@mui/material";
 import DonorProfileEditModal from "../donor-update-model.tsx/donor-edit-modal";
 import { useEffect } from "react";
 import { DonorUpdateInput } from "@/api/profile/schema/donor-update-schema";
+import saveDonorCard from "@/api/payment/service/saveDonorCard";
+import { toast } from "react-toastify";
 
 const DonorProfileDetails = ({
   donor,
@@ -30,6 +32,28 @@ const DonorProfileDetails = ({
     handleLoadData();
   };
 
+  const handleSaveCard = async () => {
+    const successUrl = window.location.href;
+    const cancelUrl = window.location.href;
+  
+    const payload = {
+      successUrl,
+      cancelUrl,
+    };
+  
+    try {
+      const res = await saveDonorCard(payload);
+      if (res) {
+        console.log("Card info saved successfully:", res);
+        toast.success("Card info saved successfully");
+      } else {
+        toast.error("Failed to save card info");
+      }
+    } catch (error) {
+      console.error("Error in handleSaveCard:", error);
+    }
+  };
+
   return (
     <>
       <Card>
@@ -39,13 +63,22 @@ const DonorProfileDetails = ({
               <h2 className="text-xl font-semibold">Donor Details</h2>
               <div className="flex-grow h-[1px] bg-gray-300"></div>
             </div>
-            <Button
-              className="rounded-sm text-white hover:bg-emerald-900"
-              onClick={() => setModalOpen(true)}
-              disabled={isLoading}
-            >
-              Update
-            </Button>
+            <div className="flex gap-4">
+              <Button
+                className="rounded-sm text-white hover:bg-emerald-900"
+                onClick={() => setModalOpen(true)}
+                disabled={isLoading}
+              >
+                Update
+              </Button>
+              <Button
+                className="rounded-sm text-white hover:bg-emerald-900"
+                onClick={() => handleSaveCard()}
+                disabled={isLoading}
+              >
+                Save Card Info
+              </Button>
+            </div>
           </div>
 
           <div className="flex flex-col md:flex-row items-center gap-12 mt-4">

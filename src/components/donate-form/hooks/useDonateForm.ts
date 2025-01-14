@@ -58,7 +58,7 @@ const useDonateForm = (projectId: string, onClose: () => void) => {
       const payload = isDonor ? payloadDonor(data) : payloadGuest(data)
       console.log(payload)
 
-      var res = await createDonation(payload);
+      const res = await createDonation(payload);
       window.location.href = res.redirectUrl
 
       // toast.success("Donate successfully. Thank you for your donation!");
