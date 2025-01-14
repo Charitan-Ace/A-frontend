@@ -62,7 +62,7 @@ const SubscriptionForm = ({
             type="submit"
             className="bg-primary w-full hover:bg-emerald-900 mt-5"
           >
-            Submit Subscription
+            Checkout
           </Button>
         </form>
       </div>
