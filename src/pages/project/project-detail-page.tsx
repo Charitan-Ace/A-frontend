@@ -9,10 +9,13 @@ import { getProjectById } from "@/api/project/service/get-project-by-id";
 import { ImagesCarousel } from "./_component/project-images-carousel";
 import ShortBanner from "@/components/banner/short-banner/ShortBanner";
 import { useAuthContext } from "@/auth";
+import { useState } from "react";
+import SubscriptionForm from "@/components/subscription-form/SubscriptionForm";
 
 const ProjectDetailPage = () => {
   const projectId = useParams<{ id: string }>().id;
   const [searchParams] = useSearchParams();
+  const [showSubscriptionForm, setShowSubscriptionForm] = useState(false);
 
   const { auth } = useAuthContext();
 
@@ -64,7 +67,24 @@ const ProjectDetailPage = () => {
                   )}
 
                   {/* Donate Button */}
-                  {(auth?.roleId !== "CHARITY" || !auth) && <DonateForm />}
+                  <div className="flex gap-4">
+                    {(auth?.roleId !== "CHARITY" || !auth) && <DonateForm />}
+                    {auth?.roleId == "DONOR" && (
+                      <Button
+                        className="rounded-sm text-white hover:bg-emerald-900"
+                        onClick={() => setShowSubscriptionForm(true)}
+                      >
+                        Subscribe Monthly Donation
+                      </Button>
+                    )}
+                    {showSubscriptionForm && (
+                      <SubscriptionForm
+                        projectId={projectId ?? ""}
+                        projectName={project.title}
+                        onClose={() => setShowSubscriptionForm(false)}
+                      />
+                    )}
+                  </div>
 
                   {/* Progress Bar */}
                   <div className="space-y-2">

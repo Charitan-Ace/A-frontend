@@ -7,8 +7,8 @@ import { truncate } from "fs/promises";
 import useAuth from "@/hooks/use-auth";
 
 const useDonateForm = (projectId: string, onClose: () => void) => {
-  const successUrl = `${window.location.href}?paymentSuccess=true`;
-  const cancelUrl = `${window.location.href}?paymentFail=true`;
+  const successUrl = `${window.location.href}`;
+  const cancelUrl = `${window.location.href}`;
   const { auth } = useAuth();
 
   const {

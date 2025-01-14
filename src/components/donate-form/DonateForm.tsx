@@ -2,8 +2,6 @@ import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import useDonateForm from "./hooks/useDonateForm";
 import { InputAdornment, TextField } from "@mui/material";
-import useDonorDetailsCard from "../profile-card/components/donor-card/hooks/useDonorDetailsCard";
-import { DonorModel } from "@/type/auth/model";
 
 const DonateFormUI = ({
   projectName,
