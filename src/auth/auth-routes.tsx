@@ -5,7 +5,7 @@ import { useAuthContext } from "./use-auth-context";
 const AuthRoutes = () => {
   const { auth } = useAuthContext();
   const route = useNavigate();
-  if (auth) {
+  if (auth && auth.roleId) {
     route("/")
   }
   return (
