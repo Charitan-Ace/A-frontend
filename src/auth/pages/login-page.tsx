@@ -10,7 +10,10 @@ const LoginPage = () => {
   const handleLoginWithRedirect = async (data: LoginInput) => {
     try {
       const response = await signIn(data);
-      toast.success("Login successful!");
+
+      if (response?.status === 200) {
+        toast.success("Login successful!");
+      }
 
       return response;
     } catch (error) {
