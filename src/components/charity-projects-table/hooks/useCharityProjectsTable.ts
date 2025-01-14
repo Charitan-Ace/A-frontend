@@ -1,33 +1,25 @@
-import getProjectsMe from "@/api/project/service/get-projects-by-charity";
+import getProjectsByStatus from "@/api/project/service/get-projects-by-status";
+import { ProjectStatus } from "@/type/auth/model";
+import { useState } from "react";
 
 const useCharityProjectsTable = () => {
+  const [status, setStatus] = useState(ProjectStatus.PENDING);
+
   const loadData = async (params: {
     pageIndex: number;
     pageSize: number;
   }): Promise<any> => {
     const { pageIndex, pageSize } = params;
 
-    const response: any = await getProjectsMe({
+    const response: any = await getProjectsByStatus({
+      status,
       pageIndex,
       pageSize,
     });
 
     return {
-      data: [
-        {
-          id: "1",
-          title: "Food Security Initiative",
-          description: "Providing meals to underprivileged communities",
-          categoryType: "FOOD",
-          goal: 25000,
-          currentDonation: 18750,
-          statusType: "APPROVED",
-          startTime: "2021-09-01T00:00:00Z",
-          endTime: "2021-12-31T00:00:00Z",
-          countryIsoCode: "US",
-        },
-      ],
-      total: 1,
+      data: response.data,
+      total: response.totalPages,
       pagination: {
         limit: pageSize,
         offset: pageIndex * pageSize,
@@ -39,6 +31,8 @@ const useCharityProjectsTable = () => {
 
   return {
     loadData,
+    status,
+    setStatus,
   };
 };
 

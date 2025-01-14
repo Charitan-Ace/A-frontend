@@ -5,8 +5,7 @@ const ProjectPage = () => {
   return (
     <div>
       <ShortBanner title="My Projects" />
-
-      <CharityProjectsTable/>
+      <CharityProjectsTable />
     </div>
   );
 };

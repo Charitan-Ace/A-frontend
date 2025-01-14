@@ -1,7 +1,7 @@
 import useCharityProjectsTable from "./hooks/useCharityProjectsTable";
 import { ProjectDto } from "@/type/project/project.dto";
 import { ProjectCategoryEnumText, ProjectStatusEnumText } from "@/type/enum";
-import { Button } from "../ui/button";
+import { Button } from "@mui/material";
 import { PenSquareIcon } from "lucide-react";
 
 import { ColumnDef } from "@tanstack/react-table";
@@ -18,6 +18,17 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import { ProjectStatus } from "@/type/auth/model";
+import { Label } from "../ui/label";
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from "../ui/select";
 
 const CharityProjectsTable = () => {
   const columns = useMemo<ColumnDef<ProjectDto, any>[]>(
@@ -25,7 +36,14 @@ const CharityProjectsTable = () => {
       {
         accessorKey: "id",
         header: "ID",
-        cell: (info) => info.getValue(),
+        cell: (info) => (
+          <a
+            className="hover:text-blue-500"
+            href={`/project/${info.getValue()}`}
+          >
+            {info.getValue()}
+          </a>
+        ),
       },
       {
         accessorKey: "title",
@@ -169,10 +187,32 @@ const CharityProjectsTable = () => {
     []
   );
 
-  const { loadData } = useCharityProjectsTable();
+  const { loadData, status, setStatus } = useCharityProjectsTable();
 
   return (
     <div className="mt-8 w-full">
+      <div className="flex flex-col gap-2">
+        <Label htmlFor="status-select">Status</Label>
+        <Select
+          value={status}
+          onValueChange={(value) => setStatus(value as ProjectStatus)}
+        >
+          <SelectTrigger id="status-select" className="w-[200px]">
+            <SelectValue placeholder="Select a status" />
+          </SelectTrigger>
+
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Status</SelectLabel>
+              {Object.values(ProjectStatus).map((statusKey) => (
+                <SelectItem key={statusKey} value={statusKey}>
+                  {ProjectStatusEnumText[statusKey]}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      </div>
       <Card className="p-4">
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold">Projects </h2>
@@ -184,6 +224,7 @@ const CharityProjectsTable = () => {
           onFetchData={(params) => loadData(params)}
           rowSelect={false}
           pagination={{ size: 10 }}
+          reloadTrigger={Object.values(ProjectStatus).indexOf(status)}
         />
       </Card>
     </div>
