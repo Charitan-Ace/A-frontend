@@ -32,8 +32,10 @@ const ProfilePage = () => {
         <ProfileCard />
 
         {/* ----------------- */}
-        <Card>
-          {auth?.roleId === "CHARITY" && <UploadVideoProfileContainer />}
+        <Card className="mt-6">
+          {auth?.roleId === "CHARITY" && (
+            <UploadVideoProfileContainer reload={handleGetCharityProfile} />
+          )}
           <div className="mt-6 p-5">
             {charityProfile?.video && (
               <VideoPlayer videoUrl={charityProfile?.video} />
@@ -42,6 +44,7 @@ const ProfilePage = () => {
         </Card>
 
         {/* ------------------ */}
+
         {auth?.roleId === "DONOR" && <DonationHistoryTable />}
       </div>
     </>

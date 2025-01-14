@@ -16,8 +16,15 @@ const uploadVideoCharityProfile = async (file: File) => {
 
     const url = await videoResponse.text();
 
-    const uploadResponse = await sendHttpRequest(url, "PUT", file, "include", {
-      "Content-Type": file.type,
+    const formData = new FormData();
+    formData.append("file", file);
+
+    const uploadResponse = await fetch(url, {
+      method: "PUT",
+      headers: {
+        "Content-Type": file.type,
+      },
+      body: file,
     });
 
     if (uploadResponse.status == 200) {

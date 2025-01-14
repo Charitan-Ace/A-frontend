@@ -14,7 +14,7 @@ const TestPage = () => {
               page: 1,
               pageSize: 10,
               categoryTypes: [ProjectCategoryEnum.HEALTH],
-              status: ProjectStatusEnum.ONGOING,
+              status: ProjectStatusEnum.COMPLETED,
               countryIsoCodes: ["VN", "US"],
             })
           }
@@ -27,7 +27,7 @@ const TestPage = () => {
         <Button onClick={() => getProjectsMe({ pageIndex: 10, pageSize: 10 })}>
           Project Me
         </Button>
-        <Button onClick={() => {}}>Test Page</Button>
+        <Button onClick={() => getTotalDonation()}>Total Donation</Button>
         <Button onClick={() => {}}>Test Page</Button>
         <Button onClick={() => {}}>Test Page</Button>
         <Button onClick={() => {}}>Test Page</Button>
