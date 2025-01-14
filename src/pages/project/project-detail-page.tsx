@@ -9,13 +9,18 @@ import { getProjectById } from "@/api/project/service/get-project-by-id";
 import { ImagesCarousel } from "./_component/project-images-carousel";
 import ShortBanner from "@/components/banner/short-banner/ShortBanner";
 import { useAuthContext } from "@/auth";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import SubscriptionForm from "@/components/subscription-form/SubscriptionForm";
+import getSubscribeProjects from "@/api/payment/service/getSubscribedProject";
+import cancelSubscription from "@/api/payment/service/cancelSubscription";
+import { toast, ToastContainer } from "react-toastify";
 
 const ProjectDetailPage = () => {
   const projectId = useParams<{ id: string }>().id;
   const [searchParams] = useSearchParams();
   const [showSubscriptionForm, setShowSubscriptionForm] = useState(false);
+  const [isSubscribed, setIsSubscribed] = useState(false);
+  const [subscriptionId, setSubscriptionId] = useState<string | null>(null);
 
   const { auth } = useAuthContext();
 
@@ -26,6 +31,50 @@ const ProjectDetailPage = () => {
     queryFn: () => getProjectById({ projectId: projectId ?? "" }),
     enabled: !!projectId,
   });
+
+  useEffect(() => {
+    const fetchSubscriptions = async () => {
+      try {
+        const subscriptions = await getSubscribeProjects();
+        
+        if (subscriptions && Array.isArray(subscriptions)) {
+          console.log("subscriptions:", subscriptions);
+          const isSubscribedToProject = subscriptions.includes(projectId ?? "");
+          if (isSubscribedToProject) {
+            setIsSubscribed(true);
+            setSubscriptionId(projectId ?? null);
+          } else {
+            setIsSubscribed(false);
+          }
+        }
+      } catch (error) {
+        console.error("Error fetching subscriptions:", error);
+      }
+    };
+
+    fetchSubscriptions();
+  }, [projectId]);
+
+  const handleCancelSubscription = async () => {
+    if (!subscriptionId) {
+      console.error("No subscriptionId found. Cannot cancel subscription.");
+      return;
+    }
+
+    try {
+      const success = await cancelSubscription(subscriptionId);
+      if (success) {
+        setIsSubscribed(false);
+        setSubscriptionId(null);
+        toast.success("Subscription canceled successfully.")
+      } else {
+        toast.error("Failed to cancel subscription. Please try again.");
+      }
+    } catch (error) {
+      console.error("Error canceling subscription:", error);
+      toast.error("An error occurred while canceling your subscription.");
+    }
+  };
 
   if (!projectRes) {
     return;
@@ -70,12 +119,23 @@ const ProjectDetailPage = () => {
                   <div className="flex gap-4">
                     {(auth?.roleId !== "CHARITY" || !auth) && <DonateForm />}
                     {auth?.roleId == "DONOR" && (
-                      <Button
-                        className="rounded-sm text-white hover:bg-emerald-900"
-                        onClick={() => setShowSubscriptionForm(true)}
-                      >
-                        Subscribe Monthly Donation
-                      </Button>
+                      <>
+                        {isSubscribed ? (
+                          <Button
+                            className="rounded-sm text-white hover:bg-red-700"
+                            onClick={handleCancelSubscription}
+                          >
+                            Cancel Subscription
+                          </Button>
+                        ) : (
+                          <Button
+                            className="rounded-sm text-white hover:bg-emerald-900"
+                            onClick={() => setShowSubscriptionForm(true)}
+                          >
+                            Subscribe Monthly Donation
+                          </Button>
+                        )}
+                      </>
                     )}
                     {showSubscriptionForm && (
                       <SubscriptionForm
@@ -200,6 +260,7 @@ const ProjectDetailPage = () => {
           </>
         )}
       </div>
+      <ToastContainer />
     </div>
   );
 };

@@ -1,6 +1,5 @@
 import { SubscriptionInput, subscriptionSchema } from "@/api/payment/schema.ts/subscription-schema";
 import subscribeToProject from "@/api/payment/service/subscribeToProject";
-import useAuth from "@/hooks/use-auth";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { toast } from "react-toastify";
