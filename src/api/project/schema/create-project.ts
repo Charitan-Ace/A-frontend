@@ -10,7 +10,7 @@ export const createProjectSchema = z
     categoryType: z
       .nativeEnum(ProjectCategoryEnum)
       .default(ProjectCategoryEnum.HEALTH),
-    countryIsoCode: z.string(),
+    countryIsoCode: z.string({ required_error: "Country is required" }),
     endTime: z.string().regex(/^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}$/),
   })
   .refine(

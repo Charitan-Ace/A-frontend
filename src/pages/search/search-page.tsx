@@ -43,7 +43,11 @@ const SearchPage = () => {
 
   const { page, pageSize, category, status, q, countryIsoCode } = queryParams;
 
-  const { data: res, isFetching } = useQuery({
+  const {
+    data: res,
+    isFetching,
+    isLoading,
+  } = useQuery({
     queryKey: [
       "projects",
       `query-page-${page}`,
@@ -113,20 +117,23 @@ const SearchPage = () => {
         />
       </div>
 
-      {isFetching && <ProjectLoading />}
-      <div className="container mx-auto p-4 flex flex-col justify-center items-center gap-2">
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
-          {projects &&
-            !isFetching &&
-            projects.map((project, index) => (
-              <ProjectCard
-                roleId={auth!.roleId ?? "DONOR"}
-                key={index}
-                project={project}
-              />
-            ))}
+      {isFetching || isLoading ? (
+        <ProjectLoading />
+      ) : (
+        <div className="container mx-auto p-4 flex flex-col justify-center items-center gap-2">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
+            {projects &&
+              !isFetching &&
+              projects.map((project, index) => (
+                <ProjectCard
+                  roleId={auth!.roleId ?? "DONOR"}
+                  key={index}
+                  project={project}
+                />
+              ))}
+          </div>
         </div>
-      </div>
+      )}
     </div>
   );
 };

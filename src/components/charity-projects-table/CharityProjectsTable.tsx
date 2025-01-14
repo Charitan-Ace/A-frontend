@@ -18,6 +18,7 @@ import {
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
+import CreateProjectForm from "@/pages/project/_component/create-project-form";
 
 const CharityProjectsTable = () => {
   const columns = useMemo<ColumnDef<ProjectDto, any>[]>(
@@ -140,28 +141,47 @@ const CharityProjectsTable = () => {
           const project = row.original;
 
           return (
-            <AlertDialog>
-              <AlertDialogTrigger asChild>
-                <Button>
-                  <PenSquareIcon />
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent className="!max-w-[30%]">
-                <AlertDialogTitle>
-                  Project status change! - Project: {project.title}
-                </AlertDialogTitle>
-                <AlertDialogDescription>
-                  Would you want to change the status of the project to
-                  complete? Changes made will notice subscribers.
-                </AlertDialogDescription>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>Cancel</AlertDialogCancel>
-                  <AlertDialogAction>Continue</AlertDialogAction>
-                </AlertDialogFooter>
+            <div className="flex items-center gap-2">
+              {/* <Dialog open={true} onOpenChange={() => {}}>
+                <DialogTrigger>
+                  <Button>
+                    <PenSquareIcon />
+                  </Button>
+                </DialogTrigger>
+                <DialogContent className="!max-w-[40%]">
+                  <DialogTitle>
+                    Update Project! - Project: {project.title}
+                  </DialogTitle>
+                  <DialogDescription>
+                    Would you want to make changes? Changes made will notice
+                    subscribers.
+                  </DialogDescription>
+                  <CreateProjectForm updateProjectDto={project} />
+                </DialogContent>
+              </Dialog> */}
+              <CreateProjectForm updateProjectDto={project} />
 
-                {/* <CreateProjectForm /> */}
-              </AlertDialogContent>
-            </AlertDialog>
+              <AlertDialog>
+                <AlertDialogTrigger asChild>
+                  <Button>
+                    <PenSquareIcon />
+                  </Button>
+                </AlertDialogTrigger>
+                <AlertDialogContent className="!max-w-[30%]">
+                  <AlertDialogTitle>
+                    Project status change! - Project: {project.title}
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    Would you want to change the status of the project to
+                    complete? Changes made will notice subscribers.
+                  </AlertDialogDescription>
+                  <AlertDialogFooter>
+                    <AlertDialogCancel>Cancel</AlertDialogCancel>
+                    <AlertDialogAction>Continue</AlertDialogAction>
+                  </AlertDialogFooter>
+                </AlertDialogContent>
+              </AlertDialog>
+            </div>
           );
         },
       },

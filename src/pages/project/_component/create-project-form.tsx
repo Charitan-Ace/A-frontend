@@ -1,10 +1,5 @@
-import {
-  CreateProjectInput,
-  createProjectSchema,
-} from "@/api/project/schema/create-project";
 import { createProject } from "@/api/project/service/create-project";
 import { ProjectCategoryEnum } from "@/type/enum";
-import { zodResolver } from "@hookform/resolvers/zod";
 import {
   Button,
   FormControl,
@@ -14,7 +9,6 @@ import {
   TextField,
 } from "@mui/material";
 import { useMutation } from "@tanstack/react-query";
-import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import MediaUploadForm from "./media-upload";
 import { useMediaForm } from "../_hooks/use-media-form";
@@ -23,13 +17,10 @@ import { MediaFile } from "@/type/media/media.dto";
 import { useNavigate } from "react-router-dom";
 import { COUNTRIES } from "@/type/geography";
 import { queryClient } from "@/api/client";
-import ShortBanner from "@/components/banner/short-banner/ShortBanner";
-
-const dateFormatter = (date: Date) => {
-  const offset = -new Date().getTimezoneOffset();
-  const offsetDate = new Date(date.getTime() + offset * 60 * 1000);
-  return offsetDate.toISOString().slice(0, 16);
-};
+import { updateProject } from "@/api/project/service/update-project";
+import { ProjectDto } from "@/type/project/project.dto";
+import { useProjectForm } from "../_hooks/use-project-form";
+import { Controller } from "react-hook-form";
 
 const addTimeZoneOffset = (date: string) => {
   const offset = -new Date().getTimezoneOffset();
@@ -41,27 +32,20 @@ const addTimeZoneOffset = (date: string) => {
   return `${date}${offsetSign}${offsetHours}:${offsetMinutes}`;
 };
 
-const CreateProjectForm = () => {
+interface CreateProjectFormProps {
+  updateProjectDto?: ProjectDto;
+}
+
+const CreateProjectForm = ({ updateProjectDto }: CreateProjectFormProps) => {
   const {
+    watch,
     getValues,
     register,
+    formValid,
+    errors,
     handleSubmit,
-    watch,
-    formState: { errors, isValid: formValid },
-  } = useForm<CreateProjectInput>({
-    resolver: zodResolver(createProjectSchema),
-    defaultValues: {
-      title: "",
-      description: "",
-      goal: 0,
-      startTime: dateFormatter(new Date()),
-      endTime: dateFormatter(new Date(Date.now() + 24 * 60 * 60 * 1000)), // 24 hours from now
-      categoryType: ProjectCategoryEnum.HEALTH,
-      countryIsoCode: "",
-    },
-    mode: "onChange",
-  });
-
+    control,
+  } = useProjectForm(updateProjectDto);
   const { mediaFiles, removeFile, handleFileChange, isValid } = useMediaForm({
     maxSizeMB: 1,
     maxNumberImageFiles: 15,
@@ -128,8 +112,50 @@ const CreateProjectForm = () => {
     },
   });
 
+  const updateProjectDetails = useMutation({
+    mutationKey: ["updateProject"],
+    mutationFn: ({ projectId }: { projectId: string }) => {
+      const values = getValues();
+      return updateProject(
+        {
+          ...values,
+          startTime: addTimeZoneOffset(values.startTime),
+          endTime: addTimeZoneOffset(values.endTime),
+          categoryType: values.categoryType
+            ?.valueOf()
+            .toUpperCase() as ProjectCategoryEnum,
+        },
+        projectId
+      );
+    },
+
+    onSuccess: (data) => {
+      if (data.error) {
+        toast.error(data.error);
+      }
+
+      const projectData = data.data;
+      if (!projectData) {
+        toast.error(data.error);
+        return;
+      }
+
+      queryClient.invalidateQueries({
+        queryKey: ["project", projectData.id],
+      });
+
+      router(`/project/${projectData.id}`);
+    },
+  });
+
   const onSubmit = () => {
-    createNewProject.mutate();
+    if (!updateProjectDto) {
+      createNewProject.mutate();
+      return;
+    }
+
+    updateProjectDetails.mutate({ projectId: updateProjectDto.id });
+    return;
   };
 
   return (
@@ -180,53 +206,83 @@ const CreateProjectForm = () => {
           helperText={errors.goal?.message}
         />
 
-        <div className="flex gap-2 items-center">
-          <TextField
-            label="Start Date"
-            type="datetime-local"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            {...register("startTime")}
-            error={!!errors.startTime}
-            helperText={errors.startTime?.message}
-          />
+        {!updateProjectDto && (
+          <div className="flex gap-2 items-center">
+            <TextField
+              label="Start Date"
+              type="datetime-local"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              {...register("startTime")}
+              error={!!errors.startTime}
+              helperText={errors.startTime?.message}
+            />
 
-          <TextField
-            label="End Date"
-            type="datetime-local"
-            variant="outlined"
-            fullWidth
-            margin="normal"
-            {...register("endTime")}
-            error={!!errors.endTime}
-            helperText={errors.endTime?.message}
-          />
-        </div>
+            <TextField
+              label="End Date"
+              type="datetime-local"
+              variant="outlined"
+              fullWidth
+              margin="normal"
+              {...register("endTime")}
+              error={!!errors.endTime}
+              helperText={errors.endTime?.message}
+            />
+          </div>
+        )}
 
         <div className="flex items-center gap-2">
           <FormControl fullWidth margin="normal">
             <InputLabel id="category-select">Category Type</InputLabel>
-            <Select
-              labelId="category-select"
-              label="Category Type"
-              {...register("categoryType")}
-              error={!!errors.categoryType}
-              fullWidth
-            >
-              {Object.values(ProjectCategoryEnum).map((type) => {
-                return (
-                  <MenuItem key={type} value={type}>
-                    {type}
-                  </MenuItem>
-                );
-              })}
-            </Select>
+            <Controller
+              control={control}
+              name="categoryType"
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  id="category-select"
+                  labelId="category-select"
+                  label="Category Type"
+                  error={!!errors.categoryType}
+                >
+                  {Object.values(ProjectCategoryEnum).map((type) => {
+                    return (
+                      <MenuItem key={type} value={type}>
+                        {type}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              )}
+            />
           </FormControl>
 
           <FormControl fullWidth margin="normal">
             <InputLabel id="country-code">Country</InputLabel>
-            <Select
+
+            <Controller
+              control={control}
+              name="countryIsoCode"
+              render={({ field }) => (
+                <Select
+                  {...field}
+                  id="ountry-code"
+                  labelId="ountry-code"
+                  label="Country"
+                  error={!!errors.countryIsoCode}
+                >
+                  {COUNTRIES.map((country) => {
+                    return (
+                      <MenuItem key={country.code} value={country.code}>
+                        {country.name}
+                      </MenuItem>
+                    );
+                  })}
+                </Select>
+              )}
+            />
+            {/* <Select
               labelId="country-code"
               label="Country"
               {...register("countryIsoCode")}
@@ -239,26 +295,33 @@ const CreateProjectForm = () => {
                   </MenuItem>
                 );
               })}
-            </Select>
+            </Select> */}
           </FormControl>
         </div>
 
-        <MediaUploadForm
-          isValid={isValid}
-          mediaFiles={mediaFiles}
-          removeFile={removeFile}
-          handleFileChange={handleFileChange}
-        />
+        {!updateProjectDto && (
+          <MediaUploadForm
+            isValid={isValid}
+            mediaFiles={mediaFiles}
+            removeFile={removeFile}
+            handleFileChange={handleFileChange}
+          />
+        )}
 
         <Button
           variant="contained"
           color="primary"
           type="submit"
           fullWidth
-          disabled={!isValid || createNewProject.isPending || !formValid}
+          disabled={
+            (!updateProjectDto && !isValid) ||
+            createNewProject.isPending ||
+            updateProjectDetails.isPending ||
+            !formValid
+          }
           sx={{ mt: 2 }}
         >
-          Create Project
+          {!updateProjectDto ? "Create Project" : "Update Project"}
         </Button>
       </form>
     </div>
