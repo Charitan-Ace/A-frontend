@@ -97,6 +97,8 @@ const CreateProjectForm = ({ updateProjectDto }: CreateProjectFormProps) => {
     },
 
     onSuccess: (data) => {
+    console.log(1414, data)
+
       if (data.error) {
         toast.error(data.error);
       }
