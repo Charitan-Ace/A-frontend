@@ -17,6 +17,7 @@ import { toast, ToastContainer } from "react-toastify";
 import DonateFormUI from "@/components/donate-form/DonateForm";
 import { CharityModel } from "@/type/auth/model";
 import getProfileCharityById from "@/api/profile/service/getProfileCharityById";
+import getProfileCharity from "@/api/profile/service/getProfileCharity";
 
 const ProjectDetailPage = () => {
   const projectId = useParams<{ id: string }>().id;
@@ -31,7 +32,11 @@ const ProjectDetailPage = () => {
 
   const isLoadingImages = searchParams.get("isLoadingImages") === "true";
 
-  const { data: projectRes } = useQuery({
+  const {
+    data: projectRes,
+    isSuccess,
+    isLoading,
+  } = useQuery({
     queryKey: ["project", projectId],
     queryFn: () => getProjectById({ projectId: projectId ?? "" }),
     enabled: !!projectId,
@@ -81,16 +86,25 @@ const ProjectDetailPage = () => {
     }
   };
 
+  //  const profileChartiy = useQuery({
+  //     queryKey: ["profileCharity"],
+  //     queryFn: getProfileCharityById,
+
+  //  })
+
+  //  console.log(profileChartiy);
+
   useEffect(() => {
     const fetchCharityInfo = async () => {
       if (project?.charityId) {
-        const data = await getProfileCharityById(project.charityId);
+        const data = await getProfileCharity();
+        console.log(45324, data);
         setCharityInfo(data);
       }
     };
 
     fetchCharityInfo();
-  }, []);
+  }, [isSuccess, isLoading]);
 
   if (!projectRes) {
     return;
@@ -105,6 +119,8 @@ const ProjectDetailPage = () => {
 
     "https://i.pinimg.com/736x/60/d3/f4/60d3f467cb0aae3cf56275ff51986996.jpg",
   ];
+
+  // console.log(project.startTime.toLocaleDateString());
 
   return (
     <div>
@@ -228,8 +244,8 @@ const ProjectDetailPage = () => {
                       <div className="flex justify-between">
                         <span className="font-semibold">Start Date:</span>
                         <span className="text-gray-600">
-                          {project.startTime
-                            ? new Date(project.startTime).toLocaleDateString()
+                          {project
+                            ? project.startTime.toLocaleDateString()
                             : "N/A"}
                         </span>
                       </div>

@@ -1,8 +1,9 @@
 import { ProjectStatusEnum } from "@/type/enum";
 import { ProjectDto } from "@/type/project/project.dto";
-import axios, { AxiosError } from "axios";
+import { AxiosError } from "axios";
 import { PROJECT_COMPLETE_URL, PROJECT_HALT_URL } from "../constant";
 import { APIResponse } from "@/api/axios";
+import { postRequest } from "@/utils/http-request";
 
 const completeHaltProject = async (
   projectId: string,
@@ -10,11 +11,18 @@ const completeHaltProject = async (
 ) => {
   if (projectStatus === ProjectStatusEnum.COMPLETED) {
     try {
-      const response = await axios.post<ProjectDto>(
-        `${PROJECT_COMPLETE_URL}/${projectId}`
+      // const response = await axios.post<ProjectDto>(
+      //   `${PROJECT_COMPLETE_URL}/${projectId}`
+      // );
+
+      const response = await postRequest<ProjectDto>(
+        `${PROJECT_COMPLETE_URL}/${projectId}`,
+        null
       );
+      const data = response.json;
+
       return {
-        data: response.data,
+        data: data,
         status: response.status,
         error: null,
       } as unknown as APIResponse<ProjectDto>;
@@ -36,11 +44,21 @@ const completeHaltProject = async (
     }
   } else {
     try {
-      const response = await axios.post<ProjectDto>(
-        `${PROJECT_HALT_URL}/${projectId}`
+      // const response = await axios.post<ProjectDto>(
+      //   `${PROJECT_HALT_URL}/${projectId}`
+      // );
+
+      const response = await postRequest<ProjectDto>(
+        `${PROJECT_HALT_URL}/${projectId}`,
+        {
+          charity: "Project halted",
+          donor: "Project halted",
+        }
       );
+      const data = response.json;
+
       return {
-        data: response.data,
+        data: data,
         status: response.status,
         error: null,
       } as unknown as APIResponse<ProjectDto>;

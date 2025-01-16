@@ -11,14 +11,11 @@ import { PenSquareIcon } from "lucide-react";
 import { ColumnDef } from "@tanstack/react-table";
 import { Card } from "@mui/material";
 import { DataGrid } from "../table";
-import { useMemo, useState } from "react";
+import { useMemo } from "react";
 import {
   AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
   AlertDialogContent,
   AlertDialogDescription,
-  AlertDialogFooter,
   AlertDialogTitle,
   AlertDialogTrigger,
 } from "../ui/alert-dialog";
@@ -225,13 +222,13 @@ const CharityProjectsTable = () => {
                     made will notice subscribers.
                   </AlertDialogDescription>
                   <div>
-                    <Button
+                    {/* <Button
                       onClick={() =>
                         onUpdate(project.id, ProjectStatusEnum.HALTED)
                       }
                     >
                       Halt
-                    </Button>
+                    </Button> */}
                     <Button
                       onClick={() =>
                         onUpdate(project.id, ProjectStatusEnum.COMPLETED)
